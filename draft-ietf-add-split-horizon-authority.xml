@@ -138,9 +138,9 @@
     </section>
     <section anchor="notation">
       <name>Terminology</name>
-      <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-      "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
-      "OPTIONAL" in this document are to be interpreted as described in BCP 14
+      <t>The key words "<bcp14>MUST</bcp14>", "<bcp14>MUST NOT</bcp14>", "<bcp14>REQUIRED</bcp14>", "SHALL", "<bcp14>SHALL NOT</bcp14>",
+      "<bcp14>SHOULD</bcp14>", "<bcp14>SHOULD NOT</bcp14>", "<bcp14>RECOMMENDED</bcp14>", "<bcp14>NOT RECOMMENDED</bcp14>", "<bcp14>MAY</bcp14>", and
+      "<bcp14>OPTIONAL</bcp14>" in this document are to be interpreted as described in BCP 14
       <xref target="RFC2119"/><xref target="RFC8174"/> when, and
       only when, they appear in all capitals, as shown here.</t>
       <t>This document makes use of the terms defined in <xref
@@ -265,21 +265,21 @@
     <section anchor="establishing">
       <name>Establishing Local DNS Authority</name>
       <t>To establish its authority over some DNS zone, a participating
-      network MUST offer one or more encrypted resolvers via DNR <xref
+      network <bcp14>MUST</bcp14> offer one or more encrypted resolvers via DNR <xref
       target="I-D.ietf-add-dnr"/> or an equivalent mechanism (see <xref
       target="vpn"/>). At least one of these resolvers' Authentication
-      Domain Names (ADNs) MUST appear in an NS record for that zone. This
+      Domain Names (ADNs) <bcp14>MUST</bcp14> appear in an NS record for that zone. This
       arrangement establishes this resolver's authority over the zone.</t>
     </section>
     <section anchor="validating">
       <name>Validating Authority over Local Domain Hints</name>
       <t>To validate the network's authority over a domain name, participating
-      clients MUST resolve the NS record for that name. If the resolution
-      result is NODATA, the client MUST remove the last label and repeat the
+      clients <bcp14>MUST</bcp14> resolve the NS record for that name. If the resolution
+      result is NODATA, the client <bcp14>MUST</bcp14> remove the last label and repeat the
       query until a response other than NODATA is received.</t>
-      <t>Once the NS record has been resolved, the client MUST check if each
+      <t>Once the NS record has been resolved, the client <bcp14>MUST</bcp14> check if each
       local encrypted resolver's Authentication Domain Name appears in the NS
-      record. The client SHALL regard each such resolver as authoritative for
+      record. The client <bcp14>SHALL</bcp14> regard each such resolver as authoritative for
       the zone of this NS record.</t>
       <t>Each validation of authority applies only to the specific resolvers
       whose names appear in the NS RRSet. If a network offers multiple
@@ -292,7 +292,7 @@
       <section anchor="validating-public">
         <name>Using Pre-configured Public Resolver</name>
         <t>The client sends the NS query to a pre-configured resolver that is
-        external to the network, over a secure transport. Clients SHOULD apply
+        external to the network, over a secure transport. Clients <bcp14>SHOULD</bcp14> apply
         whatever acceptance rules they would otherwise apply when using this
         resolver (e.g. checking the AD bit, validating RRSIGs).</t>
       </section>
@@ -310,7 +310,7 @@
           <li><strong>Secure</strong>: the response is used for validation.</li>
           <li><strong>Bogus</strong> or <strong>Indeterminate</strong>: the response is rejected and
             validation is considered to have failed.</li>
-          <li><strong>Insecure</strong>: the client SHOULD retry the validation
+          <li><strong>Insecure</strong>: the client <bcp14>SHOULD</bcp14> retry the validation
             process using a different method, such as the one in <xref
             target="validating-public"/>, to ensure compatibility with
             unsigned names.</li>
@@ -536,7 +536,7 @@
     <section anchor="Security">
       <name>Security Considerations</name>
       <t>This specification does not alter DNSSEC validation behaviour. To
-      ensure compatibility with validating clients, network operators MUST
+      ensure compatibility with validating clients, network operators <bcp14>MUST</bcp14>
       ensure that names under the split-horizon are correctly signed or place
       them in an unsigned zone.</t>
       <t>If an internal zone name (e.g., internal.example.com) is used with
