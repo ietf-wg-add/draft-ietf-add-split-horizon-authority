@@ -2,7 +2,7 @@
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 <!-- used by XSLT processors -->
 <?xml-model href="https://raw.githubusercontent.com/ietf-tools/xml2rfc/main/xml2rfc/data/v3.rng" schematypens="http://relaxng.org/ns/structure/1.0" type="application/xml"?>
-<!-- For a complete list and description of processing instructions (PIs), 
+<!-- For a complete list and description of processing instructions (PIs),
      please see http://xml.resource.org/authoring/README.html. -->
 <!-- Below are generally applicable Processing Instructions (PIs) that most I-Ds might want to use.
      (Here they are set differently than their defaults in xml2rfc v1.32) -->
@@ -18,7 +18,7 @@
 <!-- use symbolic references tags, i.e, [RFC2119] instead of [1] -->
 <?rfc sortrefs="yes" ?>
 <!-- sort the reference entries alphabetically -->
-<!-- control vertical white space 
+<!-- control vertical white space
      (using these PIs as follows is recommended by the RFC Editor) -->
 <?rfc compact="yes" ?>
 <!-- do not start each main section on a new page -->
@@ -352,7 +352,7 @@
             JSON information indicated by the associated PvD. The PvD
             contains:</t>
             <artwork><![CDATA[  {
-    "identifier": "pvd.example.com",   
+    "identifier": "pvd.example.com",
     "expires": "2020-05-23T06:00:00Z",
     "prefixes": ["2001:db8:1::/48", "2001:db8:4::/48"],
     "dnsZones:": ["example.com"]
@@ -487,7 +487,7 @@
 +---------+                                                +--------------------+
 | client  |                                                | Network            |
 |         |                                                | encrypted resolver |
-+---------+                                                +--------------------+ 
++---------+                                                +--------------------+
      |                                                                |
      | DNSSEC OK (DO), NS? example.com  (1)                           |
      |--------------------------------------------------------------->|
