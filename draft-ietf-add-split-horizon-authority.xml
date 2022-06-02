@@ -1,13 +1,7 @@
-<?xml version="1.0" encoding="US-ASCII"?>
-<!-- This template is for creating an Internet Draft using xml2rfc,
-     which is available here: http://xml.resource.org. -->
-<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
-<!-- One method to get references from the online citation libraries.
-     There has to be one entity for each item to be referenced. 
-     An alternate method (rfc include) is described in the references. -->
-]>
+<?xml version='1.0' encoding='utf-8'?>
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 <!-- used by XSLT processors -->
+<?xml-model href="https://raw.githubusercontent.com/ietf-tools/xml2rfc/main/xml2rfc/data/v3.rng" schematypens="http://relaxng.org/ns/structure/1.0" type="application/xml"?>
 <!-- For a complete list and description of processing instructions (PIs), 
      please see http://xml.resource.org/authoring/README.html. -->
 <!-- Below are generally applicable Processing Instructions (PIs) that most I-Ds might want to use.
@@ -31,80 +25,56 @@
 <?rfc subcompact="no" ?>
 <!-- keep one blank line between list items -->
 <!-- end of list of popular I-D processing instructions -->
-<rfc category="std" docName="draft-ietf-add-split-horizon-authority-latest"
-     ipr="trust200902">
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="std" docName="draft-ietf-add-split-horizon-authority-latest" ipr="trust200902" submissionType="IETF" xml:lang="en" tocInclude="true" tocDepth="4" symRefs="true" sortRefs="true" version="3" consensus="true">
   <front>
     <title abbrev="Establishing Local DNS Authority">Establishing Local DNS
     Authority in Split-Horizon Environments</title>
-
+    <seriesInfo name="Internet-Draft" value="draft-ietf-add-split-horizon-authority-latest"/>
     <author fullname="Tirumaleswar Reddy" initials="T." surname="Reddy">
       <organization>Akamai</organization>
-
       <address>
         <postal>
           <street>Embassy Golf Link Business Park</street>
-
           <city>Bangalore</city>
-
           <region>Karnataka</region>
-
           <code>560071</code>
-
           <country>India</country>
         </postal>
-
         <email>kondtir@gmail.com</email>
       </address>
     </author>
-
     <author fullname="Dan Wing" initials="D." surname="Wing">
       <organization abbrev="Citrix">Citrix Systems, Inc.</organization>
-
       <address>
         <postal>
           <street>4988 Great America Pkwy</street>
-
           <city>Santa Clara</city>
-
           <region>CA</region>
-
           <code>95054</code>
-
           <country>USA</country>
         </postal>
-
         <email>danwing@gmail.com</email>
       </address>
     </author>
-
     <author fullname="Kevin Smith" initials="K." surname="Smith">
       <organization abbrev="Vodafone">Vodafone Group</organization>
-
       <address>
         <postal>
           <street>One Kingdom Street</street>
-
           <city>London</city>
-
           <country>UK</country>
         </postal>
-
         <email>kevin.smith@vodafone.com</email>
       </address>
     </author>
-
     <author fullname="Benjamin Schwartz" initials="B." surname="Schwartz">
       <organization abbrev="Google">Google LLC</organization>
-
       <address>
         <email>bemasc@google.com</email>
       </address>
     </author>
-
-    <date />
-
+    <date/>
     <workgroup>ADD</workgroup>
-
     <abstract>
       <t>When split-horizon DNS is deployed by a network, certain domains can
       be resolved authoritatively by the network-provided DNS resolver. DNS
@@ -113,9 +83,9 @@
       local resolver's authority over these domains.</t>
     </abstract>
   </front>
-
   <middle>
-    <section anchor="intro" title="Introduction">
+    <section anchor="intro">
+      <name>Introduction</name>
       <t>To resolve a DNS query, there are three essential behaviors that an
       implementation can apply: (1) answer from a local database, (2) query
       the relevant authorities and their parents, or (3) ask a server to query
@@ -125,23 +95,20 @@
       implementation can also implement a mixture of these behaviors,
       depending on a local policy, for each query. We term such an
       implementation a "hybrid resolver".</t>
-
       <t>Most DNS resolvers are hybrids of some kind. For example, stub
       resolvers frequently support a local "hosts file" that preempts query
       forwarding, and most DNS forwarders and full resolvers can also serve
       responses from a local zone file. Other standardized hybrid resolution
-      behaviors include Local Root <xref target="RFC8806"></xref>, mDNS <xref
-      target="RFC6762"></xref>, and NXDOMAIN synthesis for .onion <xref
-      target="RFC7686"></xref>.</t>
-
+      behaviors include Local Root <xref target="RFC8806"/>, mDNS <xref
+      target="RFC6762"/>, and NXDOMAIN synthesis for .onion <xref
+      target="RFC7686"/>.</t>
       <t>In many network environments, the network offers clients a DNS server
       (e.g. DHCP OFFER, IPv6 Router Advertisement). Although this server is
-      formally specified as a recursive resolver (e.g. Section 5.1 of <xref
-      target="RFC6106"></xref>), some networks provide a hybrid resolver
+      formally specified as a recursive resolver (e.g. <relref section="5.1"
+      target="RFC6106"/>), some networks provide a hybrid resolver
       instead. If this resolver acts as an authoritative server for some
       names, we say that the network has "split-horizon DNS", because those
       names resolve in this way only from inside the network.</t>
-
       <t>Network clients that use pure stub resolution, sending all queries to
       the network-provided resolver, will always receive the split-horizon
       results. Conversely, clients that send all queries to a different
@@ -151,45 +118,39 @@
       to access split-horizon results from a network-provided hybrid resolver,
       while using a different resolution method for some or all other
       names.</t>
-
       <t>There are several existing mechanisms for a network to provide
       clients with "local domain hints", listing domain names that have
-      special treatment in this network (<xref target="learning"></xref>).
+      special treatment in this network (<xref target="learning"/>).
       However, none of the local domain hint mechanisms enable clients to
       determine whether this special treatment is authorized by the domain
       owner. Instead, these specifications require clients to make their own
       determinations about whether to trust and rely on these hints.</t>
-
       <t>This specification describes a protocol between domains, networks,
       and clients that allows the network to establish its authority over a
-      domain to a client (<xref target="establishing"></xref>). Clients can
+      domain to a client (<xref target="establishing"/>). Clients can
       use this protocol to confirm that a local domain hint was authorized by
-      the domain (<xref target="validating"></xref>), which might influence
+      the domain (<xref target="validating"/>), which might influence
       its processing of that hint.</t>
-
       <t>This specification relies on securely identified local DNS servers
       and globally valid NS records. Use of this specification is therefore
       limited to servers that support authenticated encryption and
       split-horizon DNS names that are properly rooted in the global DNS.</t>
     </section>
-
-    <section anchor="notation" title="Terminology">
+    <section anchor="notation">
+      <name>Terminology</name>
       <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
       "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
       "OPTIONAL" in this document are to be interpreted as described in BCP 14
-      <xref target="RFC2119"></xref><xref target="RFC8174"></xref> when, and
+      <xref target="RFC2119"/><xref target="RFC8174"/> when, and
       only when, they appear in all capitals, as shown here.</t>
-
       <t>This document makes use of the terms defined in <xref
-      target="RFC8499"></xref>. The term "Global DNS" is defined in <xref
-      target="RFC8499"></xref>.</t>
-
+      target="RFC8499"/>. The term "Global DNS" is defined in <xref
+      target="RFC8499"/>.</t>
       <t>'Encrypted DNS' refers to a DNS protocol that provides an encrypted
       channel between a DNS client and server (e.g., DoT, DoH, or DoQ).</t>
-
       <t>The term 'Validated Split-Horizon' is also defined.</t>
-
-      <section title="Validated Split-Horizon">
+      <section>
+        <name>Validated Split-Horizon</name>
         <t>A split horizon configuration for some name is considered
         "validated" if the network client has confirmed that a parent of that
         name has authorized the local network to serve its own responses for
@@ -197,38 +158,38 @@
         of names below the authorization point.</t>
       </section>
     </section>
-
-    <section title="Scope">
+    <section>
+      <name>Scope</name>
       <t>The protocol in this document allows the domain owner to create a
       split-horizon DNS. Other entities which do not own the domain are
       detected by the client. Thus, DNS filtering is not enabled by this
       protocol.</t>
     </section>
-
-    <section anchor="learning" title="Local Domain Hint Mechanisms">
+    <section anchor="learning">
+      <name>Local Domain Hint Mechanisms</name>
       <t>There are various mechanisms by which a network client might learn
       "local domain hints", which indicate a special treatment for particular
       domain names upon joining a network. This section provides a review of
       some common and standardized mechanisms for receiving domain hints.</t>
-
-      <section anchor="dhcp" title="DHCP Options">
+      <section anchor="dhcp">
+        <name>DHCP Options</name>
         <t>There are several DHCP options that convey local domain hints of
         different kinds. The most directly relevant is "RDNSS Selection" <xref
-        target="RFC6731"></xref>, which provides "a list of domains ... about
+        target="RFC6731"/>, which provides "a list of domains ... about
         which the RDNSS has special knowledge", along with a "High", "Medium",
         or "Low" preference for each name. The specification notes the
-        difficulty of relying on these hints without validation: <list>
-            <t>Trustworthiness of an interface and configuration information
+        difficulty of relying on these hints without validation: </t>
+        <blockquote quotedFrom="RFC6731">
+          <t>Trustworthiness of an interface and configuration information
             received over the interface is implementation and/or node
             deployment dependent, and the details of determining that trust
             are beyond the scope of this specification.</t>
-          </list></t>
-
+        </blockquote>
         <t>Other local domain hints in DHCP include the "Domain Name" <xref
-        target="RFC2132"></xref>, "Access Network Domain Name" <xref
-        target="RFC5986"></xref>, "Client FQDN" <xref
-        target="RFC4702"></xref><xref target="RFC4704"></xref>, and "Name
-        Service Search" <xref target="RFC2937"></xref> options. This
+        target="RFC2132"/>, "Access Network Domain Name" <xref
+        target="RFC5986"/>, "Client FQDN" <xref
+        target="RFC4702"/><xref target="RFC4704"/>, and "Name
+        Service Search" <xref target="RFC2937"/> options. This
         specification may help clients to interpret these hints. For example,
         a rogue DHCP server could use the "Client FQDN" option to assign a
         client the name "www.example.com" in order to prevent the client from
@@ -236,21 +197,20 @@
         specification to check the network's authority over this name, and
         adjust its behavior to avoid this attack if authority is not
         established.</t>
-
-        <t>The Domain Search option <xref target="RFC3397"></xref> <xref
-        target="RFC3646"></xref>, which offers clients a way to expand short
+        <t>The Domain Search option <xref target="RFC3397"/><xref
+        target="RFC3646"/>, which offers clients a way to expand short
         names into Fully Qualified Domain Names, is not a "local domain hint"
         by this definition, because it does not modify the processing of any
         specific domain. (The specification notes that this option can be a
         "fruitful avenue of attack for a rogue DHCP server", and provides a
         number of cautions against accepting it unconditionally.)</t>
       </section>
-
-      <section anchor="hostconfig" title="Host Configuration">
+      <section anchor="hostconfig">
+        <name>Host Configuration</name>
         <t>A host can be configured with DNS information when it joins a
         network, including when it brings up VPN (which is also considered
         joining a(n additional) network, detailed in <xref
-        target="vpn"></xref>). Existing implementations determine the host has
+        target="vpn"/>). Existing implementations determine the host has
         joined a certain network via SSID, IP subnet assigned, DNS server IP
         address or name, and other similar mechanisms. For example, one
         existing implementation determines the host has joined an internal
@@ -262,159 +222,146 @@
         determine "we have joined the internal corporate network" occurred and
         the DNS server is configured as authoritative for certain DNS zones
         (e.g., *.example.com).</t>
-
         <t>Because a rogue network can simulate all or most of the above
         characteristics this specification details how to validate these
-        claims in <xref target="validating"></xref>.</t>
+        claims in <xref target="validating"/>.</t>
       </section>
-
-      <section anchor="dnsZones" title="Provisioning Domains dnsZones">
+      <section anchor="dnsZones">
+        <name>Provisioning Domains dnsZones</name>
         <t>Provisioning Domains (PvDs) are defined in <xref
-        target="RFC7556"></xref> as sets of network configuration information
+        target="RFC7556"/> as sets of network configuration information
         that clients can use to access networks, including rules for DNS
         resolution and proxy configuration. The PvD Key "dnsZones" is defined
-        in <xref target="RFC8801"></xref> as a list of "DNS zones searchable
+        in <xref target="RFC8801"/> as a list of "DNS zones searchable
         and accessible" in this provisioning domain. Attempting to resolve
         these names via another resolver might fail or return results that are
         not correct for this network.</t>
       </section>
-
       <!-- provisioning domains -->
 
-      <section title="Split DNS Configuration for IKEv2">
+      <section>
+        <name>Split DNS Configuration for IKEv2</name>
         <t>In IKEv2 VPNs, the INTERNAL_DNS_DOMAIN configuration attribute can
         be used to indicate that a domain is "internal" to the VPN <xref
-        target="RFC8598"></xref>. To prevent abuse, the specification notes
-        various possible restrictions on the use of this attribute: <list>
-            <t>"If a client is configured by local policy to only accept a
+        target="RFC8598"/>. To prevent abuse, the specification notes
+        various possible restrictions on the use of this attribute: </t>
+        <blockquote quotedFrom="RFC8598">
+          <t>(Section 5) If a client is configured by local policy to only accept a
             limited set of INTERNAL_DNS_DOMAIN values, the client MUST ignore
             any other INTERNAL_DNS_DOMAIN values."</t>
-
-            <t>"IKE clients MAY want to require whitelisted domains for
+          <t>(Section 9) IKE clients MAY want to require whitelisted domains for
             Top-Level Domains (TLDs) and Second-Level Domains (SLDs) to
             further prevent malicious DNS redirections for well-known
-            domains."</t>
-          </list> Within these guidelines, a client could adopt a local policy
+            domains.</t>
+        </blockquote>
+        <t> Within these guidelines, a client could adopt a local policy
         of accepting INTERNAL_DNS_DOMAIN values only when it can validate the
         local DNS server's authority over those names as described in this
         specification.</t>
       </section>
     </section>
-
     <!-- Learning -->
 
-    <section anchor="establishing" title="Establishing Local DNS Authority">
+    <section anchor="establishing">
+      <name>Establishing Local DNS Authority</name>
       <t>To establish its authority over some DNS zone, a participating
       network MUST offer one or more encrypted resolvers via DNR <xref
-      target="I-D.ietf-add-dnr"></xref> or an equivalent mechanism (see <xref
-      target="vpn"></xref>). At least one of these resolvers' Authentication
+      target="I-D.ietf-add-dnr"/> or an equivalent mechanism (see <xref
+      target="vpn"/>). At least one of these resolvers' Authentication
       Domain Names (ADNs) MUST appear in an NS record for that zone. This
       arrangement establishes this resolver's authority over the zone.</t>
     </section>
-
-    <section anchor="validating"
-             title="Validating Authority over Local Domain Hints">
+    <section anchor="validating">
+      <name>Validating Authority over Local Domain Hints</name>
       <t>To validate the network's authority over a domain name, participating
       clients MUST resolve the NS record for that name. If the resolution
       result is NODATA, the client MUST remove the last label and repeat the
       query until a response other than NODATA is received.</t>
-
       <t>Once the NS record has been resolved, the client MUST check if each
       local encrypted resolver's Authentication Domain Name appears in the NS
       record. The client SHALL regard each such resolver as authoritative for
       the zone of this NS record.</t>
-
       <t>Each validation of authority applies only to the specific resolvers
       whose names appear in the NS RRSet. If a network offers multiple
       encrypted resolvers, each DNS entry may be authorized for a distinct
       subset of the network-provided resolvers.</t>
-
       <t>A zone is termed a "Validated Split-Horizon zone" after successful
       validation using a "tamperproof" NS resolution method, i.e. a method
       that is not subject to interference by the local network operator. Two
       possible tamperproof resolution methods are presented below.</t>
-
-      <section anchor="validating-public"
-               title="Using Pre-configured Public Resolver">
+      <section anchor="validating-public">
+        <name>Using Pre-configured Public Resolver</name>
         <t>The client sends the NS query to a pre-configured resolver that is
         external to the network, over a secure transport. Clients SHOULD apply
         whatever acceptance rules they would otherwise apply when using this
         resolver (e.g. checking the AD bit, validating RRSIGs).</t>
       </section>
-
       <!-- validating-public -->
 
-      <section anchor="validating-dnssec" title="Using DNSSEC">
+      <section anchor="validating-dnssec">
+        <name>Using DNSSEC</name>
         <t>The client resolves the NS record using any resolution method of
         its choice (e.g. querying one of the network-provided resolvers,
         performing iterative resolution locally), and performs full DNSSEC
-        validation locally <xref target="RFC6698"></xref>. The result is
-        processed based on its DNSSEC validation state (Section 4.3 of <xref
-        target="RFC4035"></xref>): <list style="hanging">
-            <t hangText="Secure:">the response is used for validation.</t>
-
-            <t hangText="Bogus or Indeterminate:">the response is rejected and
-            validation is considered to have failed.</t>
-
-            <t hangText="Insecure:">the client SHOULD retry the validation
+        validation locally <xref target="RFC6698"/>. The result is
+        processed based on its DNSSEC validation state (<relref section="4.3"
+        target="RFC4035"/>): </t>
+        <ul empty="true">
+          <li><strong>Secure</strong>: the response is used for validation.</li>
+          <li><strong>Bogus</strong> or <strong>Indeterminate</strong>: the response is rejected and
+            validation is considered to have failed.</li>
+          <li><strong>Insecure</strong>: the client SHOULD retry the validation
             process using a different method, such as the one in <xref
-            target="validating-public"></xref>, to ensure compatibility with
-            unsigned names.</t>
-          </list></t>
+            target="validating-public"/>, to ensure compatibility with
+            unsigned names.</li>
+        </ul>
       </section>
-
       <!-- validating-DNSSEC -->
     </section>
-
     <!-- Validating -->
 
-    <section title="Examples of Split-Horizon DNS Configuration">
+    <section>
+      <name>Examples of Split-Horizon DNS Configuration</name>
       <t>Two examples are shown below. The first example showing an company
       with an internal-only DNS server resolving the entire zone for that
       company (e.g., *.example.com) the second example resolving only a
       subdomain of the company's zone (e.g., *.internal.example.com).</t>
-
-      <section anchor="internal-only" title="Split-Horizon Entire Zone">
+      <section anchor="internal-only">
+        <name>Split-Horizon Entire Zone</name>
         <t>Consider an organization that operates "example.com", and runs a
         different version of its global domain on its internal network. Today,
         on the Internet it publishes two NS records, "ns1.example.com" and
         "ns2.example.com".</t>
-
         <t>The host and network first need mutual support one of the
         mechanisms described in <xref target="learning">learning</xref>. Shown
-        in <xref target="fig-learn"></xref> is learning using DNR and PvD.</t>
-
+        in <xref target="fig-learn"/> is learning using DNR and PvD.</t>
         <t>Validation is then perfomed using either <xref
         target="example-verify-public">Public DNS</xref> or <xref
         target="example-verify-dnssec">DNSSEC</xref>.</t>
-
-        <t><list style="hanging">
-            <t hangText="steps 1-2:">The client determines the network's DNS
+        <ul empty="true">
+          <li><strong>steps 1-2</strong>: The client determines the network's DNS
             server (ns1.example.com) and Provisioning Domain (pvd.example.com)
             using <xref target="I-D.ietf-add-dnr">DNR</xref> and <xref
             target="RFC8801">PvD</xref>, using one of DNR Router Solicitation,
-            DHCPv4, or DHCPv6.</t>
-
-            <t hangText="step 3-5:">The client connects to the DNR-learned DNS
+            DHCPv4, or DHCPv6.</li>
+          <li><strong>step 3-5</strong>: The client connects to the DNR-learned DNS
             server (ns1.example.com), validates its certificate, and queries
-            for pvd.example.com.</t>
-
-            <t hangText="steps 6-7:">The client connects to the PvD server,
+            for pvd.example.com.</li>
+          <li><t><strong>steps 6-7</strong>: The client connects to the PvD server,
             validates its certificate, and retrieves the provisioning domain
             JSON information indicated by the associated PvD. The PvD
-            contains:<figure>
-                <artwork><![CDATA[ {
+            contains:</t>
+            <artwork><![CDATA[  {
     "identifier": "pvd.example.com",   
     "expires": "2020-05-23T06:00:00Z",
     "prefixes": ["2001:db8:1::/48", "2001:db8:4::/48"],
     "dnsZones:": ["example.com"]
   }]]></artwork>
-              </figure>The JSON keys "identifier", "expires", and "prefixes"
-            are defined in <xref target="RFC8801"></xref>.</t>
-          </list></t>
-
-        <figure anchor="fig-learn"
-                title="Learning Local Claims of DNS Authority">
+            <t>The JSON keys "identifier", "expires", and "prefixes"
+            are defined in <xref target="RFC8801"/>.</t></li>
+        </ul>
+        <figure anchor="fig-learn">
+          <name>Learning Local Claims of DNS Authority</name>
           <artwork><![CDATA[
 +---------+            +--------------------+  +------------+ +--------+
 | client  |            | Network            |  | Network    | | Router |
@@ -455,34 +402,30 @@
      | |----------------------|            |         |            |
 ]]></artwork>
         </figure>
-
-        <section anchor="example-verify-public"
-                 title="Verification using Public Resolver">
+        <section anchor="example-verify-public">
+          <name>Verification using Public Resolver</name>
           <t>The figure below shows the steps performed to verify the local
           claims of DNS authority using a public resolver.</t>
-
-          <t><list style="hanging">
-              <t hangText="Steps 1-2:">The client uses an encrypted DNS
+          <ul empty="true">
+            <li><strong>Steps 1-2</strong>: The client uses an encrypted DNS
               connection to a public resolver (e.g., 1.1.1.1) to issue NS
               queries for the domains in dnsZones. The NS lookup for
               "example.com" will return "ns1.example.com" and
-              "ns2.example.com".</t>
-
-              <t hangText="Step 3:">As the network-provided nameservers are
+              "ns2.example.com".</li>
+            <li><strong>Step 3</strong>: As the network-provided nameservers are
               the same as the names retrieved from the public resolver and the
               network-designated resolver's certificate includes at least one
               of the names retrieved from the public resolver, the client has
               finished validation that the nameservers signaled in <xref
-              target="I-D.ietf-add-dnr"></xref> and <xref
-              target="RFC8801"></xref> are owned and managed by the same
+              target="I-D.ietf-add-dnr"/> and <xref
+              target="RFC8801"/> are owned and managed by the same
               entity that published the NS records on the Internet. The
               endpoint will then use that information from <xref
-              target="I-D.ietf-add-dnr"></xref> and <xref
-              target="RFC8801"></xref> to resolve names within dnsZones.</t>
-            </list></t>
-
-          <figure anchor="fig-verify-public"
-                  title="Verifying Claims using Public Resolver">
+              target="I-D.ietf-add-dnr"/> and <xref
+              target="RFC8801"/> to resolve names within dnsZones.</li>
+          </ul>
+          <figure anchor="fig-verify-public">
+            <name>Verifying Claims using Public Resolver</name>
             <artwork><![CDATA[
 +---------+                  +--------------------+  +----------+
 | client  |                  | Network            |  |  public  |
@@ -513,37 +456,33 @@
 ]]></artwork>
           </figure>
         </section>
-
         <!-- public -->
 
-        <section anchor="example-verify-dnssec"
-                 title="Verification using DNSSEC">
+        <section anchor="example-verify-dnssec">
+          <name>Verification using DNSSEC</name>
           <t>The figure below shows the steps performed to verify the local
           claims of DNS authority using DNSSEC.</t>
-
-          <t><list style="hanging">
-              <t hangText="Steps 1-2:">The DNSSEC-validating client queries
+          <ul empty="true">
+            <li><strong>Steps 1-2</strong>: The DNSSEC-validating client queries
               the network encrypted resolver to issue NS queries for the
               domains in dnsZones. The NS lookup for "example.com" will return
               a signed response containing "ns1.example.com" and
               "ns2.example.com". The client then performs full DNSSEC
-              validation locally.</t>
-
-              <t hangText="Step 3:">As the DNSSEC validation is successful and
+              validation locally.</li>
+            <li><strong>Step 3</strong>: As the DNSSEC validation is successful and
               the network-provided nameservers are the same as the names in
               the DNSSEC response, and the network-designated resolver's
               certificate includes at least one of the names returned in the
               DNSSEC response, the client has finished validation that the
-              nameservers signaled in <xref target="I-D.ietf-add-dnr"></xref>
-              and <xref target="RFC8801"></xref> are owned and managed by the
+              nameservers signaled in <xref target="I-D.ietf-add-dnr"/>
+              and <xref target="RFC8801"/> are owned and managed by the
               same entity that published the NS records on the Internet. The
               endpoint will then use that information from <xref
-              target="I-D.ietf-add-dnr"></xref> and <xref
-              target="RFC8801"></xref> to resolve names within dnsZones.</t>
-            </list></t>
-
-          <figure anchor="fig-verify-dnssec"
-                  title="Verifying Claims using DNSSEC">
+              target="I-D.ietf-add-dnr"/> and <xref
+              target="RFC8801"/> to resolve names within dnsZones.</li>
+          </ul>
+          <figure anchor="fig-verify-dnssec">
+            <name>Verifying Claims using DNSSEC</name>
             <artwork><![CDATA[
 +---------+                                                +--------------------+
 | client  |                                                | Network            |
@@ -572,37 +511,34 @@
           </figure>
         </section>
       </section>
-
-      <section title="Split-Horizon Only Subdomain of Zone">
+      <section>
+        <name>Split-Horizon Only Subdomain of Zone</name>
         <t>A subdomain can also be used for all internal DNS names (e.g., the
         zone internal.example.com exists only on the internal DNS server). For
         successful validation described in this document the the internal DNS
         server will need a certificate signed by a CA trusted by the
         client.</t>
-
         <t>For such a name internal.example.com the message flow is similar to
-        <xref target="internal-only"></xref> the difference is that queries
+        <xref target="internal-only"/> the difference is that queries
         for hosts not within the subdomain (www.example.com) are sent to the
         public resolver rather than resolver for internal.example.com.</t>
       </section>
     </section>
-
-    <section anchor="vpn" title="Validation with IKEv2">
+    <section anchor="vpn">
+      <name>Validation with IKEv2</name>
       <t>When the VPN tunnel is IPsec, the encrypted DNS resolver hosted by
       the VPN service provider can be securely discovered by the endpoint
       using the ENCDNS_IP*_* IKEv2 Configuration Payload Attribute Types
-      defined in <xref target="I-D.ietf-ipsecme-add-ike"></xref>.</t>
-
+      defined in <xref target="I-D.ietf-ipsecme-add-ike"/>.</t>
       <t>Other VPN tunnel types have similar configuration capabilities, not
       detailed here.</t>
     </section>
-
-    <section anchor="Security" title="Security Considerations">
+    <section anchor="Security">
+      <name>Security Considerations</name>
       <t>This specification does not alter DNSSEC validation behaviour. To
       ensure compatibility with validating clients, network operators MUST
       ensure that names under the split-horizon are correctly signed or place
       them in an unsigned zone.</t>
-
       <t>If an internal zone name (e.g., internal.example.com) is used with
       this specification and a public certificate is obtained
       for validation, that internal zone name will exist in <xref
@@ -611,70 +547,50 @@
       names (e.g., www.internal.example.com) into the Certificate Transparancy
       logs or to public DNS resolvers.</t>
     </section>
-
-    <section anchor="IANA" title="IANA Considerations">
+    <section anchor="IANA">
+      <name>IANA Considerations</name>
       <t>This document has no IANA actions.</t>
     </section>
-
-    <section title="Acknowledgements">
+    <section>
+      <name>Acknowledgements</name>
       <t>Thanks to Mohamed Boucadair, Jim Reid, Tommy Pauly, Paul Vixie, Paul
       Wouters and Vinny Parla for the discussion and comments.</t>
     </section>
   </middle>
-
   <!--  *****BACK MATTER ***** -->
 
   <back>
-    <references title="Normative References">
-      <?rfc include='reference.RFC.2119'?>
-
-      <?rfc include='reference.RFC.8174'?>
-
-      <?rfc include='reference.RFC.8801'?>
-
-      <?rfc include='reference.RFC.6762'?>
-
-      <?rfc include='reference.RFC.6698'?>
-
-      <?rfc include='reference.RFC.4035'?>
+    <references>
+      <name>References</name>
+      <references>
+        <name>Normative References</name>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.2119.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8174.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8801.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6762.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6698.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4035.xml"/>
+      </references>
+      <references>
+        <name>Informative References</name>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8499.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9162.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8598.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7556.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7686.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8806.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6106.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.3646.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.3397.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4702.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4704.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6731.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.2937.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.2132.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5986.xml"/>
+        <xi:include href="https://xml2rfc.ietf.org/public/bibxml3/reference.I-D.ietf-add-dnr.xml"/>
+        <xi:include href="https://xml2rfc.ietf.org/public/bibxml3/reference.I-D.ietf-ipsecme-add-ike.xml"/>
     </references>
-
-    <references title="Informative References">
-      <?rfc include='reference.RFC.8499'?>
-
-      <?rfc include='reference.RFC.9162'?>
-
-      <?rfc include='reference.RFC.8598'?>
-
-      <?rfc include='reference.RFC.7556' ?>
-
-      <?rfc include='reference.RFC.7686' ?>
-
-      <?rfc include='reference.RFC.8806' ?>
-
-      <?rfc include='reference.RFC.6106' ?>
-
-      <?rfc include='reference.RFC.3646' ?>
-
-      <?rfc include='reference.RFC.3397' ?>
-
-      <?rfc include='reference.RFC.4702' ?>
-
-      <?rfc include='reference.RFC.4704' ?>
-
-      <?rfc include='reference.RFC.6731' ?>
-
-      <?rfc include='reference.RFC.2937' ?>
-
-      <?rfc include='reference.RFC.2132' ?>
-
-      <?rfc include='reference.RFC.5986' ?>
-
-      <?rfc include='reference.I-D.ietf-add-dnr'?>
-
-      <?rfc include='reference.I-D.ietf-ipsecme-add-ike'?>
-
-      <!---->
     </references>
   </back>
 </rfc>
