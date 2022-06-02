@@ -333,7 +333,7 @@
         on the Internet it publishes two NS records, "ns1.example.com" and
         "ns2.example.com".</t>
         <t>The host and network first need mutual support one of the
-        mechanisms described in <xref target="learning">learning</xref>. Shown
+        mechanisms described in <xref target="learning"/>. Shown
         in <xref target="fig-learn"/> is learning using DNR and PvD.</t>
         <t>Validation is then perfomed using either <xref
         target="example-verify-public">Public DNS</xref> or <xref
@@ -541,8 +541,8 @@
       them in an unsigned zone.</t>
       <t>If an internal zone name (e.g., internal.example.com) is used with
       this specification and a public certificate is obtained
-      for validation, that internal zone name will exist in <xref
-      target="RFC9162">Certificate Transparency</xref> logs. It should be
+      for validation, that internal zone name will exist in Certificate Transparency
+      logs <xref target="RFC9162"/>. It should be
       noted, however, that this specification does not leak individual host
       names (e.g., www.internal.example.com) into the Certificate Transparancy
       logs or to public DNS resolvers.</t>
