@@ -151,19 +151,22 @@
       <xref target="RFC2119"/><xref target="RFC8174"/> when, and
       only when, they appear in all capitals, as shown here.</t>
       <t>This document makes use of the terms defined in <xref
-      target="RFC8499"/>. The term "Global DNS" is defined in <xref
-      target="RFC8499"/>.</t>
-      <t>'Encrypted DNS' refers to a DNS protocol that provides an encrypted
-      channel between a DNS client and server (e.g., DoT, DoH, or DoQ).</t>
-      <t>The term 'Validated Split-Horizon' is also defined.</t>
-      <section>
-        <name>Validated Split-Horizon</name>
-        <t>A split horizon configuration for some name is considered
-        "validated" if the network client has confirmed that a parent of that
-        name has authorized the local network to serve its own responses for
-        that name. Such authorization generally extends to the entire subtree
-        of names below the authorization point.</t>
-      </section>
+      target="RFC8499"/>, e.g. "Global DNS".  The following additional terms are
+      used throughout the document:</t>
+      <dl>
+        <dt>Encrypted DNS</dt><dd>A DNS protocol that provides an encrypted
+          channel between a DNS client and server (e.g., DoT, DoH, or DoQ).</dd>
+        <dt>Split-Horizon DNS</dt><dd>The DNS service provided by a resolver
+          that also acts as an authoritative server for some names, providing
+          resolution results that are meaningfully different from those in the
+          Global DNS. (See "Split DNS" in <relref section="6"
+          target="RFC8499"/>.)</dd>
+        <dt>Validated Split-Horizon</dt><dd>A split horizon configuration for
+          some name is considered "validated" if the client has confirmed that
+          a parent of that name has authorized this resolver  to serve its own
+          responses for that name. Such authorization generally extends to the
+          entire subtree of names below the authorization point.</dd>
+      </dl>
     </section>
     <section>
       <name>Scope</name>
@@ -300,10 +303,16 @@
       possible tamperproof resolution methods are presented below.</t>
       <section anchor="validating-external">
         <name>Using a Pre-configured External Resolver</name>
-        <t>The client sends the NS query to a pre-configured resolver that is
-        external to the network, over a secure transport. Clients <bcp14>SHOULD</bcp14> apply
-        whatever acceptance rules they would otherwise apply when using this
-        resolver (e.g. checking the AD bit, validating RRSIGs).</t>
+        <t>This method applies only if the client is already configured with
+        a default resolution strategy that sends queries to a resolver outside
+        of the network over a secure transport.  That resolution strategy is
+        considered "tamperproof" because any actor who could modify the NS
+        response could already modify all of the user's other DNS responses.</t>
+        <t>To ensure that this assumption holds, clients <bcp14>MUST NOT</bcp14>
+        relax the acceptance rules they would otherwise apply when using this
+        resolver. For example, if the client would check the AD bit or
+        validate RRSIGs locally when using this resolver, it must also do so
+        when resolving NS records for this purpose.</t>
       </section>
       <!-- validating-external -->
 
