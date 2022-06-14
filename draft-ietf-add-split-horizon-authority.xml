@@ -363,8 +363,11 @@
             using <xref target="I-D.ietf-add-dnr">DNR</xref> and <xref
             target="RFC8801">PvD</xref>, using one of DNR Router Solicitation,
             DHCPv4, or DHCPv6.</li>
-          <li><strong>Step 3-5</strong>: The client connects to the DNS
-            server learned from DNR (ns1.example.com), validates its certificate, and
+          <li><strong>Step 3-5</strong>: The client connects to ns1.example.com
+            using an encrypted transport as indicated in <xref
+            target="I-D.ietf-add-dnr">DNR</xref>, authenticating the server to
+            its name using TLS (<relref target="RFC8310" section="8"
+            displayFormat="comma"/>), and
             sends it a query for the address of <tt>pvd.example.com</tt>.</li>
           <li><t><strong>Steps 6-7</strong>: The client connects to the PvD server,
             validates its certificate, and retrieves the provisioning domain
