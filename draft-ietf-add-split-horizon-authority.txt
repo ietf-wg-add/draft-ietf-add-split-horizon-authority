@@ -5,12 +5,12 @@
 ADD                                                             T. Reddy
 Internet-Draft                                                    Akamai
 Intended status: Standards Track                                 D. Wing
-Expires: 16 December 2022                                         Citrix
+Expires: 18 December 2022                                         Citrix
                                                                 K. Smith
                                                                 Vodafone
                                                              B. Schwartz
                                                                   Google
-                                                            14 June 2022
+                                                            16 June 2022
 
 
      Establishing Local DNS Authority in Split-Horizon Environments
@@ -51,7 +51,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 December 2022.
+   This Internet-Draft will expire on 18 December 2022.
 
 Copyright Notice
 
@@ -322,7 +322,9 @@ Table of Contents
    acceptance rules they would otherwise apply when using this resolver.
    For example, if the client would check the AD bit or validate RRSIGs
    locally when using this resolver, it must also do so when resolving
-   NS records for this purpose.
+   NS records for this purpose.  Another example could be a client can
+   do DNSSEC validation for the NS query used for this purpose even if
+   it has disabled DNSSEC validation for other DNS queries.
 
 6.2.  Using DNSSEC
 
