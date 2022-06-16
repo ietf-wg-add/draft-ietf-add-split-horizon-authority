@@ -312,7 +312,9 @@
         relax the acceptance rules they would otherwise apply when using this
         resolver. For example, if the client would check the AD bit or
         validate RRSIGs locally when using this resolver, it must also do so
-        when resolving NS records for this purpose.</t>
+        when resolving NS records for this purpose. Another example could be a
+        client can do DNSSEC validation for the NS query used for this purpose
+        even if it has disabled DNSSEC validation for other DNS queries.</t>
       </section>
       <!-- validating-external -->
 
