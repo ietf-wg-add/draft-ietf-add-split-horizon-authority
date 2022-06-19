@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-06-16T01:38:31.360443+00:00",
+  "timestamp": "2022-06-19T01:45:13.416323+00:00",
   "repo": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
   "labels": [
     {
@@ -429,6 +429,72 @@
           "body": "",
           "createdAt": "2022-06-09T05:42:00Z",
           "updatedAt": "2022-06-09T05:42:00Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "id": "PR_kwDOHbyYm845xRXi",
+      "title": "Conditional DNSSEC",
+      "url": "https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority/pull/4",
+      "state": "CLOSED",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Discuss whether client implementations will have to enable DNSSEC to support the proposed mechanism.",
+      "createdAt": "2022-06-16T11:35:12Z",
+      "updatedAt": "2022-06-16T11:44:24Z",
+      "baseRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "baseRefName": "main",
+      "baseRefOid": "cae90d301cfcd7654e32e99054c7dfb8563e0c72",
+      "headRepository": "tireddy2/draft-ietf-add-split-horizon-authority",
+      "headRefName": "main",
+      "headRefOid": "f516087f4b71f72f240c5d468084ae24383eed2c",
+      "closedAt": "2022-06-16T11:44:24Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 5,
+      "id": "PR_kwDOHbyYm845xTmM",
+      "title": "Conditional DNSSEC",
+      "url": "https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority/pull/5",
+      "state": "OPEN",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Discuss whether client implementations will have to enable DNSSEC to support the proposed mechanism.",
+      "createdAt": "2022-06-16T11:45:49Z",
+      "updatedAt": "2022-06-16T14:37:40Z",
+      "baseRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "baseRefName": "main",
+      "baseRefOid": "02ff91be04d59363131496db98fc318ff6429b3a",
+      "headRepository": "tireddy2/draft-ietf-add-split-horizon-authority",
+      "headRefName": "main",
+      "headRefOid": "f516087f4b71f72f240c5d468084ae24383eed2c",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHbyYm848Jm4Y",
+          "commit": {
+            "abbreviatedOid": "f516087"
+          },
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-06-16T14:37:40Z",
+          "updatedAt": "2022-06-16T14:37:40Z",
           "comments": []
         }
       ]
