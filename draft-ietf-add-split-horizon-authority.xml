@@ -120,7 +120,7 @@
       the network-provided resolver, will always receive the split-horizon
       results. Conversely, clients that send all queries to a different
       resolver or implement pure full resolution locally will never receive
-      them. Clients with either pure resolution behavior are out of scope for
+      them. Clients with either resolution behavior are out of scope for
       this specification. Instead, this specification enables hybrid clients
       to access split-horizon results from a network-provided hybrid resolver,
       while using a different resolution method for some or all other
