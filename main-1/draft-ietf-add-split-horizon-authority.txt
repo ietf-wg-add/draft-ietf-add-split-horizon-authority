@@ -184,9 +184,11 @@ Table of Contents
    domain owner to create or authorize a split-horizon view of their
    domain.  The protocol does not support split-horizon views created by
    any other entity.  Thus, DNS filtering is not enabled by this
-   protocol.  The protocol is applicable to any type of network offering
-   split-horizon DNS configuration.  The endpoint does not need any
-   prior configuration to confirm that a local domain hint was indeed
+   protocol.
+
+   The protocol is applicable to any type of network offering split-
+   horizon DNS configuration.  The endpoint does not need any prior
+   configuration to confirm that a local domain hint was indeed
    authorized by the domain.
 
 4.  Local Domain Hint Mechanisms
