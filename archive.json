@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-06-21T01:42:26.036204+00:00",
+  "timestamp": "2022-06-23T01:26:24.151668+00:00",
   "repo": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
   "labels": [
     {
@@ -464,25 +464,33 @@
       "id": "PR_kwDOHbyYm845xTmM",
       "title": "Conditional DNSSEC",
       "url": "https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority/pull/5",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tireddy2",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Discuss whether client implementations will have to enable DNSSEC to support the proposed mechanism.",
       "createdAt": "2022-06-16T11:45:49Z",
-      "updatedAt": "2022-06-16T14:37:40Z",
+      "updatedAt": "2022-06-22T15:38:54Z",
       "baseRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
       "baseRefName": "main",
       "baseRefOid": "02ff91be04d59363131496db98fc318ff6429b3a",
       "headRepository": "tireddy2/draft-ietf-add-split-horizon-authority",
       "headRefName": "main",
-      "headRefOid": "f516087f4b71f72f240c5d468084ae24383eed2c",
-      "closedAt": null,
+      "headRefOid": "bb0c1d4971a8dbc7c2e0b29fc2dc27e9da651b7f",
+      "closedAt": "2022-06-22T06:23:21Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "bemasc",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@tireddy2 It looks like you closed this without merging it.  Was that intentional?\r\n\r\nEDIT: It looks like you pushed these changes directly to `main`.  In the future, it's probably better to use the \"merge\" button on the Pull Request, so that we can tie the changes back to the discussion.",
+          "createdAt": "2022-06-22T15:36:24Z",
+          "updatedAt": "2022-06-22T15:38:54Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOHbyYm848Jm4Y",
@@ -496,6 +504,140 @@
           "createdAt": "2022-06-16T14:37:40Z",
           "updatedAt": "2022-06-16T14:37:40Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOHbyYm848cA2q",
+          "commit": {
+            "abbreviatedOid": "f516087"
+          },
+          "author": "bemasc",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-21T17:21:36Z",
+          "updatedAt": "2022-06-21T17:21:38Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "```suggestion\r\n        when resolving NS records for this purpose. Alternatively, a client might \r\n        perform DNSSEC validation for the NS query used for this purpose \r\n        even if it has disabled DNSSEC validation for other DNS queries.</t>\r\n```",
+              "createdAt": "2022-06-21T17:21:36Z",
+              "updatedAt": "2022-06-21T17:21:38Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "id": "PR_kwDOHbyYm846ILOD",
+      "title": "fix nit referring to two client behaviors",
+      "url": "https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority/pull/6",
+      "state": "OPEN",
+      "author": "danwing",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2022-06-22T14:44:33Z",
+      "updatedAt": "2022-06-22T15:40:37Z",
+      "baseRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "baseRefName": "main",
+      "baseRefOid": "1f64701c244273f547505f31e8bb9e15aeb74f79",
+      "headRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "headRefName": "danwing-nit-1",
+      "headRefOid": "a69203b66de7222b4734db42a1ab18975a880226",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHbyYm848hlaw",
+          "commit": {
+            "abbreviatedOid": "a69203b"
+          },
+          "author": "bemasc",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-22T15:39:52Z",
+          "updatedAt": "2022-06-22T15:39:59Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "```suggestion\r\n      them. Clients that strictly implement either of these resolution behaviors are out of scope for\r\n      this specification. Instead, this specification enables hybrid clients\r\n```",
+              "createdAt": "2022-06-22T15:39:52Z",
+              "updatedAt": "2022-06-22T15:40:37Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "id": "PR_kwDOHbyYm846IWE4",
+      "title": "Clarify the scope is not restricted to Enterprise Networks",
+      "url": "https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority/pull/7",
+      "state": "OPEN",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2022-06-22T15:10:45Z",
+      "updatedAt": "2022-06-22T16:45:45Z",
+      "baseRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "baseRefName": "main",
+      "baseRefOid": "1f64701c244273f547505f31e8bb9e15aeb74f79",
+      "headRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "headRefName": "main-1",
+      "headRefOid": "e71e20a9b870e20b2a5fd4265f4cf41535cbbdf3",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHbyYm848hi-N",
+          "commit": {
+            "abbreviatedOid": "e71e20a"
+          },
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-22T15:34:03Z",
+          "updatedAt": "2022-06-22T15:34:04Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "```suggestion\r\n      The protocol is applicable to any type of network offering\r\n```",
+              "createdAt": "2022-06-22T15:34:03Z",
+              "updatedAt": "2022-06-22T15:34:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHbyYm848iF9p",
+          "commit": {
+            "abbreviatedOid": "e71e20a"
+          },
+          "author": "bemasc",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-22T16:45:45Z",
+          "updatedAt": "2022-06-22T16:45:45Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "I think this should be a new paragraph.",
+              "createdAt": "2022-06-22T16:45:45Z",
+              "updatedAt": "2022-06-22T16:45:45Z"
+            }
+          ]
         }
       ]
     }
