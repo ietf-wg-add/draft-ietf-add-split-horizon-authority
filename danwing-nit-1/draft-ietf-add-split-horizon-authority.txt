@@ -5,12 +5,12 @@
 ADD                                                             T. Reddy
 Internet-Draft                                                    Akamai
 Intended status: Standards Track                                 D. Wing
-Expires: 24 December 2022                                         Citrix
+Expires: 25 December 2022                                         Citrix
                                                                 K. Smith
                                                                 Vodafone
                                                              B. Schwartz
                                                                   Google
-                                                            22 June 2022
+                                                            23 June 2022
 
 
      Establishing Local DNS Authority in Split-Horizon Environments
@@ -51,7 +51,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 24 December 2022.
+   This Internet-Draft will expire on 25 December 2022.
 
 Copyright Notice
 
@@ -126,11 +126,11 @@ Table of Contents
    the network-provided resolver, will always receive the split-horizon
    results.  Conversely, clients that send all queries to a different
    resolver or implement pure full resolution locally will never receive
-   them.  Clients with either resolution behavior are out of scope for
-   this specification.  Instead, this specification enables hybrid
-   clients to access split-horizon results from a network-provided
-   hybrid resolver, while using a different resolution method for some
-   or all other names.
+   them.  Clients that strictly implement either of these resolution
+   behaviors are out of scope for this specification.  Instead, this
+   specification enables hybrid clients to access split-horizon results
+   from a network-provided hybrid resolver, while using a different
+   resolution method for some or all other names.
 
    There are several existing mechanisms for a network to provide
    clients with "local domain hints", listing domain names that have
