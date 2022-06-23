@@ -5,12 +5,12 @@
 ADD                                                             T. Reddy
 Internet-Draft                                                    Akamai
 Intended status: Standards Track                                 D. Wing
-Expires: 24 December 2022                                         Citrix
+Expires: 25 December 2022                                         Citrix
                                                                 K. Smith
                                                                 Vodafone
                                                              B. Schwartz
                                                                   Google
-                                                            22 June 2022
+                                                            23 June 2022
 
 
      Establishing Local DNS Authority in Split-Horizon Environments
@@ -51,7 +51,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 24 December 2022.
+   This Internet-Draft will expire on 25 December 2022.
 
 Copyright Notice
 
@@ -185,6 +185,11 @@ Table of Contents
    domain.  The protocol does not support split-horizon views created by
    any other entity.  Thus, DNS filtering is not enabled by this
    protocol.
+
+   The protocol is applicable to any type of network offering split-
+   horizon DNS configuration.  The endpoint does not need any prior
+   configuration to confirm that a local domain hint was indeed
+   authorized by the domain.
 
 4.  Local Domain Hint Mechanisms
 
