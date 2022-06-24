@@ -1,0 +1,1985 @@
+<!DOCTYPE html>
+<html lang="en" class="Internet-Draft">
+<head>
+<meta charset="utf-8">
+<meta content="Common,Latin" name="scripts">
+<meta content="initial-scale=1.0" name="viewport">
+<title>Establishing Local DNS Authority in Split-Horizon Environments</title>
+<meta content="Tirumaleswar Reddy" name="author">
+<meta content="Dan Wing" name="author">
+<meta content="Kevin Smith" name="author">
+<meta content="Benjamin Schwartz" name="author">
+<meta content="
+       When split-horizon DNS is deployed by a network, certain domains can
+      be resolved authoritatively by the network-provided DNS resolver. DNS
+      clients that don't always use this resolver might wish to do so for
+      these domains. This specification describes how clients can confirm the
+      local resolver's authority over these domains. 
+    " name="description">
+<meta content="xml2rfc 3.12.10" name="generator">
+<meta content="draft-ietf-add-split-horizon-authority-latest" name="ietf.draft">
+<!-- Generator version information:
+  xml2rfc 3.12.10
+    Python 3.10.4
+    appdirs 1.4.4
+    ConfigArgParse 1.5.3
+    google-i18n-address 2.5.1
+    html5lib 1.1
+    intervaltree 3.1.0
+    Jinja2 2.11.3
+    kitchen 1.2.6
+    lxml 4.8.0
+    MarkupSafe 2.0.1
+    pycountry 20.7.3
+    pyflakes 2.4.0
+    PyYAML 6.0
+    requests 2.27.1
+    setuptools 59.4.0
+    six 1.16.0
+-->
+<link href="draft-ietf-add-split-horizon-authority.xml" rel="alternate" type="application/rfc+xml">
+<link href="#copyright" rel="license">
+<style type="text/css">@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Lora SemiBold'), local('Lora-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-semibold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  color-scheme: light dark;
+  --background-color: #fff;
+  --text-color: #222;
+  --title-color: #191919;
+  --link-color: #2a6496;
+  --highlight-color: #f9f9f9;
+  --line-color: #eee;
+  --pilcrow-weak: #ddd;
+  --pilcrow-strong: #bbb;
+  --small-font-size: 14.5px;
+  --font-mono: 'Oxygen Mono', monospace;
+  scrollbar-color: #bbb #eee;
+}
+body {
+  max-width: 600px;
+  margin: 75px auto;
+  padding: 0 5px;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  font: 16px/22px "Lora", serif;
+  scroll-behavior: smooth;
+}
+
+.ears {
+  display: none;
+}
+
+/* headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Cabin Condensed", sans-serif;
+  font-weight: 600;
+  margin: 0.8em 0 0.3em;
+  font-size-adjust: 0.5;
+  color: var(--title-color);
+}
+h1#title {
+  font-size: 32px;
+  line-height: 40px;
+  clear: both;
+}
+h1#title, h1#rfcnum {
+  margin: 1.5em 0 0.2em;
+}
+h1#rfcnum + h1#title {
+  margin: 0.2em 0;
+}
+
+h1, h2, h3 {
+  font-size: 22px;
+  line-height: 27px;
+}
+h4, h5, h6 {
+  font-size: 20px;
+  line-height: 24px;
+}
+
+/* general structure */
+.author {
+  padding-bottom: 0.3em;
+}
+#abstract+p {
+  font-size: 18px;
+  line-height: 24px;
+}
+#abstract+p code, #abstract+p samp, #abstract+p tt {
+  font-size: 16px;
+  line-height: 0;
+}
+
+p {
+  padding: 0;
+  margin: 0.5em 0;
+  text-align: left;
+}
+div {
+  margin: 0;
+}
+.alignRight.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignRight.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignRight {
+  margin: 1em 0;
+}
+.alignRight > *:first-child {
+  border: none;
+  margin: 0;
+  float: right;
+  clear: both;
+}
+.alignRight > *:nth-child(2) {
+  clear: both;
+  display: block;
+  border: none;
+}
+svg {
+  display: block;
+}
+/* font-family isn't space-separated, but =~ will have to do */
+svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
+  font-family: var(--font-mono);
+}
+.alignCenter.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignCenter.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignCenter {
+  margin: 1em 0;
+}
+.alignCenter > *:first-child {
+  border: none;
+  /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
+     support flexbox yet.
+  */
+  display: table;
+  margin: 0 auto;
+}
+
+/* lists */
+ol, ul {
+  padding: 0;
+  margin: 0 0 0.5em 2em;
+}
+:is(ol, ul) :is(ol, ul) {
+  margin-left: 1em;
+}
+li {
+  margin: 0 0 0.25em 0;
+}
+.ulCompact li {
+  margin: 0;
+}
+ul.empty, .ulEmpty {
+  list-style-type: none;
+}
+ul.empty li, .ulEmpty li {
+  margin-top: 0.5em;
+}
+:is(ul, ol).compact, .ulCompact, .olCompact {
+  line-height: 100%;
+  margin: 0 0 0 2em;
+}
+
+/* definition lists */
+dl {
+}
+dl > dt {
+  float: left;
+  margin-right: 1em;
+}
+dl > dd {
+  margin-bottom: .8em;
+  min-height: 1.3em;
+}
+:is(dl.compact, .dlCompact) > dd {
+  margin-bottom: 0em;
+}
+dl > dd > dl {
+  margin-top: 0.5em;
+  margin-bottom: 0em;
+}
+dd.break {
+  display: none;
+}
+
+/* links */
+a, a[href].selfRef:hover {
+  text-decoration: none;
+}
+a[href].selfRef {
+  color: var(--text-color);
+}
+a[href] {
+  color: var(--link-color);
+}
+a[href]:hover {
+  text-decoration: underline;
+}
+a[href].selfRef:hover {
+  background-color: var(--highlight-color);
+}
+a.xref {
+  white-space: nowrap;
+}
+
+/* Figures */
+tt, code, pre {
+  background-color: var(--highlight-color);
+  font: 14px/22px var(--font-mono);
+}
+tt, code {
+  /* changing the font for inline elements leads to different ascender
+     and descender heights; as we want to retain baseline alignment,
+     remove leading to avoid altering the final height of lines */
+  line-height: 0;
+}
+:is(h1, h2, h3, h4, h5, h6) :is(tt, code) {
+  font-size: 84%;
+}
+pre {
+  border: 1px solid var(--line-color);
+  font-size: 13.5px;
+  line-height: 16px;
+  letter-spacing: -0.2px;
+  margin: 5px;
+  padding: 5px;
+}
+img {
+  max-width: 100%;
+}
+figure {
+  margin: 0.5em 0;
+  padding: 0;
+}
+figure blockquote {
+  margin: 0.8em 0.4em 0.4em;
+}
+figcaption, caption {
+  font-style: italic;
+  margin: 0.5em 1.5em;
+  text-align: left;
+}
+@media screen {
+  /* Auto-collapse boilerplate. */
+  :is(#status-of-memo, #copyright) p {
+    margin: -2px 0;
+    max-height: 0;
+    transition: max-height 2s ease, margin 0.5s ease 0.5s;
+    overflow: hidden;
+  }
+  :is(#status-of-memo, #copyright):hover p,
+  :is(#status-of-memo, #copyright) h2:target ~ p {
+    margin: 0.5em 0;
+    max-height: 500px;
+    overflow: auto;
+  }
+  pre, svg {
+    display: inline-block;
+    overflow-x: auto;
+  }
+  pre {
+    max-width: 100%;
+    width: calc(100% - 22px - 1em);
+  }
+  svg {
+    max-width: calc(100% - 22px - 1em);
+  }
+  figure pre {
+    display: block;
+    width: calc(100% - 25px);
+  }
+  :is(pre, svg) + .pilcrow {
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding-bottom: 8px;
+  }
+}
+
+/* aside, blockquote */
+aside, blockquote {
+  margin-left: 0;
+  padding: 0 2em;
+  font-style: italic;
+}
+blockquote {
+  margin: 1em 0;
+}
+cite {
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+
+/* tables */
+table {
+  max-width: 100%;
+  margin: 0 0 1em;
+  border-collapse: collapse;
+}
+table.right {
+  margin-left: auto;
+}
+table.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+table.left {
+  margin-right: auto;
+}
+thead, tbody {
+  border: 1px solid var(--line-color);
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 5px 10px;
+}
+th {
+  background-color: var(--line-color);
+}
+:is(tr:nth-child(2n), thead+tbody > tr:nth-child(2n+1)) > td {
+  background-color: var(--background-color);
+}
+:is(tr:nth-child(2n+1), thead+tbody > tr:nth-child(2n)) > td {
+  background-color: var(--highlight-color);
+}
+table caption {
+  margin: 0;
+  padding: 3px 0 3px 1em;
+}
+table p {
+  margin: 0;
+}
+
+/* pilcrow */
+a.pilcrow {
+  margin-left: 3px;
+  opacity: 0.2;
+  user-select: none;
+}
+a.pilcrow[href] { color: var(--pilcrow-weak); }
+a.pilcrow[href]:hover { text-decoration: none; }
+@media not print {
+  :hover > a.pilcrow {
+    opacity: 1;
+  }
+  a.pilcrow[href]:hover {
+    color: var(--pilcrow-strong);
+    background-color: transparent;
+  }
+}
+@media print {
+  a.pilcrow {
+    display: none;
+  }
+}
+
+/* misc */
+hr {
+  border: 0;
+  border-top: 1px solid var(--line-color);
+}
+.bcp14 {
+  font-variant: small-caps;
+  font-weight: 600;
+  font-size: 14.5px;
+}
+.role {
+  font-variant: all-small-caps;
+}
+
+/* info block */
+#identifiers {
+  margin: 0;
+  font-size: var(--small-font-size);
+  line-height: 18px;
+  --identifier-width: 8em;
+}
+#identifiers dt {
+  width: var(--identifier-width);
+  margin: 0;
+  clear: left;
+  float: left;
+  text-align: right;
+}
+#identifiers dd {
+  margin: 0 0 0 calc(1em + var(--identifier-width));
+  min-width: 5em;
+}
+#identifiers .authors .author {
+  display: inline-block;
+  margin-right: 1.5em;
+}
+#identifiers .authors .org {
+  font-style: italic;
+}
+
+/* The prepared/rendered info at the very bottom of the page */
+.docInfo {
+  color: #999;
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 2em;
+}
+.docInfo .prepared {
+  float: left;
+}
+.docInfo .prepared {
+  float: right;
+}
+
+/* table of contents */
+#toc {
+  padding: 0.75em 0 2em 0;
+  margin-bottom: 1em;
+}
+#toc nav ul {
+  margin: 0 0.5em 0 0;
+  padding: 0;
+  list-style: none;
+}
+#toc nav li {
+  line-height: 1.3em;
+  margin: 0.75em 0;
+  padding-left: 1.2em;
+  text-indent: -1.2em;
+}
+#toc a.xref {
+  white-space: normal;
+}
+/* references */
+.references dt {
+  text-align: right;
+  font-weight: bold;
+  min-width: 7em;
+}
+.references dd {
+  margin-left: 8em;
+  overflow: auto;
+}
+
+.refInstance {
+  margin-bottom: 1.25em;
+}
+
+.references .ascii {
+  margin-bottom: 0.25em;
+}
+
+/* index */
+#rfc\.index\.index + ul {
+  margin-left: 0;
+}
+
+/* authors */
+address.vcard {
+  font-style: normal;
+  margin: 1em 0;
+}
+address.vcard .nameRole {
+  font-weight: 700;
+  margin-left: 0;
+}
+address.vcard .label {
+  margin: 0.5em 0;
+}
+address.vcard .type {
+  display: none;
+}
+.alternative-contact {
+  margin: 1.5em 0 1em;
+}
+hr.addr {
+  border-top: 1px dashed;
+  margin: 0;
+  color: #ddd;
+  max-width: calc(100% - 16px);
+}
+@media (min-width: 500px) {
+  #authors-addresses > section {
+    column-count: 2;
+    column-gap: 20px;
+  }
+  #authors-addresses > section > h2 {
+    column-span: all;
+  }
+  /* hack for break-inside: avoid-column */
+  #authors-addresses address {
+    display: inline-block;
+    break-inside: avoid-column;
+  }
+}
+
+.rfcEditorRemove p:first-of-type {
+  font-style: italic;
+}
+.cref {
+  background-color: rgba(249, 232, 105, 0.3);
+  padding: 2px 4px;
+}
+.crefSource {
+  font-style: italic;
+}
+/* alternative layout for smaller screens */
+@media screen and (max-width: 929px) {
+  #toc {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 0;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    opacity: 0.6;
+  }
+  #toc.active {
+      opacity: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 2px 0 2px 6px;
+    padding-right: 1em;
+    font-size: 18px;
+    line-height: 24px;
+    min-width: 190px;
+    text-align: right;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+  }
+  #toc h2::before { /* css hamburger */
+    float: right;
+    position: relative;
+    width: 1em;
+    height: 1px;
+    left: -164px;
+    margin: 8px 0 0 0;
+    background: white none repeat scroll 0 0;
+    box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+    content: "";
+  }
+  #toc nav {
+    display: none;
+    background-color: var(--background-color);
+    padding: 0.5em 1em 1em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    height: calc(100vh - 48px);
+    border-left: 1px solid #ddd;
+  }
+  #toc.active nav {
+    display: block;
+  }
+  /* Make the collapsed ToC header render white on gray also when it's a link */
+  #toc h2 a,
+  #toc h2 a:link,
+  #toc h2 a:focus,
+  #toc h2 a:hover,
+  #toc a.toplink,
+  #toc a.toplink:hover {
+    color: white;
+    background-color: #444;
+    text-decoration: none;
+  }
+  #toc a.toplink {
+    margin-top: 2px;
+  }
+}
+
+/* alternative layout for wide screens */
+@media screen and (min-width: 930px) {
+  body {
+    padding-right: 360px;
+    padding-right: calc(min(180px + 20%, 500px));
+  }
+  #toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 480px);
+    width: 312px;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 0.25em 1em 1em 0;
+  }
+  #toc nav {
+    display: block;
+    height: calc(90vh - 84px);
+    bottom: 0;
+    padding: 0.5em 0 2em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+  #toc nav > ul  {
+    margin-bottom: 2em;
+  }
+  #toc ul {
+    margin: 0 0 0 4px;
+    font-size: var(--small-font-size);
+  }
+  #toc ul :is(p, li) {
+    margin: 2px 0;
+    line-height: 22px;
+  }
+  img { /* future proofing */
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* pagination */
+@media print {
+  body {
+    width: 100%;
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  #n-copyright-notice {
+    border-bottom: none;
+  }
+  #toc, #n-introduction {
+    page-break-before: always;
+  }
+  #toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  figure, pre {
+    page-break-inside: avoid;
+  }
+  figure {
+    overflow: scroll;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  h2+*, h3+*, h4+*, h5+*, h6+* {
+    page-break-before: avoid;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 10pt;
+  }
+  table {
+    border: 1px solid #ddd;
+  }
+  td {
+    border-top: 1px solid #ddd;
+  }
+}
+
+@page :first {
+  padding-top: 0;
+  @top-left {
+    content: normal;
+    border: none;
+  }
+  @top-center {
+    content: normal;
+    border: none;
+  }
+  @top-right {
+    content: normal;
+    border: none;
+  }
+}
+
+@page {
+  size: A4;
+  margin-bottom: 45mm;
+  padding-top: 20px;
+}
+
+/* Changes introduced to fix issues found during implementation */
+
+/* Separate body from document info even without intervening H1 */
+section {
+  clear: both;
+}
+
+/* Top align author divs, to avoid names without organization dropping level with org names */
+.author {
+  vertical-align: top;
+}
+
+/* Style section numbers with more space between number and title */
+.section-number {
+  padding-right: 0.5em;
+}
+
+/* Add styling for a link in the ToC that points to the top of the document */
+a.toplink {
+  float: right;
+  margin: 8px 0.5em 0;
+}
+
+/* Fix the dl styling to match the RFC 7992 attributes */
+dl > dt,
+dl.dlParallel > dt {
+  float: left;
+  margin-right: 1em;
+}
+dl.dlNewline > dt {
+  float: none;
+}
+
+/* Provide styling for table cell text alignment */
+table .text-left {
+  text-align: left;
+}
+table .text-center {
+  text-align: center;
+}
+table .text-right {
+  text-align: right;
+}
+
+/* Make the alternative author contact information look less like just another
+   author, and group it closer with the primary author contact information */
+.alternative-contact {
+  margin: 0.5em 0 0.25em 0;
+}
+address .non-ascii {
+  margin: 0 0 0 2em;
+}
+
+/* With it being possible to set tables with alignment
+  left, center, and right, { width: 100%; } does not make sense */
+table {
+  width: auto;
+}
+
+/* Avoid reference text that sits in a block with very wide left margin,
+   because of a long floating dt label.*/
+.references dd {
+  overflow: visible;
+}
+
+/* Control caption placement */
+caption {
+  caption-side: bottom;
+}
+
+/* Limit the width of the author address vcard, so names in right-to-left
+   script don't end up on the other side of the page. */
+
+address.vcard {
+  max-width: 20em;
+  margin-right: auto;
+}
+
+/* For address alignment dependent on LTR or RTL scripts */
+address div.left {
+  text-align: left;
+}
+address div.right {
+  text-align: right;
+}
+
+/* Give the table caption label the same styling as the figcaption */
+
+@media print {
+  .toplink {
+    display: none;
+  }
+
+  /* avoid overwriting the top border line with the ToC header */
+  #toc {
+    padding-top: 1px;
+  }
+
+  /* Avoid page breaks inside dl and author address entries */
+  dd {
+    page-break-before: avoid;
+  }
+  .vcard {
+    page-break-inside: avoid;
+  }
+
+}
+
+/* Dark mode. */
+@media (prefers-color-scheme: dark) {
+:root {
+  --background-color: #121212;
+  --text-color: #f0f0f0;
+  --title-color: #fff;
+  --link-color: #4da4f0;
+  --highlight-color: #282828;
+  --line-color: #444;
+  --pilcrow-weak: #444;
+  --pilcrow-strong: #666;
+  scrollbar-color: #777 #333;
+}
+}
+
+/* SVG Trick: a prefix match works because only black and white are allowed */
+svg :is([stroke="black"], [stroke^="#000"]) {
+  stroke: var(--text-color);
+}
+svg :is([stroke="white"], [stroke^="#fff"]) {
+  stroke: var(--background-color);
+}
+svg :is([fill="black"], [fill^="#000"], :not([fill])) {
+  fill: var(--text-color);
+}
+svg :is([stroke="fill"], [fill^="#fff"]) {
+  fill: var(--background-color);
+}
+</style>
+
+</head>
+<body>
+<table class="ears">
+<thead><tr>
+<td class="left">Internet-Draft</td>
+<td class="center">Establishing Local DNS Authority</td>
+<td class="right">June 2022</td>
+</tr></thead>
+<tfoot><tr>
+<td class="left">Reddy, et al.</td>
+<td class="center">Expires 26 December 2022</td>
+<td class="right">[Page]</td>
+</tr></tfoot>
+</table>
+<div id="external-metadata" class="document-information"></div>
+<div id="internal-metadata" class="document-information">
+<dl id="identifiers">
+<dt class="label-workgroup">Workgroup:</dt>
+<dd class="workgroup">ADD</dd>
+<dt class="label-internet-draft">Internet-Draft:</dt>
+<dd class="internet-draft">draft-ietf-add-split-horizon-authority-latest</dd>
+<dt class="label-published">Published:</dt>
+<dd class="published">
+<time datetime="2022-06-24" class="published">24 June 2022</time>
+    </dd>
+<dt class="label-intended-status">Intended Status:</dt>
+<dd class="intended-status">Standards Track</dd>
+<dt class="label-expires">Expires:</dt>
+<dd class="expires"><time datetime="2022-12-26">26 December 2022</time></dd>
+<dt class="label-authors">Authors:</dt>
+<dd class="authors">
+<div class="author">
+      <div class="author-name">T. Reddy</div>
+<div class="org">Akamai</div>
+</div>
+<div class="author">
+      <div class="author-name">D. Wing</div>
+<div class="org">Citrix</div>
+</div>
+<div class="author">
+      <div class="author-name">K. Smith</div>
+<div class="org">Vodafone</div>
+</div>
+<div class="author">
+      <div class="author-name">B. Schwartz</div>
+<div class="org">Google</div>
+</div>
+</dd>
+</dl>
+</div>
+<h1 id="title">Establishing Local DNS Authority in Split-Horizon Environments</h1>
+<section id="section-abstract">
+      <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
+<p id="section-abstract-1">When split-horizon DNS is deployed by a network, certain domains can
+      be resolved authoritatively by the network-provided DNS resolver. DNS
+      clients that don't always use this resolver might wish to do so for
+      these domains. This specification describes how clients can confirm the
+      local resolver's authority over these domains.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+</section>
+<section class="note rfcEditorRemove" id="section-note.1">
+      <h2 id="name-discussion-venues">
+<a href="#name-discussion-venues" class="section-name selfRef">Discussion Venues</a>
+      </h2>
+<p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
+<p id="section-note.1-2">Discussion of this document takes place on the
+          Adaptive DNS Discovery Working Group mailing list (add@ietf.org),
+          which is archived at <span><a href="https://mailarchive.ietf.org/arch/browse/add/">https://mailarchive.ietf.org/arch/browse/add/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
+<p id="section-note.1-3">Source for this draft and an issue tracker can be found at
+          <span><a href="https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority">https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
+</section>
+<div id="status-of-memo">
+<section id="section-boilerplate.1">
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
+        </h2>
+<p id="section-boilerplate.1-1">
+        This Internet-Draft is submitted in full conformance with the
+        provisions of BCP 78 and BCP 79.<a href="#section-boilerplate.1-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-2">
+        Internet-Drafts are working documents of the Internet Engineering Task
+        Force (IETF). Note that other groups may also distribute working
+        documents as Internet-Drafts. The list of current Internet-Drafts is
+        at <span><a href="https://datatracker.ietf.org/drafts/current/">https://datatracker.ietf.org/drafts/current/</a></span>.<a href="#section-boilerplate.1-2" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-3">
+        Internet-Drafts are draft documents valid for a maximum of six months
+        and may be updated, replaced, or obsoleted by other documents at any
+        time. It is inappropriate to use Internet-Drafts as reference
+        material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-4">
+        This Internet-Draft will expire on 26 December 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="copyright">
+<section id="section-boilerplate.2">
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
+        </h2>
+<p id="section-boilerplate.2-1">
+            Copyright (c) 2022 IETF Trust and the persons identified as the
+            document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document. Code Components extracted from this
+            document must include Revised BSD License text as described in
+            Section 4.e of the Trust Legal Provisions and are provided without
+            warranty as described in the Revised BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="toc">
+<section id="section-toc.1">
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
+        </h2>
+<nav class="toc"><ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="xref">1</a>.  <a href="#name-introduction" class="xref">Introduction</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="xref">2</a>.  <a href="#name-terminology" class="xref">Terminology</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1" class="keepWithNext"><a href="#section-3" class="xref">3</a>.  <a href="#name-scope" class="xref">Scope</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="xref">4</a>.  <a href="#name-local-domain-hint-mechanism" class="xref">Local Domain Hint Mechanisms</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="xref">4.1</a>.  <a href="#name-dhcp-options" class="xref">DHCP Options</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="xref">4.2</a>.  <a href="#name-host-configuration" class="xref">Host Configuration</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3">
+                <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="xref">4.3</a>.  <a href="#name-provisioning-domains-dnszon" class="xref">Provisioning Domains dnsZones</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.4">
+                <p id="section-toc.1-1.4.2.4.1"><a href="#section-4.4" class="xref">4.4</a>.  <a href="#name-split-dns-configuration-for" class="xref">Split DNS Configuration for IKEv2</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="xref">5</a>.  <a href="#name-establishing-local-dns-auth" class="xref">Establishing Local DNS Authority</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="xref">6</a>.  <a href="#name-validating-authority-over-l" class="xref">Validating Authority over Local Domain Hints</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="xref">6.1</a>.  <a href="#name-using-a-pre-configured-exte" class="xref">Using a Pre-configured External Resolver</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
+                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="xref">6.2</a>.  <a href="#name-using-dnssec" class="xref">Using DNSSEC</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="xref">7</a>.  <a href="#name-examples-of-split-horizon-d" class="xref">Examples of Split-Horizon DNS Configuration</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1">
+                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="xref">7.1</a>.  <a href="#name-split-horizon-entire-zone" class="xref">Split-Horizon Entire Zone</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.1">
+                    <p id="section-toc.1-1.7.2.1.2.1.1"><a href="#section-7.1.1" class="xref">7.1.1</a>.  <a href="#name-verification-using-an-exter" class="xref">Verification using an external resolver</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.2">
+                    <p id="section-toc.1-1.7.2.1.2.2.1"><a href="#section-7.1.2" class="xref">7.1.2</a>.  <a href="#name-verification-using-dnssec" class="xref">Verification using DNSSEC</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.2">
+                <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="xref">7.2</a>.  <a href="#name-internal-only-subdomains" class="xref">Internal-only Subdomains</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="xref">8</a>.  <a href="#name-validation-with-ikev2" class="xref">Validation with IKEv2</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="xref">9</a>.  <a href="#name-security-considerations" class="xref">Security Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#section-10" class="xref">10</a>. <a href="#name-iana-considerations" class="xref">IANA Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
+            <p id="section-toc.1-1.11.1"><a href="#section-11" class="xref">11</a>. <a href="#name-acknowledgements" class="xref">Acknowledgements</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
+            <p id="section-toc.1-1.12.1"><a href="#section-12" class="xref">12</a>. <a href="#name-references" class="xref">References</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.1">
+                <p id="section-toc.1-1.12.2.1.1"><a href="#section-12.1" class="xref">12.1</a>.  <a href="#name-normative-references" class="xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.2">
+                <p id="section-toc.1-1.12.2.2.1"><a href="#section-12.2" class="xref">12.2</a>.  <a href="#name-informative-references" class="xref">Informative References</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
+            <p id="section-toc.1-1.13.1"><a href="#appendix-A" class="xref"></a><a href="#name-authors-addresses" class="xref">Authors' Addresses</a></p>
+</li>
+        </ul>
+</nav>
+</section>
+</div>
+<div id="intro">
+<section id="section-1">
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+      </h2>
+<p id="section-1-1">To resolve a DNS query, there are three essential behaviors that an
+      implementation can apply: (1) answer from a local database, (2) query
+      the relevant authorities and their parents, or (3) ask a server to query
+      those authorities and return the final answer. Implementations that use
+      these behaviors are called "authoritative nameservers", "full
+      resolvers", and "forwarders" (or "stub resolvers"). However, an
+      implementation can also implement a mixture of these behaviors,
+      depending on a local policy, for each query. We term such an
+      implementation a "hybrid resolver".<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">Most DNS resolvers are hybrids of some kind. For example, stub
+      resolvers frequently support a local "hosts file" that preempts query
+      forwarding, and most DNS forwarders and full resolvers can also serve
+      responses from a local zone file. Other standardized hybrid resolution
+      behaviors include <span><a href="#RFC8806" class="xref">Local Root</a> [<a href="#RFC8806" class="xref">RFC8806</a>]</span>, <span><a href="#RFC6762" class="xref">mDNS</a> [<a href="#RFC6762" class="xref">RFC6762</a>]</span>, and <span><a href="#RFC7686" class="xref">NXDOMAIN
+      synthesis for .onion</a> [<a href="#RFC7686" class="xref">RFC7686</a>]</span>.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">In many network environments, the network offers clients a DNS server
+      (e.g. DHCP OFFER, IPv6 Router Advertisement). Although this server is
+      formally specified as a recursive resolver (e.g. <span><a href="https://rfc-editor.org/rfc/rfc6106#section-5.1" class="relref">Section 5.1</a> of [<a href="#RFC6106" class="xref">RFC6106</a>]</span>), some networks provide a hybrid resolver
+      instead. If this resolver acts as an authoritative server for some
+      names, we say that the network has "split-horizon DNS", because those
+      names resolve in this way only from inside the network.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">Network clients that use pure stub resolution, sending all queries to
+      the network-provided resolver, will always receive the split-horizon
+      results. Conversely, clients that send all queries to a different
+      resolver or implement pure full resolution locally will never receive
+      them. Clients with either pure resolution behavior are out of scope for
+      this specification. Instead, this specification enables hybrid clients
+      to access split-horizon results from a network-provided hybrid resolver,
+      while using a different resolution method for some or all other
+      names.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-5">There are several existing mechanisms for a network to provide
+      clients with "local domain hints", listing domain names that have
+      special treatment in this network (<a href="#learning" class="xref">Section 4</a>).
+      However, none of the local domain hint mechanisms enable clients to
+      determine whether this special treatment is authorized by the domain
+      owner. Instead, these specifications require clients to make their own
+      determinations about whether to trust and rely on these hints.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-6">This specification describes a protocol between domains, networks,
+      and clients that allows the network to establish its authority over a
+      domain to a client (<a href="#establishing" class="xref">Section 5</a>). Clients can
+      use this protocol to confirm that a local domain hint was authorized by
+      the domain (<a href="#validating" class="xref">Section 6</a>), which might influence
+      its processing of that hint.<a href="#section-1-6" class="pilcrow">¶</a></p>
+<p id="section-1-7">This specification relies on securely identified local DNS servers
+      and globally valid NS records. Use of this specification is therefore
+      limited to servers that support authenticated encryption and
+      split-horizon DNS names that are properly rooted in the global DNS.<a href="#section-1-7" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="notation">
+<section id="section-2">
+      <h2 id="name-terminology">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-terminology" class="section-name selfRef">Terminology</a>
+      </h2>
+<p id="section-2-1">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>",
+      "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>", "<span class="bcp14">MAY</span>", and
+      "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as described in BCP 14
+      <span>[<a href="#RFC2119" class="xref">RFC2119</a>]</span><span>[<a href="#RFC8174" class="xref">RFC8174</a>]</span> when, and
+      only when, they appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<p id="section-2-2">This document makes use of the terms defined in <span>[<a href="#RFC8499" class="xref">RFC8499</a>]</span>, e.g. "Global DNS".  The following additional terms are
+      used throughout the document:<a href="#section-2-2" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-2-3">
+        <dt id="section-2-3.1">Encrypted DNS</dt>
+        <dd style="margin-left: 1.5em" id="section-2-3.2">A DNS protocol that provides an encrypted
+          channel between a DNS client and server (e.g., DoT, DoH, or DoQ).<a href="#section-2-3.2" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-3.3">Split-Horizon DNS</dt>
+        <dd style="margin-left: 1.5em" id="section-2-3.4">The DNS service provided by a resolver
+          that also acts as an authoritative server for some names, providing
+          resolution results that are meaningfully different from those in the
+          Global DNS. (See "Split DNS" in <span><a href="https://rfc-editor.org/rfc/rfc8499#section-6" class="relref">Section 6</a> of [<a href="#RFC8499" class="xref">RFC8499</a>]</span>.)<a href="#section-2-3.4" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-3.5">Validated Split-Horizon</dt>
+        <dd style="margin-left: 1.5em" id="section-2-3.6">A split horizon configuration for
+          some name is considered "validated" if the client has confirmed that
+          a parent of that name has authorized this resolver  to serve its own
+          responses for that name. Such authorization generally extends to the
+          entire subtree of names below the authorization point.<a href="#section-2-3.6" class="pilcrow">¶</a>
+</dd>
+      <dd class="break"></dd>
+</dl>
+</section>
+</div>
+<section id="section-3">
+      <h2 id="name-scope">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-scope" class="section-name selfRef">Scope</a>
+      </h2>
+<p id="section-3-1">The protocol in this document is designed to support the ability of
+      a domain owner to create or authorize a split-horizon view of their
+      domain. The protocol does not support split-horizon views created by
+      any other entity. Thus, DNS filtering is not enabled by this protocol.<a href="#section-3-1" class="pilcrow">¶</a></p>
+</section>
+<div id="learning">
+<section id="section-4">
+      <h2 id="name-local-domain-hint-mechanism">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-local-domain-hint-mechanism" class="section-name selfRef">Local Domain Hint Mechanisms</a>
+      </h2>
+<p id="section-4-1">There are various mechanisms by which a network client might learn
+      "local domain hints", which indicate a special treatment for particular
+      domain names upon joining a network. This section provides a review of
+      some common and standardized mechanisms for receiving domain hints.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<div id="dhcp">
+<section id="section-4.1">
+        <h3 id="name-dhcp-options">
+<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-dhcp-options" class="section-name selfRef">DHCP Options</a>
+        </h3>
+<p id="section-4.1-1">There are several DHCP options that convey local domain hints of
+        different kinds. The most directly relevant is <span><a href="#RFC6731" class="xref">RDNSS Selection</a> [<a href="#RFC6731" class="xref">RFC6731</a>]</span>, which provides "a list of domains ... about
+        which the RDNSS has special knowledge", along with a "High", "Medium",
+        or "Low" preference for each name. The specification notes the
+        difficulty of relying on these hints without validation:<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+<blockquote id="section-4.1-2">
+          <p id="section-4.1-2.1">Trustworthiness of an interface and configuration information
+            received over the interface is implementation and/or node
+            deployment dependent, and the details of determining that trust
+            are beyond the scope of this specification.<a href="#section-4.1-2.1" class="pilcrow">¶</a></p>
+</blockquote>
+<p id="section-4.1-3">Other local domain hints in DHCP include the <span><a href="#RFC2132" class="xref">"Domain Name"</a> [<a href="#RFC2132" class="xref">RFC2132</a>]</span>, <span><a href="#RFC5986" class="xref">"Access Network Domain Name"</a> [<a href="#RFC5986" class="xref">RFC5986</a>]</span>, "Client FQDN" <span>[<a href="#RFC4702" class="xref">RFC4702</a>]</span><span>[<a href="#RFC4704" class="xref">RFC4704</a>]</span>, and <span><a href="#RFC2937" class="xref">"Name Service Search"</a> [<a href="#RFC2937" class="xref">RFC2937</a>]</span> options. This
+        specification may help clients to interpret these hints. For example,
+        a rogue DHCP server could use the "Client FQDN" option to assign a
+        client the name "www.example.com" in order to prevent the client from
+        reaching the true "www.example.com". A client could use this
+        specification to check the network's authority over this name, and
+        adjust its behavior to avoid this attack if authority is not
+        established.<a href="#section-4.1-3" class="pilcrow">¶</a></p>
+<p id="section-4.1-4">The Domain Search option <span>[<a href="#RFC3397" class="xref">RFC3397</a>]</span><span>[<a href="#RFC3646" class="xref">RFC3646</a>]</span>, which offers clients a way to expand short
+        names into Fully Qualified Domain Names, is not a "local domain hint"
+        by this definition, because it does not modify the processing of any
+        specific domain. (The specification notes that this option can be a
+        "fruitful avenue of attack for a rogue DHCP server", and provides a
+        number of cautions against accepting it unconditionally.)<a href="#section-4.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="hostconfig">
+<section id="section-4.2">
+        <h3 id="name-host-configuration">
+<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-host-configuration" class="section-name selfRef">Host Configuration</a>
+        </h3>
+<p id="section-4.2-1">A host can be configured with DNS information when it joins a
+        network, including when it brings up VPN (which is also considered
+        joining a(n additional) network, detailed in <a href="#vpn" class="xref">Section 8</a>). Existing implementations determine the host has
+        joined a certain network via SSID, IP subnet assigned, DNS server IP
+        address or name, and other similar mechanisms. For example, one
+        existing implementation determines the host has joined an internal
+        network because the DHCP-assigned IP address belongs to the company's
+        IP range (as assigned by the regional IP addressing authority) and
+        the DHCP-advertised DNS IP address is one used by IT at that network.
+        Other mechanisms exist in other products but are not interesting to
+        this specification; rather what is interesting is this step to
+        determine "we have joined the internal corporate network" occurred and
+        the DNS server is configured as authoritative for certain DNS zones
+        (e.g., <code>*.example.com</code>).<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+<p id="section-4.2-2">Because a rogue network can simulate all or most of the above
+        characteristics, this specification details how to validate these
+        claims in <a href="#validating" class="xref">Section 6</a>.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="dnsZones">
+<section id="section-4.3">
+        <h3 id="name-provisioning-domains-dnszon">
+<a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-provisioning-domains-dnszon" class="section-name selfRef">Provisioning Domains dnsZones</a>
+        </h3>
+<p id="section-4.3-1">Provisioning Domains (PvDs) are defined in <span>[<a href="#RFC7556" class="xref">RFC7556</a>]</span> as sets of network configuration information
+        that clients can use to access networks, including rules for DNS
+        resolution and proxy configuration. The PvD Key "dnsZones" is defined
+        in <span>[<a href="#RFC8801" class="xref">RFC8801</a>]</span> as a list of "DNS zones searchable
+        and accessible" in this provisioning domain. Attempting to resolve
+        these names via another resolver might fail or return results that are
+        not correct for this network.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<section id="section-4.4">
+        <h3 id="name-split-dns-configuration-for">
+<a href="#section-4.4" class="section-number selfRef">4.4. </a><a href="#name-split-dns-configuration-for" class="section-name selfRef">Split DNS Configuration for IKEv2</a>
+        </h3>
+<p id="section-4.4-1">In IKEv2 VPNs, the INTERNAL_DNS_DOMAIN configuration attribute can
+        be used to indicate that a domain is "internal" to the VPN <span>[<a href="#RFC8598" class="xref">RFC8598</a>]</span>. To prevent abuse, the specification notes
+        various possible restrictions on the use of this attribute:<a href="#section-4.4-1" class="pilcrow">¶</a></p>
+<blockquote id="section-4.4-2">
+          <p id="section-4.4-2.1">If a client is configured by local policy to only accept a
+            limited set of INTERNAL_DNS_DOMAIN values, the client MUST ignore
+            any other INTERNAL_DNS_DOMAIN values.
+            (<span>[<a href="#RFC8598" class="xref">RFC8598</a>], <a href="https://rfc-editor.org/rfc/rfc8598#section-5" class="relref">Section 5</a></span>)<a href="#section-4.4-2.1" class="pilcrow">¶</a></p>
+<p id="section-4.4-2.2">IKE clients MAY want to require whitelisted domains for
+            Top-Level Domains (TLDs) and Second-Level Domains (SLDs) to
+            further prevent malicious DNS redirections for well-known
+            domains.
+            (<span>[<a href="#RFC8598" class="xref">RFC8598</a>], <a href="https://rfc-editor.org/rfc/rfc8598#section-9" class="relref">Section 9</a></span>)<a href="#section-4.4-2.2" class="pilcrow">¶</a></p>
+</blockquote>
+<p id="section-4.4-3"> Within these guidelines, a client could adopt a local policy
+        of accepting INTERNAL_DNS_DOMAIN values only when it can validate the
+        local DNS server's authority over those names as described in this
+        specification.<a href="#section-4.4-3" class="pilcrow">¶</a></p>
+</section>
+</section>
+</div>
+<div id="establishing">
+<section id="section-5">
+      <h2 id="name-establishing-local-dns-auth">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-establishing-local-dns-auth" class="section-name selfRef">Establishing Local DNS Authority</a>
+      </h2>
+<p id="section-5-1">To establish its authority over some DNS zone, a participating
+      network <span class="bcp14">MUST</span> offer one or more encrypted resolvers via DNR <span>[<a href="#I-D.ietf-add-dnr" class="xref">I-D.ietf-add-dnr</a>]</span> or an equivalent mechanism (see <a href="#vpn" class="xref">Section 8</a>). At least one of these resolvers' Authentication
+      Domain Names (ADNs) <span class="bcp14">MUST</span> appear in an NS record for that zone. This
+      arrangement establishes this resolver's authority over the zone.<a href="#section-5-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="validating">
+<section id="section-6">
+      <h2 id="name-validating-authority-over-l">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-validating-authority-over-l" class="section-name selfRef">Validating Authority over Local Domain Hints</a>
+      </h2>
+<p id="section-6-1">To validate the network's authority over a domain name, participating
+      clients <span class="bcp14">MUST</span> resolve the NS record for that name. If the resolution
+      result is NODATA, the client <span class="bcp14">MUST</span> remove the last label and repeat the
+      query until a response other than NODATA is received.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-2">Once the NS record has been resolved, the client <span class="bcp14">MUST</span> check if each
+      local encrypted resolver's Authentication Domain Name appears in the NS
+      record. The client <span class="bcp14">SHALL</span> regard each such resolver as authoritative for
+      the zone of this NS record.<a href="#section-6-2" class="pilcrow">¶</a></p>
+<p id="section-6-3">Each validation of authority applies only to the specific resolvers
+      whose names appear in the NS RRSet. If a network offers multiple
+      encrypted resolvers, each DNS entry may be authorized for a distinct
+      subset of the network-provided resolvers.<a href="#section-6-3" class="pilcrow">¶</a></p>
+<p id="section-6-4">A zone is termed a "Validated Split-Horizon zone" after successful
+      validation using a "tamperproof" NS resolution method, i.e. a method
+      that is not subject to interference by the local network operator. Two
+      possible tamperproof resolution methods are presented below.<a href="#section-6-4" class="pilcrow">¶</a></p>
+<div id="validating-external">
+<section id="section-6.1">
+        <h3 id="name-using-a-pre-configured-exte">
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-using-a-pre-configured-exte" class="section-name selfRef">Using a Pre-configured External Resolver</a>
+        </h3>
+<p id="section-6.1-1">This method applies only if the client is already configured with
+        a default resolution strategy that sends queries to a resolver outside
+        of the network over a secure transport.  That resolution strategy is
+        considered "tamperproof" because any actor who could modify the NS
+        response could already modify all of the user's other DNS responses.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.1-2">To ensure that this assumption holds, clients <span class="bcp14">MUST NOT</span>
+        relax the acceptance rules they would otherwise apply when using this
+        resolver. For example, if the client would check the AD bit or
+        validate RRSIGs locally when using this resolver, it must also do so
+        when resolving NS records for this purpose. Alternatively, a client might
+        perform DNSSEC validation for the NS query used for this purpose
+        even if it has disabled DNSSEC validation for other DNS queries.<a href="#section-6.1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="validating-dnssec">
+<section id="section-6.2">
+        <h3 id="name-using-dnssec">
+<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-using-dnssec" class="section-name selfRef">Using DNSSEC</a>
+        </h3>
+<p id="section-6.2-1">The client resolves the NS record using any resolution method of
+        its choice (e.g. querying one of the network-provided resolvers,
+        performing iterative resolution locally), and performs full DNSSEC
+        validation locally <span>[<a href="#RFC6698" class="xref">RFC6698</a>]</span>. The result is
+        processed based on its DNSSEC validation state (<span>[<a href="#RFC4035" class="xref">RFC4035</a>], <a href="https://rfc-editor.org/rfc/rfc4035#section-4.3" class="relref">Section 4.3</a></span>):<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-6.2-2.1">
+            <strong>Secure</strong>: The response is used for validation.<a href="#section-6.2-2.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal ulEmpty" id="section-6.2-2.2">
+            <strong>Bogus</strong> or <strong>Indeterminate</strong>: The response is rejected and
+            validation is considered to have failed.<a href="#section-6.2-2.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal ulEmpty" id="section-6.2-2.3">
+            <strong>Insecure</strong>: The client <span class="bcp14">SHOULD</span> retry the validation
+            process using a different method, such as the one in <a href="#validating-external" class="xref">Section 6.1</a>, to ensure compatibility with
+            unsigned names.<a href="#section-6.2-2.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+</section>
+</div>
+</section>
+</div>
+<section id="section-7">
+      <h2 id="name-examples-of-split-horizon-d">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-examples-of-split-horizon-d" class="section-name selfRef">Examples of Split-Horizon DNS Configuration</a>
+      </h2>
+<p id="section-7-1">Two examples are shown below. The first example shows a company
+      with an internal-only DNS server that claims the entire zone for that
+      company (e.g., <code>*.example.com</code>). In the second example, the
+      internal servers resolves only a
+      subdomain of the company's zone (e.g., <code>*.internal.example.com</code>).<a href="#section-7-1" class="pilcrow">¶</a></p>
+<div id="internal-only">
+<section id="section-7.1">
+        <h3 id="name-split-horizon-entire-zone">
+<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-split-horizon-entire-zone" class="section-name selfRef">Split-Horizon Entire Zone</a>
+        </h3>
+<p id="section-7.1-1">Consider an organization that operates "example.com", and runs a
+        different version of its global domain on its internal network. Today,
+        on the Internet it publishes two NS records, "ns1.example.com" and
+        "ns2.example.com".<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+<p id="section-7.1-2">First, the host and network both need to support one of the discovery
+        mechanisms described in <a href="#learning" class="xref">Section 4</a>. <a href="#fig-learn" class="xref">Figure 1</a>
+        shows discovery using DNR and PvD.<a href="#section-7.1-2" class="pilcrow">¶</a></p>
+<p id="section-7.1-3">Validation is then perfomed using either <span><a href="#example-verify-external" class="xref">an external resolver</a> (<a href="#example-verify-external" class="xref">Section 7.1.1</a>)</span> or <span><a href="#example-verify-dnssec" class="xref">DNSSEC</a> (<a href="#example-verify-dnssec" class="xref">Section 7.1.2</a>)</span>.<a href="#section-7.1-3" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-7.1-4.1">
+            <strong>Steps 1-2</strong>: The client determines the network's DNS
+            server (ns1.example.com) and Provisioning Domain (pvd.example.com)
+            using <span><a href="#I-D.ietf-add-dnr" class="xref">DNR</a> [<a href="#I-D.ietf-add-dnr" class="xref">I-D.ietf-add-dnr</a>]</span> and <span><a href="#RFC8801" class="xref">PvD</a> [<a href="#RFC8801" class="xref">RFC8801</a>]</span>, using one of DNR Router Solicitation,
+            DHCPv4, or DHCPv6.<a href="#section-7.1-4.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal ulEmpty" id="section-7.1-4.2">
+            <strong>Step 3-5</strong>: The client connects to ns1.example.com
+            using an encrypted transport as indicated in <span><a href="#I-D.ietf-add-dnr" class="xref">DNR</a> [<a href="#I-D.ietf-add-dnr" class="xref">I-D.ietf-add-dnr</a>]</span>, authenticating the server to
+            its name using TLS (<span>[<a href="#RFC8310" class="xref">RFC8310</a>], <a href="https://rfc-editor.org/rfc/rfc8310#section-8" class="relref">Section 8</a></span>), and
+            sends it a query for the address of <code>pvd.example.com</code>.<a href="#section-7.1-4.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal ulEmpty" id="section-7.1-4.3">
+            <p id="section-7.1-4.3.1"><strong>Steps 6-7</strong>: The client connects to the PvD server,
+            validates its certificate, and retrieves the provisioning domain
+            JSON information indicated by the associated PvD. The PvD
+            contains:<a href="#section-7.1-4.3.1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-7.1-4.3.2">
+<pre>  {
+    "identifier": "pvd.example.com",
+    "expires": "2020-05-23T06:00:00Z",
+    "prefixes": ["2001:db8:1::/48", "2001:db8:4::/48"],
+    "dnsZones": ["example.com"]
+  }</pre><a href="#section-7.1-4.3.2" class="pilcrow">¶</a>
+</div>
+<p id="section-7.1-4.3.3">The JSON keys "identifier", "expires", and "prefixes"
+            are defined in <span>[<a href="#RFC8801" class="xref">RFC8801</a>]</span>.<a href="#section-7.1-4.3.3" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<span id="name-learning-local-claims-of-dn"></span><div id="fig-learn">
+<figure id="figure-1">
+          <div class="alignLeft art-text artwork" id="section-7.1-5.1">
+<pre>
++---------+         +--------------------+  +------------+ +--------+
+| Client  |         | Network's          |  | Network    | | Router |
+|         |         | Encrypted Resolver |  | PvD Server | |        |
++---------+         +--------------------+  +------------+ +--------+
+   |                                     |         |            |
+   | Router Solicitation or              |         |            |
+   | DHCPv4/DHCPv6 (1)                   |         |            |
+   |-----------------------------------------------------------&gt;|
+   |                                     |         |            |
+   |  Response with DNR hostnames &amp;      |         |            |
+   |  PvD FQDN (2)                       |         |            |
+   |&lt;-----------------------------------------------------------|
+   | ----------------------------\       |         |            |
+   |-| now knows DNR hostnames &amp; |       |         |            |
+   | | PvD FQDN                  |       |         |            |
+   | |---------------------------/       |         |            |
+   |                                     |         |            |
+   | TLS connection to ns1.example.com (3)         |            |
+   |------------------------------------&gt;|         |            |
+   | ---------------------------\        |         |            |
+   |-| validate TLS certificate |        |         |            |
+   | |--------------------------|        |         |            |
+   |                                     |         |            |
+   | resolve pvd.example.com  (4)        |         |            |
+   |------------------------------------&gt;|         |            |
+   |                                     |         |            |
+   |            A or AAAA records (5)    |         |            |
+   |&lt;------------------------------------|         |            |
+   |                                     |         |            |
+   | https://pvd.example.com/.well-known/pvd (6)   |            |
+   |----------------------------------------------&gt;|            |
+   |                                     |         |            |
+   |  200 OK (JSON Additional Information) (7)     |            |
+   |&lt;----------------------------------------------|            |
+   | -----------------------\            |         |            |
+   |-| dnsZones=example.com |            |         |            |
+   | |----------------------|            |         |            |
+</pre>
+</div>
+<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
+<a href="#name-learning-local-claims-of-dn" class="selfRef">Learning Local Claims of DNS Authority</a>
+          </figcaption></figure>
+</div>
+<div id="example-verify-external">
+<section id="section-7.1.1">
+          <h4 id="name-verification-using-an-exter">
+<a href="#section-7.1.1" class="section-number selfRef">7.1.1. </a><a href="#name-verification-using-an-exter" class="section-name selfRef">Verification using an external resolver</a>
+          </h4>
+<p id="section-7.1.1-1">The figure below shows the steps performed to verify the local
+          claims of DNS authority using an external resolver.<a href="#section-7.1.1-1" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-7.1.1-2.1">
+              <strong>Steps 1-2</strong>: The client uses an encrypted DNS
+              connection to an external resolver (e.g., 1.1.1.1) to issue NS
+              queries for the domains in dnsZones. The NS lookup for
+              "example.com" will return "ns1.example.com" and
+              "ns2.example.com".<a href="#section-7.1.1-2.1" class="pilcrow">¶</a>
+</li>
+            <li class="normal ulEmpty" id="section-7.1.1-2.2">
+              <strong>Step 3</strong>: The network-provided DNS servers are
+              listed in the NS record for <code>example.com</code>, which was
+              retrieved from an external resolver over a secure transport,
+              so these ADNs are authorized. When the client connects using an
+              encrypted transport as indicated in <span><a href="#I-D.ietf-add-dnr" class="xref">DNR</a> [<a href="#I-D.ietf-add-dnr" class="xref">I-D.ietf-add-dnr</a>]</span>, it will authenticate
+              the server to its name using TLS (<span>[<a href="#RFC8310" class="xref">RFC8310</a>], <a href="https://rfc-editor.org/rfc/rfc8310#section-8" class="relref">Section 8</a></span>), and send queries to resolve
+              any names that fall within the dnsZones from PvD.<a href="#section-7.1.1-2.2" class="pilcrow">¶</a>
+</li>
+          </ul>
+<span id="name-verifying-claims-using-an-e"></span><figure id="figure-2">
+            <div class="alignLeft art-text artwork" id="section-7.1.1-3.1">
+<pre>
++---------+                  +--------------------+  +----------+
+| Client  |                  | Network's          |  | External |
+|         |                  | Encrypted Resolver |  | Resolver |
++---------+                  +--------------------+  +----------+
+     |                                          |         |
+     | TLS connection                           |         |
+     |---------------------------------------------------&gt;|
+     | ---------------------------\             |         |
+     |-| validate TLS certificate |             |         |
+     | |--------------------------|             |         |
+     |                                          |         |
+     | NS? example.com  (1)                     |         |
+     |---------------------------------------------------&gt;|
+     |                                          |         |
+     |  NS=ns1.example.com, ns2.example.com (2) |         |
+     |&lt;---------------------------------------------------|
+     | -------------------------------\         |         |
+     |-| both DNR ADNs are authorized |         |         |
+     | ----------------------\--------|         |         |
+     |-| finished validation |                  |         |
+     | |---------------------|                  |         |
+     |                                          |         |
+     |  use network-designated resolver         |         |
+     |  for example.com (3)                     |         |
+     |-----------------------------------------&gt;|         |
+     |                                          |         |
+</pre>
+</div>
+<figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
+<a href="#name-verifying-claims-using-an-e" class="selfRef">Verifying claims using an external resolver</a>
+            </figcaption></figure>
+</section>
+</div>
+<div id="example-verify-dnssec">
+<section id="section-7.1.2">
+          <h4 id="name-verification-using-dnssec">
+<a href="#section-7.1.2" class="section-number selfRef">7.1.2. </a><a href="#name-verification-using-dnssec" class="section-name selfRef">Verification using DNSSEC</a>
+          </h4>
+<p id="section-7.1.2-1">The figure below shows the steps performed to verify the local
+          claims of DNS authority using DNSSEC.<a href="#section-7.1.2-1" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-7.1.2-2.1">
+              <strong>Steps 1-2</strong>: The DNSSEC-validating client queries
+              the network encrypted resolver to issue NS queries for the
+              domains in dnsZones. The NS lookup for "example.com" will return
+              a signed response containing "ns1.example.com" and
+              "ns2.example.com". The client then performs full DNSSEC
+              validation locally.<a href="#section-7.1.2-2.1" class="pilcrow">¶</a>
+</li>
+            <li class="normal ulEmpty" id="section-7.1.2-2.2">
+              <strong>Step 3</strong>: The DNSSEC validation is successful and
+              the network-provided DNS servers are listed in the signed NS
+              record for <code>example.com</code>, so these ADNs are authorized.
+              When the client connects using an encrypted transport as indicated
+              in <span><a href="#I-D.ietf-add-dnr" class="xref">DNR</a> [<a href="#I-D.ietf-add-dnr" class="xref">I-D.ietf-add-dnr</a>]</span>, it will authenticate
+              the server to its name using TLS (<span>[<a href="#RFC8310" class="xref">RFC8310</a>], <a href="https://rfc-editor.org/rfc/rfc8310#section-8" class="relref">Section 8</a></span>), and send queries to resolve
+              any names that fall within the dnsZones from PvD.<a href="#section-7.1.2-2.2" class="pilcrow">¶</a>
+</li>
+          </ul>
+<span id="name-verifying-claims-using-dnss"></span><figure id="figure-3">
+            <div class="alignLeft art-text artwork" id="section-7.1.2-3.1">
+<pre>
++---------+                                    +--------------------+
+| Client  |                                    | Network's          |
+|         |                                    | Encrypted Resolver |
++---------+                                    +--------------------+
+  |                                                               |
+  | DNSSEC OK (DO), NS? example.com  (1)                          |
+  |--------------------------------------------------------------&gt;|
+  |                                                               |
+  | NS=ns1.example.com,ns2.example.com, Signed Answer (RRSIG) (2) |
+  |&lt;--------------------------------------------------------------|
+  | -----------------------------------\                          |
+  |-| DNSKEY+NS matches RRSIG, use NS  |                          |
+  | |----------------------------------|                          |
+  | -------------------------------\                              |
+  |-| both DNR ADNs are authorized |                              |
+  | |------------------------------|                              |
+  | ----------------------\                                       |
+  |-| finished validation |                                       |
+  | |---------------------|                                       |
+  |                                                               |
+  | use encrypted network-designated resolver for example.com (3) |
+  |--------------------------------------------------------------&gt;|
+  |                                                               |
+</pre>
+</div>
+<figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
+<a href="#name-verifying-claims-using-dnss" class="selfRef">Verifying claims using DNSSEC</a>
+            </figcaption></figure>
+</section>
+</div>
+</section>
+</div>
+<section id="section-7.2">
+        <h3 id="name-internal-only-subdomains">
+<a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-internal-only-subdomains" class="section-name selfRef">Internal-only Subdomains</a>
+        </h3>
+<p id="section-7.2-1">In many split-horizon deployments, all non-public domain names are
+        placed in a separate child zone (e.g., <code>internal.example.com</code>).
+        In this configuration, the message flow is similar to <a href="#internal-only" class="xref">Section 7.1</a>, except that queries for hosts not within the
+        subdomain (e.g., <code>www.example.com</code>) are sent to the
+        external resolver rather than resolver for internal.example.com.<a href="#section-7.2-1" class="pilcrow">¶</a></p>
+<p id="section-7.2-2">As in <a href="#internal-only" class="xref">Section 7.1</a>, the internal DNS
+        server will need a certificate signed by a CA trusted by the
+        client.<a href="#section-7.2-2" class="pilcrow">¶</a></p>
+</section>
+</section>
+<div id="vpn">
+<section id="section-8">
+      <h2 id="name-validation-with-ikev2">
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-validation-with-ikev2" class="section-name selfRef">Validation with IKEv2</a>
+      </h2>
+<p id="section-8-1">When the VPN tunnel is IPsec, the encrypted DNS resolver hosted by
+      the VPN service provider can be securely discovered by the endpoint
+      using the ENCDNS_IP*_* IKEv2 Configuration Payload Attribute Types
+      defined in <span>[<a href="#I-D.ietf-ipsecme-add-ike" class="xref">I-D.ietf-ipsecme-add-ike</a>]</span>.<a href="#section-8-1" class="pilcrow">¶</a></p>
+<p id="section-8-2">Other VPN tunnel types have similar configuration capabilities, not
+      detailed here.<a href="#section-8-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="Security">
+<section id="section-9">
+      <h2 id="name-security-considerations">
+<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-9-1">This specification does not alter DNSSEC validation behaviour. To
+      ensure compatibility with validating clients, network operators <span class="bcp14">MUST</span>
+      ensure that names under the split-horizon are correctly signed or place
+      them in an unsigned zone.<a href="#section-9-1" class="pilcrow">¶</a></p>
+<p id="section-9-2">If an internal zone name (e.g., <code>internal.example.com</code>) is used with
+      this specification and a public certificate is obtained
+      for validation, that internal zone name will exist in Certificate Transparency
+      logs <span>[<a href="#RFC9162" class="xref">RFC9162</a>]</span>. In order to not leak the internal domains to
+      an external resolver, the internal domains can be kept in a child zone of the
+      local domain hints advertised by the network. For example, if the PvD "dnsZones"
+      entry is "internal.example.com" and the network-provided DNS resolver is
+      "ns1.internal.example.com", the network operator can structure the internal
+      domain names as "private1.internal.example.com", "private2.internal.example.com",
+      etc. The network-designated resolver will be used to resolve the subdomains of
+      the local domain hint "*.internal.example.com". Further, adversaries that monitor
+      a network such as through passive monitoring or active probing of protocols,
+      such as DHCP will only learn the local domain hints but not the internal domains.
+      However, security by obscurity may not maintain or increase the security of the
+      internal domain names, they may be leaked due to various other reasons
+      (e.g., browser reload).<a href="#section-9-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="IANA">
+<section id="section-10">
+      <h2 id="name-iana-considerations">
+<a href="#section-10" class="section-number selfRef">10. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      </h2>
+<p id="section-10-1">This document has no IANA actions.<a href="#section-10-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<section id="section-11">
+      <h2 id="name-acknowledgements">
+<a href="#section-11" class="section-number selfRef">11. </a><a href="#name-acknowledgements" class="section-name selfRef">Acknowledgements</a>
+      </h2>
+<p id="section-11-1">Thanks to Mohamed Boucadair, Jim Reid, Tommy Pauly, Paul Vixie, Paul
+      Wouters, Michael Richardson and Vinny Parla for the discussion and comments.<a href="#section-11-1" class="pilcrow">¶</a></p>
+</section>
+<section id="section-12">
+      <h2 id="name-references">
+<a href="#section-12" class="section-number selfRef">12. </a><a href="#name-references" class="section-name selfRef">References</a>
+      </h2>
+<section id="section-12.1">
+        <h3 id="name-normative-references">
+<a href="#section-12.1" class="section-number selfRef">12.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+        </h3>
+<dl class="references">
+<dt id="RFC2119">[RFC2119]</dt>
+        <dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC4035">[RFC4035]</dt>
+        <dd>
+<span class="refAuthor">Arends, R.</span>, <span class="refAuthor">Austein, R.</span>, <span class="refAuthor">Larson, M.</span>, <span class="refAuthor">Massey, D.</span>, and <span class="refAuthor">S. Rose</span>, <span class="refTitle">"Protocol Modifications for the DNS Security Extensions"</span>, <span class="seriesInfo">RFC 4035</span>, <span class="seriesInfo">DOI 10.17487/RFC4035</span>, <time datetime="2005-03" class="refDate">March 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4035">https://www.rfc-editor.org/info/rfc4035</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6698">[RFC6698]</dt>
+        <dd>
+<span class="refAuthor">Hoffman, P.</span> and <span class="refAuthor">J. Schlyter</span>, <span class="refTitle">"The DNS-Based Authentication of Named Entities (DANE) Transport Layer Security (TLS) Protocol: TLSA"</span>, <span class="seriesInfo">RFC 6698</span>, <span class="seriesInfo">DOI 10.17487/RFC6698</span>, <time datetime="2012-08" class="refDate">August 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6698">https://www.rfc-editor.org/info/rfc6698</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6762">[RFC6762]</dt>
+        <dd>
+<span class="refAuthor">Cheshire, S.</span> and <span class="refAuthor">M. Krochmal</span>, <span class="refTitle">"Multicast DNS"</span>, <span class="seriesInfo">RFC 6762</span>, <span class="seriesInfo">DOI 10.17487/RFC6762</span>, <time datetime="2013-02" class="refDate">February 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6762">https://www.rfc-editor.org/info/rfc6762</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8174">[RFC8174]</dt>
+        <dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8174">https://www.rfc-editor.org/info/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8801">[RFC8801]</dt>
+      <dd>
+<span class="refAuthor">Pfister, P.</span>, <span class="refAuthor">Vyncke, Ã.</span>, <span class="refAuthor">Pauly, T.</span>, <span class="refAuthor">Schinazi, D.</span>, and <span class="refAuthor">W. Shao</span>, <span class="refTitle">"Discovering Provisioning Domain Names and Data"</span>, <span class="seriesInfo">RFC 8801</span>, <span class="seriesInfo">DOI 10.17487/RFC8801</span>, <time datetime="2020-07" class="refDate">July 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8801">https://www.rfc-editor.org/info/rfc8801</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+<section id="section-12.2">
+        <h3 id="name-informative-references">
+<a href="#section-12.2" class="section-number selfRef">12.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+        </h3>
+<dl class="references">
+<dt id="I-D.ietf-add-dnr">[I-D.ietf-add-dnr]</dt>
+        <dd>
+<span class="refAuthor">Boucadair, M.</span>, <span class="refAuthor">Reddy, T.</span>, <span class="refAuthor">Wing, D.</span>, <span class="refAuthor">Cook, N.</span>, and <span class="refAuthor">T. Jensen</span>, <span class="refTitle">"DHCP and Router Advertisement Options for the Discovery of Network-designated Resolvers (DNR)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-add-dnr-08</span>, <time datetime="2022-06-12" class="refDate">12 June 2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-add-dnr-08">https://datatracker.ietf.org/doc/html/draft-ietf-add-dnr-08</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.ietf-ipsecme-add-ike">[I-D.ietf-ipsecme-add-ike]</dt>
+        <dd>
+<span class="refAuthor">Boucadair, M.</span>, <span class="refAuthor">Reddy, T.</span>, <span class="refAuthor">Wing, D.</span>, and <span class="refAuthor">V. Smyslov</span>, <span class="refTitle">"Internet Key Exchange Protocol Version 2 (IKEv2) Configuration for Encrypted DNS"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-ipsecme-add-ike-02</span>, <time datetime="2022-04-26" class="refDate">26 April 2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-ipsecme-add-ike-02">https://datatracker.ietf.org/doc/html/draft-ietf-ipsecme-add-ike-02</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC2132">[RFC2132]</dt>
+        <dd>
+<span class="refAuthor">Alexander, S.</span> and <span class="refAuthor">R. Droms</span>, <span class="refTitle">"DHCP Options and BOOTP Vendor Extensions"</span>, <span class="seriesInfo">RFC 2132</span>, <span class="seriesInfo">DOI 10.17487/RFC2132</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2132">https://www.rfc-editor.org/info/rfc2132</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC2937">[RFC2937]</dt>
+        <dd>
+<span class="refAuthor">Smith, C.</span>, <span class="refTitle">"The Name Service Search Option for DHCP"</span>, <span class="seriesInfo">RFC 2937</span>, <span class="seriesInfo">DOI 10.17487/RFC2937</span>, <time datetime="2000-09" class="refDate">September 2000</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2937">https://www.rfc-editor.org/info/rfc2937</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC3397">[RFC3397]</dt>
+        <dd>
+<span class="refAuthor">Aboba, B.</span> and <span class="refAuthor">S. Cheshire</span>, <span class="refTitle">"Dynamic Host Configuration Protocol (DHCP) Domain Search Option"</span>, <span class="seriesInfo">RFC 3397</span>, <span class="seriesInfo">DOI 10.17487/RFC3397</span>, <time datetime="2002-11" class="refDate">November 2002</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc3397">https://www.rfc-editor.org/info/rfc3397</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC3646">[RFC3646]</dt>
+        <dd>
+<span class="refAuthor">Droms, R., Ed.</span>, <span class="refTitle">"DNS Configuration options for Dynamic Host Configuration Protocol for IPv6 (DHCPv6)"</span>, <span class="seriesInfo">RFC 3646</span>, <span class="seriesInfo">DOI 10.17487/RFC3646</span>, <time datetime="2003-12" class="refDate">December 2003</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc3646">https://www.rfc-editor.org/info/rfc3646</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC4702">[RFC4702]</dt>
+        <dd>
+<span class="refAuthor">Stapp, M.</span>, <span class="refAuthor">Volz, B.</span>, and <span class="refAuthor">Y. Rekhter</span>, <span class="refTitle">"The Dynamic Host Configuration Protocol (DHCP) Client Fully Qualified Domain Name (FQDN) Option"</span>, <span class="seriesInfo">RFC 4702</span>, <span class="seriesInfo">DOI 10.17487/RFC4702</span>, <time datetime="2006-10" class="refDate">October 2006</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4702">https://www.rfc-editor.org/info/rfc4702</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC4704">[RFC4704]</dt>
+        <dd>
+<span class="refAuthor">Volz, B.</span>, <span class="refTitle">"The Dynamic Host Configuration Protocol for IPv6 (DHCPv6) Client Fully Qualified Domain Name (FQDN) Option"</span>, <span class="seriesInfo">RFC 4704</span>, <span class="seriesInfo">DOI 10.17487/RFC4704</span>, <time datetime="2006-10" class="refDate">October 2006</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4704">https://www.rfc-editor.org/info/rfc4704</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5986">[RFC5986]</dt>
+        <dd>
+<span class="refAuthor">Thomson, M.</span> and <span class="refAuthor">J. Winterbottom</span>, <span class="refTitle">"Discovering the Local Location Information Server (LIS)"</span>, <span class="seriesInfo">RFC 5986</span>, <span class="seriesInfo">DOI 10.17487/RFC5986</span>, <time datetime="2010-09" class="refDate">September 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5986">https://www.rfc-editor.org/info/rfc5986</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6106">[RFC6106]</dt>
+        <dd>
+<span class="refAuthor">Jeong, J.</span>, <span class="refAuthor">Park, S.</span>, <span class="refAuthor">Beloeil, L.</span>, and <span class="refAuthor">S. Madanapalli</span>, <span class="refTitle">"IPv6 Router Advertisement Options for DNS Configuration"</span>, <span class="seriesInfo">RFC 6106</span>, <span class="seriesInfo">DOI 10.17487/RFC6106</span>, <time datetime="2010-11" class="refDate">November 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6106">https://www.rfc-editor.org/info/rfc6106</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6731">[RFC6731]</dt>
+        <dd>
+<span class="refAuthor">Savolainen, T.</span>, <span class="refAuthor">Kato, J.</span>, and <span class="refAuthor">T. Lemon</span>, <span class="refTitle">"Improved Recursive DNS Server Selection for Multi-Interfaced Nodes"</span>, <span class="seriesInfo">RFC 6731</span>, <span class="seriesInfo">DOI 10.17487/RFC6731</span>, <time datetime="2012-12" class="refDate">December 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6731">https://www.rfc-editor.org/info/rfc6731</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7556">[RFC7556]</dt>
+        <dd>
+<span class="refAuthor">Anipko, D., Ed.</span>, <span class="refTitle">"Multiple Provisioning Domain Architecture"</span>, <span class="seriesInfo">RFC 7556</span>, <span class="seriesInfo">DOI 10.17487/RFC7556</span>, <time datetime="2015-06" class="refDate">June 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7556">https://www.rfc-editor.org/info/rfc7556</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7686">[RFC7686]</dt>
+        <dd>
+<span class="refAuthor">Appelbaum, J.</span> and <span class="refAuthor">A. Muffett</span>, <span class="refTitle">"The ".onion" Special-Use Domain Name"</span>, <span class="seriesInfo">RFC 7686</span>, <span class="seriesInfo">DOI 10.17487/RFC7686</span>, <time datetime="2015-10" class="refDate">October 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7686">https://www.rfc-editor.org/info/rfc7686</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8310">[RFC8310]</dt>
+        <dd>
+<span class="refAuthor">Dickinson, S.</span>, <span class="refAuthor">Gillmor, D.</span>, and <span class="refAuthor">T. Reddy</span>, <span class="refTitle">"Usage Profiles for DNS over TLS and DNS over DTLS"</span>, <span class="seriesInfo">RFC 8310</span>, <span class="seriesInfo">DOI 10.17487/RFC8310</span>, <time datetime="2018-03" class="refDate">March 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8310">https://www.rfc-editor.org/info/rfc8310</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8499">[RFC8499]</dt>
+        <dd>
+<span class="refAuthor">Hoffman, P.</span>, <span class="refAuthor">Sullivan, A.</span>, and <span class="refAuthor">K. Fujiwara</span>, <span class="refTitle">"DNS Terminology"</span>, <span class="seriesInfo">BCP 219</span>, <span class="seriesInfo">RFC 8499</span>, <span class="seriesInfo">DOI 10.17487/RFC8499</span>, <time datetime="2019-01" class="refDate">January 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8499">https://www.rfc-editor.org/info/rfc8499</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8598">[RFC8598]</dt>
+        <dd>
+<span class="refAuthor">Pauly, T.</span> and <span class="refAuthor">P. Wouters</span>, <span class="refTitle">"Split DNS Configuration for the Internet Key Exchange Protocol Version 2 (IKEv2)"</span>, <span class="seriesInfo">RFC 8598</span>, <span class="seriesInfo">DOI 10.17487/RFC8598</span>, <time datetime="2019-05" class="refDate">May 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8598">https://www.rfc-editor.org/info/rfc8598</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8806">[RFC8806]</dt>
+        <dd>
+<span class="refAuthor">Kumari, W.</span> and <span class="refAuthor">P. Hoffman</span>, <span class="refTitle">"Running a Root Server Local to a Resolver"</span>, <span class="seriesInfo">RFC 8806</span>, <span class="seriesInfo">DOI 10.17487/RFC8806</span>, <time datetime="2020-06" class="refDate">June 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8806">https://www.rfc-editor.org/info/rfc8806</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9162">[RFC9162]</dt>
+      <dd>
+<span class="refAuthor">Laurie, B.</span>, <span class="refAuthor">Messeri, E.</span>, and <span class="refAuthor">R. Stradling</span>, <span class="refTitle">"Certificate Transparency Version 2.0"</span>, <span class="seriesInfo">RFC 9162</span>, <span class="seriesInfo">DOI 10.17487/RFC9162</span>, <time datetime="2021-12" class="refDate">December 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc9162">https://www.rfc-editor.org/info/rfc9162</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</section>
+<div id="authors-addresses">
+<section id="appendix-A">
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Tirumaleswar Reddy</span></div>
+<div dir="auto" class="left"><span class="org">Akamai</span></div>
+<div dir="auto" class="left"><span class="street-address">Embassy Golf Link Business Park</span></div>
+<div dir="auto" class="left">
+<span class="locality">Bangalore</span> <span class="postal-code">560071</span>
+</div>
+<div dir="auto" class="left"><span class="region">Karnataka</span></div>
+<div dir="auto" class="left"><span class="country-name">India</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:kondtir@gmail.com" class="email">kondtir@gmail.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Dan Wing</span></div>
+<div dir="auto" class="left"><span class="org">Citrix Systems, Inc.</span></div>
+<div dir="auto" class="left"><span class="street-address">4988 Great America Pkwy</span></div>
+<div dir="auto" class="left">
+<span class="locality">Santa Clara</span>, <span class="region">CA</span> <span class="postal-code">95054</span>
+</div>
+<div dir="auto" class="left"><span class="country-name">United States of America</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:danwing@gmail.com" class="email">danwing@gmail.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Kevin Smith</span></div>
+<div dir="auto" class="left"><span class="org">Vodafone Group</span></div>
+<div dir="auto" class="left"><span class="street-address">One Kingdom Street</span></div>
+<div dir="auto" class="left"><span class="locality">London</span></div>
+<div dir="auto" class="left"><span class="country-name">United Kingdom</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:kevin.smith@vodafone.com" class="email">kevin.smith@vodafone.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Benjamin Schwartz</span></div>
+<div dir="auto" class="left"><span class="org">Google LLC</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:bemasc@google.com" class="email">bemasc@google.com</a>
+</div>
+</address>
+</section>
+</div>
+<script>const toc = document.getElementById("toc");
+toc.querySelector("h2").addEventListener("click", e => {
+  toc.classList.toggle("active");
+});
+toc.querySelector("nav").addEventListener("click", e => {
+  toc.classList.remove("active");
+});
+</script>
+</body>
+</html>
