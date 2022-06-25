@@ -5,12 +5,12 @@
 ADD                                                             T. Reddy
 Internet-Draft                                                    Akamai
 Intended status: Standards Track                                 D. Wing
-Expires: 26 December 2022                                         Citrix
+Expires: 27 December 2022                                         Citrix
                                                                 K. Smith
                                                                 Vodafone
                                                              B. Schwartz
                                                                   Google
-                                                            24 June 2022
+                                                            25 June 2022
 
 
      Establishing Local DNS Authority in Split-Horizon Environments
@@ -51,7 +51,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 December 2022.
+   This Internet-Draft will expire on 27 December 2022.
 
 Copyright Notice
 
@@ -389,7 +389,7 @@ Table of Contents
           "identifier": "pvd.example.com",
           "expires": "2020-05-23T06:00:00Z",
           "prefixes": ["2001:db8:1::/48", "2001:db8:4::/48"],
-          "dnsZones:": ["example.com"]
+          "dnsZones": ["example.com"]
         }
 
       The JSON keys "identifier", "expires", and "prefixes" are defined
@@ -559,10 +559,21 @@ Table of Contents
    If an internal zone name (e.g., internal.example.com) is used with
    this specification and a public certificate is obtained for
    validation, that internal zone name will exist in Certificate
-   Transparency logs [RFC9162].  It should be noted, however, that this
-   specification does not leak individual host names (e.g.,
-   www.internal.example.com) into the Certificate Transparency logs or
-   to external DNS resolvers.
+   Transparency logs [RFC9162].  In order to not leak the internal
+   domains to an external resolver, the internal domains can be kept in
+   a child zone of the local domain hints advertised by the network.
+   For example, if the PvD "dnsZones" entry is "internal.example.com"
+   and the network-provided DNS resolver is "ns1.internal.example.com",
+   the network operator can structure the internal domain names as
+   "private1.internal.example.com", "private2.internal.example.com",
+   etc.  The network-designated resolver will be used to resolve the
+   subdomains of the local domain hint "*.internal.example.com".
+   Further, adversaries that monitor a network such as through passive
+   monitoring or active probing of protocols, such as DHCP will only
+   learn the local domain hints but not learn the labels below
+   internal.example.com.  However, security by obscurity may not
+   maintain or increase the security of the internal domain names, as
+   they may be leaked in various other ways (e.g., browser reload).
 
 10.  IANA Considerations
 
@@ -571,7 +582,8 @@ Table of Contents
 11.  Acknowledgements
 
    Thanks to Mohamed Boucadair, Jim Reid, Tommy Pauly, Paul Vixie, Paul
-   Wouters and Vinny Parla for the discussion and comments.
+   Wouters, Michael Richardson and Vinny Parla for the discussion and
+   comments.
 
 12.  References
 
@@ -611,9 +623,9 @@ Table of Contents
               Boucadair, M., Reddy, T., Wing, D., Cook, N., and T.
               Jensen, "DHCP and Router Advertisement Options for the
               Discovery of Network-designated Resolvers (DNR)", Work in
-              Progress, Internet-Draft, draft-ietf-add-dnr-08, 12 June
+              Progress, Internet-Draft, draft-ietf-add-dnr-09, 24 June
               2022, <https://datatracker.ietf.org/doc/html/draft-ietf-
-              add-dnr-08>.
+              add-dnr-09>.
 
    [I-D.ietf-ipsecme-add-ike]
               Boucadair, M., Reddy, T., Wing, D., and V. Smyslov,
