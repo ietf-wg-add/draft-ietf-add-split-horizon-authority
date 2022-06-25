@@ -570,10 +570,10 @@ Table of Contents
    subdomains of the local domain hint "*.internal.example.com".
    Further, adversaries that monitor a network such as through passive
    monitoring or active probing of protocols, such as DHCP will only
-   learn the local domain hints but not the internal domains.  However,
-   security by obscurity may not maintain or increase the security of
-   the internal domain names, as they may be leaked in various other
-   ways (e.g., browser reload).
+   learn the local domain hints but not learn the labels below
+   internal.example.com.  However, security by obscurity may not
+   maintain or increase the security of the internal domain names, as
+   they may be leaked in various other ways (e.g., browser reload).
 
 10.  IANA Considerations
 
