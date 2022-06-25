@@ -5,12 +5,12 @@
 ADD                                                             T. Reddy
 Internet-Draft                                                    Akamai
 Intended status: Standards Track                                 D. Wing
-Expires: 26 December 2022                                         Citrix
+Expires: 27 December 2022                                         Citrix
                                                                 K. Smith
                                                                 Vodafone
                                                              B. Schwartz
                                                                   Google
-                                                            24 June 2022
+                                                            25 June 2022
 
 
      Establishing Local DNS Authority in Split-Horizon Environments
@@ -51,7 +51,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 December 2022.
+   This Internet-Draft will expire on 27 December 2022.
 
 Copyright Notice
 
@@ -572,8 +572,8 @@ Table of Contents
    monitoring or active probing of protocols, such as DHCP will only
    learn the local domain hints but not the internal domains.  However,
    security by obscurity may not maintain or increase the security of
-   the internal domain names, they may be leaked due to various other
-   reasons (e.g., browser reload).
+   the internal domain names, as they may be leaked in various other
+   ways (e.g., browser reload).
 
 10.  IANA Considerations
 
@@ -623,9 +623,9 @@ Table of Contents
               Boucadair, M., Reddy, T., Wing, D., Cook, N., and T.
               Jensen, "DHCP and Router Advertisement Options for the
               Discovery of Network-designated Resolvers (DNR)", Work in
-              Progress, Internet-Draft, draft-ietf-add-dnr-08, 12 June
+              Progress, Internet-Draft, draft-ietf-add-dnr-09, 24 June
               2022, <https://datatracker.ietf.org/doc/html/draft-ietf-
-              add-dnr-08>.
+              add-dnr-09>.
 
    [I-D.ietf-ipsecme-add-ike]
               Boucadair, M., Reddy, T., Wing, D., and V. Smyslov,
