@@ -576,7 +576,7 @@
       a network such as through passive monitoring or active probing of protocols,
       such as DHCP will only learn the local domain hints but not the internal domains.
       However, security by obscurity may not maintain or increase the security of the
-      internal domain names, they may be leaked due to various other reasons
+      internal domain names, as they may be leaked in various other ways
       (e.g., browser reload).</t>
     </section>
     <section anchor="IANA">
