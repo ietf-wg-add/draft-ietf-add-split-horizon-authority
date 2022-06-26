@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-06-23T01:26:24.151668+00:00",
+  "timestamp": "2022-06-26T01:49:09.687616+00:00",
   "repo": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
   "labels": [
     {
@@ -471,7 +471,7 @@
       "labels": [],
       "body": "Discuss whether client implementations will have to enable DNSSEC to support the proposed mechanism.",
       "createdAt": "2022-06-16T11:45:49Z",
-      "updatedAt": "2022-06-22T15:38:54Z",
+      "updatedAt": "2022-06-23T04:06:26Z",
       "baseRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
       "baseRefName": "main",
       "baseRefOid": "02ff91be04d59363131496db98fc318ff6429b3a",
@@ -489,6 +489,13 @@
           "body": "@tireddy2 It looks like you closed this without merging it.  Was that intentional?\r\n\r\nEDIT: It looks like you pushed these changes directly to `main`.  In the future, it's probably better to use the \"merge\" button on the Pull Request, so that we can tie the changes back to the discussion.",
           "createdAt": "2022-06-22T15:36:24Z",
           "updatedAt": "2022-06-22T15:38:54Z"
+        },
+        {
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> @tireddy2 It looks like you closed this without merging it. Was that intentional?\r\n\r\nNo, I closed it my mistake. \r\n\r\n> \r\n> EDIT: It looks like you pushed these changes directly to `main`. In the future, it's probably better to use the \"merge\" button on the Pull Request, so that we can tie the changes back to the discussion.\r\n\r\nSure.\r\n",
+          "createdAt": "2022-06-23T04:06:26Z",
+          "updatedAt": "2022-06-23T04:06:26Z"
         }
       ],
       "reviews": [
@@ -532,24 +539,26 @@
       "id": "PR_kwDOHbyYm846ILOD",
       "title": "fix nit referring to two client behaviors",
       "url": "https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority/pull/6",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "danwing",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2022-06-22T14:44:33Z",
-      "updatedAt": "2022-06-22T15:40:37Z",
+      "updatedAt": "2022-06-24T13:40:14Z",
       "baseRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
       "baseRefName": "main",
       "baseRefOid": "1f64701c244273f547505f31e8bb9e15aeb74f79",
       "headRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
       "headRefName": "danwing-nit-1",
-      "headRefOid": "a69203b66de7222b4734db42a1ab18975a880226",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "fc24c6ff10827f458080cb378fe17edd4531f1ab",
+      "closedAt": "2022-06-24T04:28:01Z",
+      "mergedAt": "2022-06-24T04:28:01Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "d4d85fd49d27e1328f48cf973b048faf15d8f003"
+      },
       "comments": [],
       "reviews": [
         {
@@ -571,6 +580,26 @@
               "updatedAt": "2022-06-22T15:40:37Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOHbyYm848k9v4",
+          "commit": {
+            "abbreviatedOid": "a69203b"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-23T04:40:18Z",
+          "updatedAt": "2022-06-23T04:40:19Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "Update looks good. ",
+              "createdAt": "2022-06-23T04:40:19Z",
+              "updatedAt": "2022-06-23T04:40:19Z"
+            }
+          ]
         }
       ]
     },
@@ -579,24 +608,26 @@
       "id": "PR_kwDOHbyYm846IWE4",
       "title": "Clarify the scope is not restricted to Enterprise Networks",
       "url": "https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority/pull/7",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tireddy2",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2022-06-22T15:10:45Z",
-      "updatedAt": "2022-06-22T16:45:45Z",
+      "updatedAt": "2022-06-23T03:51:52Z",
       "baseRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
       "baseRefName": "main",
       "baseRefOid": "1f64701c244273f547505f31e8bb9e15aeb74f79",
       "headRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
       "headRefName": "main-1",
-      "headRefOid": "e71e20a9b870e20b2a5fd4265f4cf41535cbbdf3",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "1fc9b1ea34e9a40c84acd6f8bb42fee748676c1c",
+      "closedAt": "2022-06-23T03:51:52Z",
+      "mergedAt": "2022-06-23T03:51:52Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "f0468e4d11229720a153e2c555cdb894255b5408"
+      },
       "comments": [],
       "reviews": [
         {
@@ -638,6 +669,134 @@
               "updatedAt": "2022-06-22T16:45:45Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOHbyYm848k2_e",
+          "commit": {
+            "abbreviatedOid": "e71e20a"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-23T03:43:57Z",
+          "updatedAt": "2022-06-23T03:43:58Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "Done.",
+              "createdAt": "2022-06-23T03:43:58Z",
+              "updatedAt": "2022-06-23T03:43:58Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "id": "PR_kwDOHbyYm846Sbn9",
+      "title": "Internal domains not leaked to external resolver",
+      "url": "https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority/pull/8",
+      "state": "CLOSED",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This patch addresses the comment to not leak internal domains to an external resolver.",
+      "createdAt": "2022-06-24T05:18:45Z",
+      "updatedAt": "2022-06-24T05:37:30Z",
+      "baseRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "baseRefName": "main",
+      "baseRefOid": "d4d85fd49d27e1328f48cf973b048faf15d8f003",
+      "headRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "headRefName": "main-2",
+      "headRefOid": "b03d4f1d5fdd5ab32bee41133d1157d9178f2b84",
+      "closedAt": "2022-06-24T05:37:30Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 9,
+      "id": "PR_kwDOHbyYm846Sd9N",
+      "title": "Internal domains not leaked to external resolver  via upload",
+      "url": "https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority/pull/9",
+      "state": "MERGED",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This fix addresses the comment to not leak internal domains to an external resolver.",
+      "createdAt": "2022-06-24T05:37:03Z",
+      "updatedAt": "2022-06-25T06:13:30Z",
+      "baseRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "baseRefName": "main",
+      "baseRefOid": "d4d85fd49d27e1328f48cf973b048faf15d8f003",
+      "headRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "headRefName": "main-3",
+      "headRefOid": "09e96177dfb0dc71660f63628b760fc6a5a57922",
+      "closedAt": "2022-06-25T06:13:30Z",
+      "mergedAt": "2022-06-25T06:13:30Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "e41da83e29c54480872e89342ca5340b88f95ea0"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHbyYm848tRQx",
+          "commit": {
+            "abbreviatedOid": "693babc"
+          },
+          "author": "bemasc",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-06-24T13:41:49Z",
+          "updatedAt": "2022-06-24T13:42:20Z",
+          "comments": [
+            {
+              "originalPosition": 28,
+              "body": "```suggestion\r\n      internal domain names, as they may be leaked in various other ways\r\n```",
+              "createdAt": "2022-06-24T13:41:49Z",
+              "updatedAt": "2022-06-24T13:42:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHbyYm848twnH",
+          "commit": {
+            "abbreviatedOid": "693babc"
+          },
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-24T15:17:00Z",
+          "updatedAt": "2022-06-24T15:17:00Z",
+          "comments": [
+            {
+              "originalPosition": 26,
+              "body": "```suggestion\r\n      such as DHCP will only learn the local domain hints but not learn the labels below internal.example.com.\r\n```",
+              "createdAt": "2022-06-24T15:17:00Z",
+              "updatedAt": "2022-06-24T15:17:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHbyYm848twty",
+          "commit": {
+            "abbreviatedOid": "693babc"
+          },
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-06-24T15:17:22Z",
+          "updatedAt": "2022-06-24T15:17:22Z",
+          "comments": []
         }
       ]
     }
