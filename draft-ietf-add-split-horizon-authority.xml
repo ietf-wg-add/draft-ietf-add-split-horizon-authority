@@ -280,11 +280,16 @@
 
     <section anchor="establishing">
       <name>Establishing Local DNS Authority</name>
-      <t>To establish its authority over some DNS zone, a participating
-      network <bcp14>MUST</bcp14> offer one or more encrypted resolvers via DNR <xref
-      target="I-D.ietf-add-dnr"/> or an equivalent mechanism (see <xref
-      target="vpn"/>). At least one of these resolvers' Authentication
-      Domain Names (ADNs) <bcp14>MUST</bcp14> appear in an NS record for that zone. This
+      <t>To establish its authority over some DNS zone, a
+      participating network <bcp14>MUST</bcp14> offer one or more
+      encrypted resolvers via DNR <xref target="I-D.ietf-add-dnr"/>,
+      DDR <xref target="I-D.ietf-add-dnr"/>, or an equivalent mechanism
+      (see <xref target="vpn"/>).  If the encrypted resolver is
+      identified by name (e.g., DNR), at least one of these resolvers'
+      Authentication Domain Names (ADNs) <bcp14>MUST</bcp14> appear in
+      an NS record for that zone.  If the encrypted resolver is
+      identified by IP address (e.g., DDR), at least one of its TLS
+      Subject Alternative Names MUST match one of the ADNs.  This
       arrangement establishes this resolver's authority over the zone.</t>
     </section>
     <section anchor="validating">
