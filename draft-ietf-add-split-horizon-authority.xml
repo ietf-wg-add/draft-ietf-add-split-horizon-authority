@@ -288,8 +288,10 @@
       identified by name (e.g., DNR), at least one of these resolvers'
       Authentication Domain Names (ADNs) <bcp14>MUST</bcp14> appear in
       an NS record for that zone.  If the encrypted resolver is
-      identified by IP address (e.g., DDR), at least one of its TLS
-      Subject Alternative Names MUST match one of the ADNs.  This
+      identified by IP address (e.g., DDR), then Verified Discovery is
+      performed (Section 4.2 of <xref target="I-D.ietf-add-ddr"></xref>) and
+      at least one of the subjectAltName entries in the resolver certificate
+      MUST appear in an NS record for that zone.  This
       arrangement establishes this resolver's authority over the zone.</t>
     </section>
     <section anchor="validating">
@@ -607,6 +609,7 @@
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6762.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6698.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4035.xml"/>
+        <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-add-ddr.xml"/>
       </references>
       <references>
         <name>Informative References</name>
