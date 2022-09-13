@@ -25,11 +25,11 @@
 <?rfc subcompact="no" ?>
 <!-- keep one blank line between list items -->
 <!-- end of list of popular I-D processing instructions -->
-<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="std" docName="draft-ietf-add-split-horizon-authority-latest" ipr="trust200902" submissionType="IETF" xml:lang="en" tocInclude="true" tocDepth="4" symRefs="true" sortRefs="true" version="3" consensus="true">
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="std" docName="draft-ietf-add-split-horizon-authority-01" ipr="trust200902" submissionType="IETF" xml:lang="en" tocInclude="true" tocDepth="4" symRefs="true" sortRefs="true" version="3" consensus="true">
   <front>
     <title abbrev="Establishing Local DNS Authority">Establishing Local DNS
     Authority in Split-Horizon Environments</title>
-    <seriesInfo name="Internet-Draft" value="draft-ietf-add-split-horizon-authority-latest"/>
+    <seriesInfo name="Internet-Draft" value="draft-ietf-add-split-horizon-authority-01"/>
     <author fullname="Tirumaleswar Reddy" initials="T." surname="Reddy">
       <organization>Akamai</organization>
       <address>
@@ -178,6 +178,12 @@
       split-horizon DNS configuration. The endpoint does not need any prior
       configuration to confirm that a local domain hint was indeed authorized
       by the domain.</t>
+      <t>All of the special-use domain names registered with IANA <xref target="IANA-SUDN"/>, 
+      most notably ".home.arpa", "resolver.arpa.", "ipv4only.arpa." and ".local", are never 
+      unique to a specific DNS server's authority. Thus, these domain names are outside the 
+      scope of this document and MUST NOT be validated using the mechanism described in this document. 
+      A DNS client implementation will continue to follow the special treatment defined 
+      for those special-use domain names.</t> 
     </section>
     <section anchor="learning">
       <name>Local Domain Hint Mechanisms</name>
@@ -605,7 +611,45 @@
         <name>Normative References</name>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.2119.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8174.xml"/>
-        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8801.xml"/>
+
+
+	<!-- idnits 3.0.0 throwing a fit about accented "E" for Eric Vynke
+            <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8801.xml"/> -->
+
+	<reference anchor="RFC8801" target="https://www.rfc-editor.org/info/rfc8801">
+	  <front>
+	    <title>Discovering Provisioning Domain Names and Data</title>
+	    <author initials="P." surname="Pfister" fullname="P. Pfister">
+	      <organization/>
+	    </author>
+	    <author initials="E." surname="Vyncke" fullname="E. Vyncke">
+	      <organization/>
+	    </author>
+	    <author initials="T." surname="Pauly" fullname="T. Pauly">
+	      <organization/>
+	    </author>
+	    <author initials="D." surname="Schinazi" fullname="D. Schinazi">
+	      <organization/>
+	    </author>
+	    <author initials="W." surname="Shao" fullname="W. Shao">
+	      <organization/>
+	    </author>
+	    <date year="2020" month="July"/>
+	    <abstract>
+	      <t>
+		Provisioning Domains (PvDs) are defined as consistent sets of network configuration information. PvDs allows hosts to manage connections to multiple networks and interfaces simultaneously, such as when a home router provides connectivity through both a broadband and cellular network provider.
+	      </t>
+	      <t>
+		This document defines a mechanism for explicitly identifying PvDs through a Router Advertisement (RA) option. This RA option announces a PvD identifier, which hosts can compare to differentiate between PvDs. The option can directly carry some information about a PvD and can optionally point to PvD Additional Information that can be retrieved using HTTP over TLS.
+	      </t>
+	    </abstract>
+	  </front>
+	  <seriesInfo name="RFC" value="8801"/>
+	  <seriesInfo name="DOI" value="10.17487/RFC8801"/>
+	</reference>
+
+
+	
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6762.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6698.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4035.xml"/>
@@ -613,6 +657,18 @@
       </references>
       <references>
         <name>Informative References</name>
+        <reference anchor="IANA-SUDN"
+                   target="https://www.iana.org/assignments/special-use-domain-names/special-use-domain-names.xhtml">
+          <front>
+            <title>Special-Use Domain Names</title>
+
+            <author fullname="IANA">
+              <organization />
+            </author>
+
+            <date />
+          </front>
+        </reference>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8499.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9162.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8598.xml"/>
@@ -630,7 +686,7 @@
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5986.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8310.xml"/>
         <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-add-dnr.xml"/>
-        <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-ipsecme-add-ike.xml"/>
+        <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-ipsecme-add-ike.xml"/>        
     </references>
     </references>
   </back>
