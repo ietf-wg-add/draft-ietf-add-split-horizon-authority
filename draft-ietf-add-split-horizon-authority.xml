@@ -612,11 +612,6 @@
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.2119.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8174.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8801.xml"/>
-
-
-	<!-- idnits 3.0.0 throwing a fit about accented "E" for Eric Vynke
-            <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8801.xml"/> -->
-
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6762.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6698.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4035.xml"/>
