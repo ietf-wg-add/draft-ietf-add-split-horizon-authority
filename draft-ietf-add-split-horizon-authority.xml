@@ -178,6 +178,12 @@
       split-horizon DNS configuration. The endpoint does not need any prior
       configuration to confirm that a local domain hint was indeed authorized
       by the domain.</t>
+      <t>All of the special-use domain names registered with IANA <xref target="IANA-SUDN"/>, 
+      most notably ".home.arpa", "resolver.arpa.", "ipv4only.arpa." and ".local", are never 
+      unique to a specific DNS server's authority. Thus, these domain names are outside the 
+      scope of this document and MUST NOT be validated using the mechanism described in this document. 
+      A DNS client implementation will continue to follow the special treatment defined 
+      for those special-use domain names.</t> 
     </section>
     <section anchor="learning">
       <name>Local Domain Hint Mechanisms</name>
@@ -613,6 +619,16 @@
       </references>
       <references>
         <name>Informative References</name>
+        <reference anchor="IANA-SUDN"
+                   target="https://www.iana.org/assignments/special-use-domain-names/special-use-domain-names.xhtml">
+          <front>
+            <title>Special-Use Domain Names</title>
+            <author fullname="IANA">
+              <organization />
+            </author>
+            <date />
+          </front>
+        </reference>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8499.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9162.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8598.xml"/>
@@ -630,7 +646,7 @@
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5986.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8310.xml"/>
         <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-add-dnr.xml"/>
-        <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-ipsecme-add-ike.xml"/>
+        <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-ipsecme-add-ike.xml"/>        
     </references>
     </references>
   </back>
