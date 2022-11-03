@@ -288,14 +288,9 @@
       identified by name (e.g., DNR), at least one of these resolvers'
       Authentication Domain Names (ADNs) <bcp14>MUST</bcp14> appear in
       an NS record for that zone.  If the encrypted resolver is
-      identified by IP address (e.g., DDR), then Verified Discovery is
-      performed (Section 4.2 of <xref target="I-D.ietf-add-ddr"></xref>) and
-      at least one of the subjectAltName entries in the resolver certificate
-      MUST appear in an NS record for that zone.  If the encrypted resolver is 
-      discovered using the opportunistic discovery method (Section 4.3 of  
-      <xref target="I-D.ietf-add-ddr"></xref>) and resolver certificate is 
-      validated based on PKI, at least one of the subjectAltName entries 
-      in the resolver certificate MUST appear in an NS record for that zone. 
+      identified by IP address (e.g., DDR), then the resolver MUST present a 
+      certificate that can be validated by the client, containing at least
+      one subjectAltName entry that matches an NS record for that zone.
       This arrangement establishes this resolver's authority over the zone.</t>
     </section>
     <section anchor="validating">
