@@ -288,7 +288,7 @@
       identified by name (e.g., DNR), at least one of these resolvers'
       Authentication Domain Names (ADNs) <bcp14>MUST</bcp14> appear in
       an NS record for that zone.  If the encrypted resolver is
-      identified by IP address (e.g., DDR), then the resolver MUST present a 
+      identified by IP address (e.g., DDR), then the resolver MUST present a
       certificate that can be validated by the client, containing at least
       one subjectAltName entry that matches an NS record for that zone.
       This arrangement establishes this resolver's authority over the zone.</t>
