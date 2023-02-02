@@ -28,7 +28,7 @@
 <rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="std" docName="draft-ietf-add-split-horizon-authority-latest" ipr="trust200902" submissionType="IETF" xml:lang="en" tocInclude="true" tocDepth="4" symRefs="true" sortRefs="true" version="3" consensus="true">
   <front>
     <title abbrev="Establishing Local DNS Authority">Establishing Local DNS
-    Authority in Split-Horizon Environments</title>
+    Authority in Validated Split-Horizon Environments</title>
     <seriesInfo name="Internet-Draft" value="draft-ietf-add-split-horizon-authority-latest"/>
     <author fullname="Tirumaleswar Reddy" initials="T." surname="Reddy">
       <organization>Nokia</organization>
@@ -137,7 +137,11 @@
       <t>This specification relies on securely identified local DNS servers
       and globally valid NS records. Use of this specification is therefore
       limited to servers that support authenticated encryption and
-      split-horizon DNS names that are properly rooted in the global DNS.</t>
+      split-horizon DNS names that are properly rooted in the global DNS. The
+      network has to offer one or more encrypted resolvers via DNR <xref
+      target="I-D.ietf-add-dnr" />, or DDR <xref target="I-D.ietf-add-dnr" />,
+      or an equivalent mechanism (see <xref target="vpn" />) as a prerequisite
+      for deploying this specification.</t>
     </section>
     <section anchor="notation">
       <name>Terminology</name>
@@ -574,11 +578,11 @@
       logs <xref target="RFC9162"/>. In order to not leak the internal domains to
       an external resolver, the internal domains can be kept in a child zone of the
       local domain hints advertised by the network. For example, if the PvD "dnsZones"
-      entry is “internal.example.com” and the network-provided DNS resolver is
-      “ns1.internal.example.com”, the network operator can structure the internal
+      entry is "internal.example.com" and the network-provided DNS resolver is
+      "ns1.internal.example.com", the network operator can structure the internal
       domain names as "private1.internal.example.com", "private2.internal.example.com",
       etc. The network-designated resolver will be used to resolve the subdomains of
-      the local domain hint “*.internal.example.com”. Further, adversaries that monitor
+      the local domain hint "*.internal.example.com". Further, adversaries that monitor
       a network such as through passive monitoring or active probing of protocols,
       such as DHCP will only learn the local domain hints but not learn the labels below internal.example.com.
       However, security by obscurity may not maintain or increase the security of the
