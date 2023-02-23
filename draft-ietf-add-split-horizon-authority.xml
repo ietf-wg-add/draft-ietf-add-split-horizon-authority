@@ -219,7 +219,7 @@
         <li>A list of subdomains of this parent zone that are claimed by
             the named local resolver (potentially including the entire parent
             zone).</li>
-        <li>An NSEC3 Hash Algorithm.</li>
+        <li>A ZONEMD Hash Algorithm (<relref section="5.3" target="RFC8976"/>).</li>
         <li>A high-entropy salt, up to 255 octets.</li>
       </ul>
       <t>If the local encrypted resolver is identified by name (e.g., DNR), that
@@ -230,14 +230,14 @@
       <t>To establish its authority, the network MUST provide each Authorization
       Claim to the parent zone operator.  If the contents are approved, the
       parent zone operator computes a "Verification Token" according to the
-      following procedure based on <relref section="5" target="RFC5155"/>:</t>
+      following procedure:</t>
       <ol>
         <li>Convert all subdomains into canonical form.</li>
         <li>Replace the suffix corresponding to the parent zone with a zero
             byte.</li>
         <li>Let $X be the concatenation of the resulting pseudo-FQDNs.</li>
         <li>Let len($SALT) be the number of octets of salt, as a single octet.</li>
-        <li>Let $TOKEN = HASH(len($SALT) || $SALT || $X).</li>
+        <li>Let $TOKEN = hash(len($SALT) || $SALT || $X).</li>
       </ol>
       <t>The zone operator then publishes a "Verification Record" with the
       following structure, following the advice of
@@ -246,7 +246,7 @@
         <li>Type = TXT.</li>
         <li>Owner Name = Concatenation of the ADN, "_splitdns-challenge", and
             the parent zone name.</li>
-        <li>Contents = "token=base64url($TOKEN)".</li>
+        <li>Contents = "token=base64url($TOKEN)" (without padding)</li>
       </ul>
       <t>By publishing this record, the parent zone authorizes the local
       encrypted resolver to serve these subdomains authoritatively.</t>
@@ -258,13 +258,13 @@
           <li>Parent = "parent.example"</li>
           <li>Subdomains = "payroll.parent.example",
               "secret.project.parent.example"</li>
-          <li>Hash Algorithm = SHA-1</li>
+          <li>Hash Algorithm = SHA-384</li>
           <li>Salt = "example salt bytes (should be random)"</li>
         </ul>
         <t>To approve this claim, the zone operator would publish the following record:</t>
         <figure><artwork><![CDATA[
 resolver17.parent.example._splitdns-challenge.parent.example. IN TXT \
-"token=kfHudyzZkdQccYVLV0zWsY4ETZUK"
+"token=6rQ7oOZqdg8qQFRqtxpEhK97mNkgFwzNKTmNOtlxspBscZqUwFZZJDDD-Djetw2MCg"
 ]]></artwork></figure>
       </section>
       <section>
@@ -279,7 +279,7 @@ resolver17.parent.example._splitdns-challenge.parent.example. IN TXT \
           <t>
             In DHCP, each Authorization Claim is encoded as a DHCP Authentication
             Option <xref target="RFC3118"/>, using the Protocol value $TBD1, "Split
-            DNS Authentication".  The Algorithm field provides the NSEC3 Hash Algorithm,
+            DNS Authentication".  The Algorithm field provides the ZONEMD Hash Algorithm,
             represented by its registered Value.  The Authentication Information
             <bcp14>MUST</bcp14> contain the following information, concatenated:</t>
           <ol>
@@ -301,7 +301,7 @@ resolver17.parent.example._splitdns-challenge.parent.example. IN TXT \
             <li>"parent": The parent zone name as a dot-separated name.</li>
             <li>"subdomains": An array containing the claimed subdomains, as
                 dot-separated names with the parent suffix already removed.</li>
-            <li>"algorithm": The hash algorithm, identified by its Description string.</li>
+            <li>"algorithm": The hash algorithm, identified by its registered Mnemonic.</li>
             <li>"salt": The salt, encoded in base64url.</li>
           </ul>
         </section>
@@ -427,7 +427,7 @@ resolver17.parent.example._splitdns-challenge.parent.example. IN TXT \
       "resolver": "dns.example.net",
       "parent": "example.com",
       "subdomains": [""],
-      "algorithm": "SHA-1",
+      "algorithm": "SHA384",
       "salt": "abc...123"
     }]
   }]]></artwork>
@@ -645,12 +645,12 @@ resolver17.parent.example._splitdns-challenge.parent.example. IN TXT \
         <name>Normative References</name>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.2119.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.3118.xml"/>
-        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5155.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8174.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8801.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6762.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6698.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4035.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8976.xml"/>
         <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-add-ddr.xml"/>
         <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-dnsop-domain-verification-techniques.xml"/>
         <reference anchor="IANA-SUDN"
