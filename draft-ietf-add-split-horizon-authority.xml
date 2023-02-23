@@ -315,7 +315,7 @@ resolver17.parent.example._splitdns-challenge.parent.example. IN TXT \
       Claim, the client <bcp14>SHALL</bcp14> regard the named resolver as
       authoritative for the claimed subdomains. Clients <bcp14>MUST</bcp14> ignore
       any unrecognized keys in the Verification Record.</t>
-      <t>Each validation of authority applies only to a specific Authorization
+      <t>Each validation of authority applies only to a specific Authentication
       Domain Name. If a network offers multiple encrypted resolvers, each claimed
       subdomain may be authorized for a distinct subset of the network-provided
       resolvers.</t>
