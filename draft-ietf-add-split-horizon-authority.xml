@@ -372,11 +372,11 @@ resolver17.parent.example._splitdns-challenge.parent.example. IN TXT \
       Name is "resolver.arpa."</t>
       <t>To validate DNSSEC, the client first fetches and validates the Verification
       Record.  If it is valid and contains a "ds" key, the client <bcp14>MAY</bcp14>
-      send a DNSKEY query for "resolver.arpa." to the local encrypted resolver.  At
-      least one resulting DNSKEY RR <bcp14>MUST</bcp14> match the DS RDATA from the
-      Verification Record. All local resolution results for subdomains in this
-      claim <bcp14>MUST</bcp14> offer RRSIGs that chain to one of these approved
-      DNSKEYs.</t>
+      send a DNSKEY query for "resolver.arpa." to the local encrypted resolver.
+      At least one resulting DNSKEY RR <bcp14>MUST</bcp14> match the DS RDATA from
+      the "ds" key in the Verification Record. All local resolution results for
+      subdomains in this claim <bcp14>MUST</bcp14> offer RRSIGs that chain to one
+      of these approved DNSKEYs.</t>
       <t>The "ds" key <bcp14>MAY</bcp14> appear multiple
       times in a single Verification Record, in order to authorize multiple DNSKEYs
       for this local encrypted resolver.  If the "ds" key is not present in a valid
