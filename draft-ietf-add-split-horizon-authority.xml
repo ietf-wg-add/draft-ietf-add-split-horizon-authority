@@ -220,7 +220,7 @@
             the named local resolver (potentially including the entire parent
             zone).</li>
         <li>An NSEC3 Hash Algorithm.</li>
-        <li>A high-entropy salt.</li>
+        <li>A high-entropy salt, up to 255 octets.</li>
       </ul>
       <t>If the local encrypted resolver is identified by name (e.g., DNR), that
       identifying name MUST be the one used in any corresponding Authorization
@@ -236,7 +236,8 @@
         <li>Replace the suffix corresponding to the parent zone with a zero
             byte.</li>
         <li>Let $X be the concatenation of the resulting pseudo-FQDNs.</li>
-        <li>Let $TOKEN = IH($SALT, $X, 0)</li>
+        <li>Let len($SALT) be the number of octets of salt, as a single octet.</li>
+        <li>Let $TOKEN = HASH(len($SALT) || $SALT || $X).</li>
       </ol>
       <t>The zone operator then publishes a "Verification Record" with the
       following structure, following the advice of
@@ -282,10 +283,10 @@ resolver17.parent.example._splitdns-challenge.parent.example. IN TXT \
             represented by its registered Value.  The Authentication Information
             <bcp14>MUST</bcp14> contain the following information, concatenated:</t>
           <ol>
-            <li>A one-octet "salt length" field.</li>
-            <li>The salt value.</li>
             <li>The ADN in canonical form.</li>
             <li>The parent name in canonical form.</li>
+            <li>A one-octet "salt length" field.</li>
+            <li>The salt value.</li>
             <li>The $X value defined in <xref target="establishing"/>.</li>
           </ol>
         </section>
