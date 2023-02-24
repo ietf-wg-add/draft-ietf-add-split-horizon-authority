@@ -382,6 +382,34 @@ resolver17.parent.example._splitdns-challenge.parent.example. IN TXT \
       for this local encrypted resolver.  If the "ds" key is not present in a valid
       Verification Record, the client <bcp14>MUST</bcp14> disable DNSSEC validation
       when resolving the claimed subdomains via this local encrypted resolver.</t>
+      <figure>
+        <name>Example use of "ds=..."</name>
+        <artwork><![CDATA[
+;; Parent zone
+$ORIGIN parent.example.
+
+; Parent zone's public KSK and ZSK
+@ IN DNSKEY 257 3 5 ABCD...=
+@ IN DNSKEY 256 3 5 DCBA...=
+
+; Verification Record containing DS RDATA for the local
+; resolver's KSK.  This is an ordinary public TXT record,
+; secured by RRSIGs from the public ZSK.
+resolver.example._splitdns-challenge IN TXT "token=abc...,ds=QWE..."
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Local zone, claiming "subdomain.parent.example".
+
+; The local resolver's KSK, validated by the Verification Record.
+resolver.arpa. IN DNSKEY 257 3 5 ASDF...=
+
+; Each claimed subdomain has its own ZSK, which is signed by the
+; KSK and is used to sign records at that subdomain and below.
+subdomain.parent.example.        IN DNSKEY 256 3 5 FDSA...=
+subdomain.parent.example.        IN AAAA 2001:db8::17
+deeper.subdomain.parent.example. IN AAAA 2001:db8::18
+]]></artwork></figure>
     </section>
 
     <section>
