@@ -140,10 +140,11 @@
       use this protocol to confirm that a local domain hint was authorized by
       the domain (<xref target="validating"/>), which might influence
       its processing of that hint.</t>
-      <t>This specification relies on securely identified local DNS servers
-      and globally valid NS records. Use of this specification is therefore
+      <t>This specification relies on securely identified local DNS servers,
+      and checks each local domain hint against a globally valid parent zone.
+      Use of this specification is therefore
       limited to servers that support authenticated encryption and
-      split-horizon DNS names that are properly rooted in the global DNS.</t>
+      split-horizon DNS names that are rooted in the global DNS.</t>
     </section>
     <section anchor="notation">
       <name>Terminology</name>
@@ -216,7 +217,7 @@
       <ul>
         <li>An Authentication Domain Name (ADN) of a local encrypted resolver.</li>
         <li>The DNS name of the authorizing parent zone.</li>
-        <li>A list of subdomains of this parent zone that are claimed by
+        <li>A set of subdomains of this parent zone that are claimed by
             the named local resolver (potentially including the entire parent
             zone).</li>
         <li>A ZONEMD Hash Algorithm (<relref section="5.3" target="RFC8976"/>).</li>
@@ -232,7 +233,8 @@
       parent zone operator computes a "Verification Token" according to the
       following procedure:</t>
       <ol>
-        <li>Convert all subdomains into canonical form.</li>
+        <li>Convert all subdomains into canonical form and sort them in canonical
+            order (<relref section="6" target="RFC4034"/>).</li>
         <li>Replace the suffix corresponding to the parent zone with a zero
             byte.</li>
         <li>Let $X be the concatenation of the resulting pseudo-FQDNs.</li>
@@ -280,7 +282,8 @@ resolver17.parent.example._splitdns-challenge.parent.example. IN TXT \
             In DHCP, each Authorization Claim is encoded as a DHCP Authentication
             Option <xref target="RFC3118"/>, using the Protocol value $TBD1, "Split
             DNS Authentication".  The Algorithm field provides the ZONEMD Hash Algorithm,
-            represented by its registered Value.  The Authentication Information
+            represented by its registered Value.  The RDM value
+            <bcp14>MUST</bcp14> be 0x00. The Authentication Information
             <bcp14>MUST</bcp14> contain the following information, concatenated:</t>
           <ol>
             <li>The ADN in canonical form.</li>
@@ -300,8 +303,10 @@ resolver17.parent.example._splitdns-challenge.parent.example. IN TXT \
             <li>"resolver": The ADN as a dot-separated name.</li>
             <li>"parent": The parent zone name as a dot-separated name.</li>
             <li>"subdomains": An array containing the claimed subdomains, as
-                dot-separated names with the parent suffix already removed.</li>
-            <li>"algorithm": The hash algorithm, identified by its registered Mnemonic.</li>
+                dot-separated names with the parent suffix already removed, in
+                canonical order.</li>
+            <li>"algorithm": The hash algorithm, identified by its IANA-registered
+                Mnemonic.</li>
             <li>"salt": The salt, encoded in base64url.</li>
           </ul>
         </section>
@@ -422,9 +427,7 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
       <section anchor="internal-only">
         <name>Split-Horizon Entire Zone</name>
         <t>Consider an organization that operates "example.com", and runs a
-        different version of its global domain on its internal network. Today,
-        on the Internet it publishes two NS records, "ns1.example.com" and
-        "ns2.example.com".</t>
+        different version of its global domain on its internal network.</t>
         <t>First, the host and network both need to support one of the discovery
         mechanisms described in <xref target="establishing"/>. <xref target="fig-learn"/>
         shows discovery using DNR and PvD.</t>
