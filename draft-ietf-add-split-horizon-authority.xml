@@ -295,8 +295,9 @@ resolver17.parent.example._splitdns-challenge.parent.example. IN TXT \
         </section>
         <section>
           <name>Using Provisioning Domains</name>
-          <t>When using Provisioning Domains, the Authorization Claims are represented
-          by the PvD Additional Information key $TBD2, whose value is a
+          <t>When using <xref target="RFC8801">Provisioning Domains</xref>, the
+          Authorization Claims are represented by the PvD Additional
+          Information key "splitDnsClaims", whose value is a
           JSON Array.  Each entry in the array <bcp14>MUST</bcp14> be a JSON object
           with the following structure:</t>
           <ul>
@@ -659,7 +660,46 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
     </section>
     <section anchor="IANA">
       <name>IANA Considerations</name>
-      <t>TODO: New DHCP Auth Algorithm, PvD key, and underscore registry name.</t>
+      <section>
+        <name>DHCP Split DNS Authentication Algorithm</name>
+        <t>IANA is requested to add the following entry to the "Protocol Name Space
+        Values" registry on the "Dynamic Host Configuration Protocol (DHCP)
+        Authentication Option Name Spaces" page:</t>
+        <ul>
+          <li>Value: $TBD1</li>
+          <li>Description: Split DNS</li>
+          <li>Reference: (This Document)</li>
+        </ul>
+      </section>
+      <section>
+        <name>Provisioning Domains Split DNS Additional Information</name>
+        <t>IANA is requested to add the following entry to the "Additional
+        Information PvD Keys" registry on the "Provisioning Domains (PvDs)" page:</t>
+        <ul>
+          <li>JSON key: "splitDnsClaims"</li>
+          <li>Description: "Verifiable locally served domains"</li>
+          <li>Type: Array of Objects</li>
+          <li><t>Example: </t><sourcecode type="json">[{
+  "resolver": "dns.example.net",
+  "parent": "example.com",
+  "subdomains": ["sub"],
+  "algorithm": "SHA384",
+  "salt": "abc...123"
+}]</sourcecode></li>
+          <li>Reference: (This document)</li>
+        </ul>
+      </section>
+      <section>
+        <name>DNS Underscore Name</name>
+        <t>IANA is requested to add the following entry to the "Underscored and
+        Globally Scoped DNS Node Names" registry on the "Domain Name System (DNS)
+        Parameters" page:</t>
+        <ul>
+          <li>RR Type: TXT</li>
+          <li>_NODE NAME: _splitdns-challenge</li>
+          <li>Reference: (This document)</li>
+        </ul>
+      </section>
     </section>
     <section>
       <name>Acknowledgements</name>
