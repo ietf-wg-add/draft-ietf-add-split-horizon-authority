@@ -264,10 +264,10 @@
           <li>Salt = "example salt bytes (should be random)"</li>
         </ul>
         <t>To approve this claim, the zone operator would publish the following record:</t>
-        <figure><artwork><![CDATA[
+        <sourcecode type="dns-rr">
 resolver17.parent.example._splitdns-challenge.parent.example. IN TXT \
 "token=6rQ7oOZqdg8qQFRqtxpEhK97mNkgFwzNKTmNOtlxspBscZqUwFZZJDDD-Djetw2MCg"
-]]></artwork></figure>
+</sourcecode>
       </section>
       <section>
         <name>Conveying Authorization Claims</name>
@@ -390,7 +390,7 @@ resolver17.parent.example._splitdns-challenge.parent.example. IN TXT \
       when resolving the claimed subdomains via this local encrypted resolver.</t>
       <figure>
         <name>Example use of "ds=..."</name>
-        <artwork><![CDATA[
+        <sourcecode>
 ;; Parent zone
 $ORIGIN parent.example.
 
@@ -415,7 +415,7 @@ resolver.arpa. IN DNSKEY 257 3 5 ASDF...=
 subdomain.parent.example.        IN DNSKEY 256 3 5 FDSA...=
 subdomain.parent.example.        IN AAAA 2001:db8::17
 deeper.subdomain.parent.example. IN AAAA 2001:db8::18
-]]></artwork></figure>
+</sourcecode></figure>
     </section>
 
     <section>
@@ -451,18 +451,18 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
             validates its certificate, and retrieves the provisioning domain
             JSON information indicated by the associated PvD. The PvD
             contains:</t>
-            <artwork><![CDATA[  {
-    "identifier": "pvd.example.com",
-    "expires": "2020-05-23T06:00:00Z",
-    "prefixes": ["2001:db8:1::/48", "2001:db8:4::/48"],
-    "$TBD2": [{
-      "resolver": "dns.example.net",
-      "parent": "example.com",
-      "subdomains": [""],
-      "algorithm": "SHA384",
-      "salt": "abc...123"
-    }]
-  }]]></artwork>
+            <sourcecode type="json">{
+  "identifier": "pvd.example.com",
+  "expires": "2020-05-23T06:00:00Z",
+  "prefixes": ["2001:db8:1::/48", "2001:db8:4::/48"],
+  "$TBD2": [{
+    "resolver": "dns.example.net",
+    "parent": "example.com",
+    "subdomains": [""],
+    "algorithm": "SHA384",
+    "salt": "abc...123"
+  }]
+}</sourcecode>
             <t>The JSON keys "identifier", "expires", and "prefixes"
             are defined in <xref target="RFC8801"/>.</t></li>
         </ul>
