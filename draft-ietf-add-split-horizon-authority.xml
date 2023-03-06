@@ -28,7 +28,7 @@
 <rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="std" docName="draft-ietf-add-split-horizon-authority-latest" ipr="trust200902" submissionType="IETF" xml:lang="en" tocInclude="true" tocDepth="4" symRefs="true" sortRefs="true" version="3" consensus="true">
   <front>
     <title abbrev="Establishing Local DNS Authority">Establishing Local DNS
-    Authority in Split-Horizon Environments</title>
+    Authority in Validated Split-Horizon Environments</title>
     <seriesInfo name="Internet-Draft" value="draft-ietf-add-split-horizon-authority-latest"/>
     <author fullname="Tirumaleswar Reddy" initials="T." surname="Reddy">
       <organization>Nokia</organization>
@@ -66,7 +66,7 @@
     <author fullname="Benjamin Schwartz" initials="B." surname="Schwartz">
       <organization abbrev="Google">Google LLC</organization>
       <address>
-        <email>bemasc@google.com</email>
+        <email>ietf@bemasc.net</email>
       </address>
     </author>
     <date/>
@@ -139,7 +139,8 @@
       domain to a client (<xref target="establishing"/>). Clients can
       use this protocol to confirm that a local domain hint was authorized by
       the domain (<xref target="validating"/>), which might influence
-      its processing of that hint.</t>
+      its processing of that hint.  This process requires cooperation between
+      the local DNS zone and the public zone.</t>
       <t>This specification relies on securely identified local DNS servers,
       and checks each local domain hint against a globally valid parent zone.
       Use of this specification is therefore
