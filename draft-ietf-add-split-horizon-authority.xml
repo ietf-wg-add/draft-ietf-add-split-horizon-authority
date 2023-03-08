@@ -456,7 +456,7 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
   "identifier": "pvd.example.com",
   "expires": "2020-05-23T06:00:00Z",
   "prefixes": ["2001:db8:1::/48", "2001:db8:4::/48"],
-  "$TBD2": [{
+  "splitDnsClaims": [{
     "resolver": "dns.example.net",
     "parent": "example.com",
     "subdomains": [""],
@@ -491,7 +491,7 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
    |------------------------------------>|         |            |
    | ---------------------------\        |         |            |
    |-| validate TLS certificate |        |         |            |
-   | |--------------------------|        |         |            |
+   | |--------------------------/        |         |            |
    |                                     |         |            |
    | resolve pvd.example.com  (4)        |         |            |
    |------------------------------------>|         |            |
@@ -504,9 +504,9 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
    |                                     |         |            |
    |  200 OK (JSON Additional Information) (7)     |            |
    |<----------------------------------------------|            |
-   | -------------------------\          |         |            |
-   |-| {..., "$TBD2": [...] } |          |         |            |
-   | |------------------------|          |         |            |
+   | ----------------------------------\ |         |            |
+   |-| {..., "splitDnsClaims": [...] } | |         |            |
+   | |---------------------------------/ |         |            |
 ]]></artwork>
         </figure>
         <section anchor="example-verify-external">
