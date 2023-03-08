@@ -742,17 +742,12 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8499.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9162.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8598.xml"/>
-        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7556.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7686.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8806.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6106.xml"/>
-        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.3646.xml"/>
-        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.3397.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4702.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4704.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6731.xml"/>
-        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.2937.xml"/>
-        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.2132.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5986.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8310.xml"/>
         <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-add-dnr.xml"/>
