@@ -109,7 +109,7 @@
       <t>In many network environments, the network offers clients a DNS server
       (e.g. DHCP OFFER, IPv6 Router Advertisement). Although this server is
       formally specified as a recursive resolver (e.g. <relref section="5.1"
-      target="RFC6106"/>), some networks provide a hybrid resolver
+      target="RFC8106"/>), some networks provide a hybrid resolver
       instead. If this resolver acts as an authoritative server for some
       names, we say that the network has "split-horizon DNS", because those
       names resolve in this way only from inside the network.</t>
@@ -726,7 +726,6 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6698.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4035.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8976.xml"/>
-	<xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8792.xml"/>
         <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-add-ddr.xml"/>
         <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-dnsop-domain-verification-techniques.xml"/>
         <reference anchor="IANA-SUDN"
@@ -747,12 +746,13 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8598.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7686.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8806.xml"/>
-        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6106.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8106.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4702.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4704.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6731.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5986.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8310.xml"/>
+	<xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8792.xml"/>
         <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-add-dnr.xml"/>
         <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-ipsecme-add-ike.xml"/>
     </references>
