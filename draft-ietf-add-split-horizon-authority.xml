@@ -264,10 +264,12 @@
           <li>Hash Algorithm = SHA-384</li>
           <li>Salt = "example salt bytes (should be random)"</li>
         </ul>
-        <t>To approve this claim, the zone operator would publish the following record:</t>
+        <t>To approve this claim, the zone operator would publish the following record
+	(using <xref target="RFC8792"/> line-wrapping):</t>
         <sourcecode type="dns-rr">
-resolver17.parent.example._splitdns-challenge.parent.example. IN TXT \
-"token=6rQ7oOZqdg8qQFRqtxpEhK97mNkgFwzNKTmNOtlxspBscZqUwFZZJDDD-Djetw2MCg"
+  resolver17.parent.example._splitdns-challenge.parent.example. IN TXT \
+  "token=6rQ7oOZqdg8qQFRqtxpEhK97mNkgFwzNKTmNOtlxspBscZqUwFZZJDDD- \
+  Djetw2MCg"
 </sourcecode>
       </section>
       <section>
@@ -724,6 +726,7 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6698.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4035.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8976.xml"/>
+	<xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8792.xml"/>
         <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-add-ddr.xml"/>
         <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-dnsop-domain-verification-techniques.xml"/>
         <reference anchor="IANA-SUDN"
