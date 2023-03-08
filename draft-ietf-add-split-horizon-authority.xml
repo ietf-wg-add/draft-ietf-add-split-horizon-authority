@@ -210,7 +210,7 @@
       <t>To establish its authority over some DNS zone, a
       participating network <bcp14>MUST</bcp14> offer one or more
       encrypted resolvers via DNR <xref target="I-D.ietf-add-dnr"/>,
-      DDR <xref target="I-D.ietf-add-dnr"/>, or an equivalent mechanism
+      DDR <xref target="I-D.ietf-add-ddr"/>, or an equivalent mechanism
       (see <xref target="vpn"/>).</t>
       <t>To establish local authority, the network MUST convey one or more
       "Authorization Claims" to the client.  An "Authorization Claim" is an
