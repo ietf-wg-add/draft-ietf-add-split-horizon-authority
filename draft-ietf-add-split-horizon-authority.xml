@@ -94,7 +94,7 @@
       implementation can apply: (1) answer from a local database, (2) query
       the relevant authorities and their parents, or (3) ask a server to query
       those authorities and return the final answer. Implementations that use
-      these behaviors are called "authoritative nameservers", "full/recursive 
+      these behaviors are called "authoritative nameservers", "full/recursive
       resolvers", and "forwarders" (or "stub resolvers") respectively. However, an
       implementation can also implement a mixture of these behaviors,
       depending on a local policy, for each query. We term such an
@@ -158,9 +158,10 @@
       target="RFC8499"/>, e.g. "Global DNS".  The following additional terms are
       used throughout the document:</t>
       <dl>
-        <dt>Encrypted DNS</dt><dd>A DNS protocol that provides an encrypted
-          channel between a DNS client and server (e.g., DNS over TLS (DoT)| HTTPS (DoH) | QUIC (DoQ)).</dd>
-        <dt>Split-Horizon DNS</dt><dd>The DNS service provided by a resolver
+        <dt>Encrypted DNS</dt><dd>A DNS protocol that provides an
+        encrypted channel between a DNS client and server (e.g., DNS
+        over TLS (DoT), HTTPS (DoH), QUIC (DoQ)).</dd>
+          <dt>Split-Horizon DNS</dt><dd>The DNS service provided by a resolver
           that also acts as an authoritative server for some names, providing
           resolution results that are meaningfully different from those in the
           Global DNS. (See "Split DNS" in <relref section="6"
@@ -267,9 +268,9 @@
         <t>To approve this claim, the zone operator would publish the following record
 	(using <xref target="RFC8792"/> line-wrapping):</t>
         <sourcecode type="dns-rr">
-  resolver17.parent.example._splitdns-challenge.parent.example. IN TXT \
-  "token=6rQ7oOZqdg8qQFRqtxpEhK97mNkgFwzNKTmNOtlxspBscZqUwFZZJDDD- \
-  Djetw2MCg"
+  resolver17.parent.example._splitdns-challenge.parent.example. \
+  IN TXT "token=6rQ7oOZqdg8qQFRqtxpEhK97mNkgFwzNKTmNOtlxspBscZq\
+  UwFZZJDDD-Djetw2MCg"
 </sourcecode>
       </section>
       <section>
