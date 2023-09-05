@@ -517,7 +517,7 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
           claims of DNS authority using an external resolver.</t>
           <ul empty="true">
             <li><strong>Steps 1-2</strong>: The client uses an encrypted DNS
-              connection to an external resolver to issue TXT
+              connection to an external resolver hosted on the Internet to issue TXT
               queries for the Verification Records. The TXT lookup returns
               a token that matches the claim.</li>
             <li><strong>Step 3</strong>: The client has validated that
