@@ -726,8 +726,6 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6698.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4035.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8976.xml"/>
-        <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-add-ddr.xml"/>
-        <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-dnsop-domain-verification-techniques.xml"/>
         <reference anchor="IANA-SUDN"
                    target="https://www.iana.org/assignments/special-use-domain-names/special-use-domain-names.xhtml">
           <front>
@@ -755,6 +753,8 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
 	<xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8792.xml"/>
         <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-add-dnr.xml"/>
         <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-ipsecme-add-ike.xml"/>
+	<xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-add-ddr.xml"/>
+        <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-dnsop-domain-verification-techniques.xml"/>	      
     </references>
     </references>
   </back>
