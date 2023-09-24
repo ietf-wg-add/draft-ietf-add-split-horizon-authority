@@ -282,10 +282,12 @@
           <name>Using DHCP</name>
           <t>
             In DHCP, each Authorization Claim is encoded as a DHCP Authentication
-            Option <xref target="RFC3118"/>, using the Protocol value $TBD1, "Split
-            DNS Authentication".  The Algorithm field provides the ZONEMD Hash Algorithm,
-            represented by its registered Value.  The Replay Detection Method (RDM) value
-            <bcp14>MUST</bcp14> be 0x00. The Authentication Information
+            Option (<xref target="RFC3118"/> and <relref section="21.11" target="RFC8415"/>), 
+            using the Protocol value $TBD1, "Split DNS Authentication". In DHCPv4, the long-options 
+            mechanism described in <relref section="8" target="RFC3396"/> MUST be used if the 
+            authentication option exceeds the maximum DHCPv4 option size of 255 octets. The Algorithm field 
+            provides the ZONEMD Hash Algorithm, represented by its registered Value.  
+            The Replay Detection Method (RDM) value <bcp14>MUST</bcp14> be 0x00. The Authentication Information
             <bcp14>MUST</bcp14> contain the following information, concatenated:</t>
           <ol>
             <li>The ADN in canonical form.</li>
@@ -708,7 +710,7 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
     <section>
       <name>Acknowledgements</name>
       <t>Thanks to Mohamed Boucadair, Jim Reid, Tommy Pauly, Paul Vixie,
-      Michael Richardson and Vinny Parla for the discussion and comments.</t>
+      Michael Richardson, Bernie Volz and Vinny Parla for the discussion and comments.</t>
     </section>
   </middle>
   <!--  *****BACK MATTER ***** -->
@@ -727,6 +729,8 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6698.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4035.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8976.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8415.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.3396.xml"/>
         <reference anchor="IANA-SUDN"
                    target="https://www.iana.org/assignments/special-use-domain-names/special-use-domain-names.xhtml">
           <front>
