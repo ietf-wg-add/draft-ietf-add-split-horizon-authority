@@ -221,7 +221,10 @@
         <li>A set of subdomains of this parent zone that are claimed by
             the named local resolver (potentially including the entire parent
             zone).</li>
-        <li>A ZONEMD Hash Algorithm (<relref section="5.3" target="RFC8976"/>).</li>
+        <li>A ZONEMD Hash Algorithm (<relref section="5.3" target="RFC8976"/>). 
+           For interoperability purposes implementations have to support the
+           mandatory to implement hash algorithms defined in 
+           <relref section="2.2.3" target="RFC8976"/>. </li>
         <li>A high-entropy salt, up to 255 octets.</li>
       </ul>
       <t>If the local encrypted resolver is identified by name (e.g., DNR), that
@@ -287,7 +290,7 @@
             using the Protocol value $TBD1, "Split DNS Authentication". In DHCPv4, the long-options 
             mechanism described in <relref section="8" target="RFC3396"/> MUST be used if the 
             authentication option exceeds the maximum DHCPv4 option size of 255 octets. The Algorithm field 
-            provides the ZONEMD Hash Algorithm, represented by its registered value in <xref target="establish-hash-algorithm-registry"/>.  
+            provides the ZONEMD Hash Algorithm, represented by its registered Value.  
             The Replay Detection Method (RDM) value <bcp14>MUST</bcp14> be 0x00. The Authentication Information
             <bcp14>MUST</bcp14> contain the following information, concatenated:</t>
           <ol>
@@ -295,7 +298,7 @@
             <li>The parent name in canonical form.</li>
             <li>A one-octet "salt length" field.</li>
             <li>The salt value.</li>
-            <li>The $X value defined in the procedure to compute the verification token.</li>
+            <li>The $X value defined in <xref target="establishing"/>.</li>
           </ol>
         </section>
         <section>
@@ -311,8 +314,7 @@
             <li>"subdomains": An array containing the claimed subdomains, as
                 dot-separated names with the parent suffix already removed, in
                 canonical order.</li>
-            <li>"algorithm": The hash algorithm, identified by its IANA-registered
-                Algorithm Key in <xref target="establish-hash-algorithm-registry"/>.</li>
+            <li>"algorithm": The hash algorithm, identified by the the ZONEMD Hash Algorithm.</li>
             <li>"salt": The salt, encoded in base64url.</li>
           </ul>
         </section>
@@ -639,52 +641,6 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
       <t>Other VPN tunnel types have similar configuration capabilities, not
       detailed here.</t>
     </section>
-    <section anchor="algorithms">
-      <name>Hash Algorithm Considerations and Registration</name>
-      <t>There are a wide variety of hashing algorithms that can be used for the purposes
-of generating the verification token. </t>
-      <t>An initial set of algorithms will be registered with IANA in the "Hash
-Algorithms for Verification Token" registry; see
-<xref target="establish-hash-algorithm-registry"/>. Additional algorithms can be registered
-in accordance with the policies set out in this section.</t>
-      <t>Each algorithm has a status field, which is intended to provide an aid to
-implementation selection.</t>
-      <t>Algorithms with a status value of "Active" MUST be used, these hash functions 
-      provide resistance to collision, first-preimage and second-preimage attacks. </t>
-      <t>Algorithms with a status value of "Deprecated" either provide none of these
-properties, or are known to be weak. These algorithms <bcp14>MUST NOT</bcp14> be
-used. </t>
-      <t>Registration requests for the "Hash Algorithms for Verification Token" registry
-use the Specification Required policy (<xref section="4.6" sectionFormat="of" target="RFC8126"/>). Requests
-should use the following template:</t>
-      <ul spacing="normal">
-        <li>Algorithm Key: The algorithm used.</li>
-        <li>
-          <t>Status: the status of the algorithm. The options are:
-          </t>
-          <ul spacing="normal">
-            <li>"Active" - for algorithms without known problems,</li>
-            <li>"Provisional" - for unproven algorithms,</li>
-            <li>"Deprecated" - for deprecated or insecure algorithms,</li>
-          </ul>
-        </li>
-        <li>Description: a short description of the algorithm</li>
-        <li>Reference(s): pointer(s) to the primary document(s) defining the Algorithm
-Key and technical details of the algorithm</li>
-      </ul>
-      <t>When reviewing registration requests, the designated expert(s) should pay
-attention to the requested status. The status value should reflect
-standardization status and the broad opinion of relevant interest groups such as
-the IETF or security-related SDOs. The "Active" status is not suitable for an
-algorithm that is known to be weak, broken, or experimental. If a registration
-request attempts to register such an algorithm as "Active", the designated
-expert(s) should suggest an alternative status of "Deprecated" or "Provisional".</t>
-      <t>When reviewing registration requests, the designated expert(s) cannot use a
-status of "Deprecated" or "Provisional" as grounds for rejection.</t>
-      <t>Requests to update or change the fields in an existing registration are
-permitted. For example, this could allow for the transition of an algorithm
-status from "Active" to "Deprecated" as the security environment evolves.</t>
-    </section>
     <section anchor="Security">
       <name>Security Considerations</name>
       <t>If an internal zone name (e.g., <tt>internal.example.com</tt>) is used with
@@ -710,6 +666,10 @@ status from "Active" to "Deprecated" as the security environment evolves.</t>
       local encrypted resolver's name is inside a secret subdomain. To avoid leakage,
       local resolvers should be given a name that does not reveal any sensitive
       information (perhaps in addition to the more sensitive name).</t>
+      <t> The security properties of hashing algorithms are not fixed. Algorithm Agility 
+      (see <xref target="RFC7696"/>) is achieved by providing implementations with 
+      flexibility to choose hashing algorithms from the ZONEMD Schemes registry 
+      (<relref target="RFC8976" section="5.2" displayFormat="comma"/>).</t> 
     </section>
     <section anchor="IANA">
       <name>IANA Considerations</name>
@@ -753,46 +713,6 @@ status from "Active" to "Deprecated" as the security environment evolves.</t>
           <li>Reference: (This document)</li>
         </ul>
       </section>
-    <section anchor="establish-hash-algorithm-registry">
-        <name>Establish the Hash Algorithms for Verification Token</name>
-        <t>IANA is requested to create the new "Hash Algorithms for Verification Token"
-registry and populate it with the entries in <xref target="iana-hash-algorithm-table"/>. The procedure for
-new registrations is provided in <xref target="algorithms"/>. </t>
-        <table anchor="iana-hash-algorithm-table">
-          <name>Initial Hash Algorithms</name>
-          <thead>
-            <tr>
-              <th align="left">Algorithm Key</th>
-              <th align="left">Status</th>
-              <th align="left">Description</th>
-              <th align="left">Reference(s)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td align="left">1</td>
-              <td align="left">Active</td>
-              <td align="left">The SHA-512 algorithm.</td>
-              <td align="left">
-                <xref target="RFC6234"/>, <xref target="RFC4648"/>, this document.</td>
-            </tr>
-            <tr>
-              <td align="left">2</td>
-              <td align="left">Active</td>
-              <td align="left">The SHA-256 algorithm.</td>
-              <td align="left">
-                <xref target="RFC6234"/>, <xref target="RFC4648"/>, this document.</td>
-            </tr>
-            <tr>
-              <td align="left">3</td>
-              <td align="left">Active</td>
-              <td align="left">The SHA-384 algorithm.</td>
-              <td align="left">
-                <xref target="RFC6234"/>, <xref target="RFC4648"/>, this document.</td>
-            </tr>            
-          </tbody>
-        </table>
-      </section>
     </section>
     <section>
       <name>Acknowledgements</name>
@@ -818,9 +738,6 @@ new registrations is provided in <xref target="algorithms"/>. </t>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8976.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8415.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.3396.xml"/>
-        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6234.xml"/>
-        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4648.xml"/>   
-        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8126.xml"/>             
         <reference anchor="IANA-SUDN"
                    target="https://www.iana.org/assignments/special-use-domain-names/special-use-domain-names.xhtml">
           <front>
@@ -845,6 +762,7 @@ new registrations is provided in <xref target="algorithms"/>. </t>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6731.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5986.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8310.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7696.xml"/>        
 	<xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8792.xml"/>
         <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-add-dnr.xml"/>
         <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-ipsecme-add-ike.xml"/>
