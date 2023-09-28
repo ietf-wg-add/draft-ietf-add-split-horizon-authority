@@ -222,8 +222,8 @@
             the named local resolver (potentially including the entire parent
             zone).</li>
         <li>A ZONEMD Hash Algorithm (<relref section="5.3" target="RFC8976"/>). 
-           For interoperability purposes implementations have to support the
-           mandatory to implement hash algorithms defined in 
+           For interoperability purposes implementations MUST support the
+           "mandatory to implement" hash algorithms defined in 
            <relref section="2.2.3" target="RFC8976"/>. </li>
         <li>A high-entropy salt, up to 255 octets.</li>
       </ul>
