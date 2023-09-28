@@ -314,7 +314,9 @@
             <li>"subdomains": An array containing the claimed subdomains, as
                 dot-separated names with the parent suffix already removed, in
                 canonical order.</li>
-            <li>"algorithm": The hash algorithm, identified by the the ZONEMD Hash Algorithm.</li>
+            <li>"algorithm": The hash algorithm is represented as an unsigned 
+                integer from the ZONEMD Hash Algorithms registry (<relref target="RFC8976" 
+                section="5.2" displayFormat="comma"/>).</li>
             <li>"salt": The salt, encoded in base64url.</li>
           </ul>
         </section>
