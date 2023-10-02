@@ -1,0 +1,1126 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2022-11-06T01:45:35.817254+00:00",
+  "repo": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+  "labels": [
+    {
+      "name": "design",
+      "description": "",
+      "color": "1d76db"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "editorial",
+      "description": "",
+      "color": "41d366"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "out of scope",
+      "description": "Out of scope of the WG Charter",
+      "color": "e99695"
+    },
+    {
+      "name": "parked",
+      "description": "Recorded but not being worked on",
+      "color": "f9d0c4"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    }
+  ],
+  "issues": [
+    {
+      "number": 10,
+      "id": "I_kwDOHbyYm85OmVA7",
+      "title": "More options for establishing local DNS authority",
+      "url": "https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority/issues/10",
+      "state": "CLOSED",
+      "author": "tfpauly",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Currently, the draft requires DNR or IKEv2 ADN support. This is great when you have it, but many enterprise networks will be much harder to upgrade.\r\n\r\nIf we can support other mechanisms that don't require router changes as a stopgap, that would be great. For example, something based on the names in the cert we get for DDR.",
+      "createdAt": "2022-07-26T19:34:17Z",
+      "updatedAt": "2022-10-11T07:20:56Z",
+      "closedAt": "2022-09-16T13:55:05Z",
+      "comments": [
+        {
+          "author": "tfpauly",
+          "authorAssociation": "NONE",
+          "body": "One other interesting option is associating information from the network authentication, like an EAP-TLS network. ",
+          "createdAt": "2022-07-27T22:26:58Z",
+          "updatedAt": "2022-07-27T22:26:58Z"
+        },
+        {
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "body": "On Jul 26, 2022, at 12:34 PM, Tommy Pauly ***@***.***> wrote:\n> Currently, the draft requires DNR or IKEv2 ADN support. This is great when you have it, but many enterprise networks will be much harder to upgrade.\n> \n> If we can support other mechanisms that don't require router changes as a stopgap, that would be great. For example, something based on the names in the cert we get for DDR.\n\nSee if https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority/pull/11 feels about right.\n\n-d\n\n\n",
+          "createdAt": "2022-07-27T22:55:54Z",
+          "updatedAt": "2022-07-27T22:55:54Z"
+        },
+        {
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Issue resolved in 01 version. ",
+          "createdAt": "2022-09-16T13:55:04Z",
+          "updatedAt": "2022-09-16T13:55:04Z"
+        },
+        {
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "body": "On Jul 27, 2022, at 3:27 PM, Tommy Pauly ***@***.***> wrote:\n> One other interesting option is associating information from the network authentication, like an EAP-TLS network.\n\nYes, Paul Wouters brought up a similar idea in his Discuss on DNR, https://datatracker.ietf.org/doc/draft-ietf-add-dnr/ballot/,\n\n> Spoofing attacks are mentioned in the document. Obtain _any_ certificate \n> from Let's Encrypt via ACME, eg using \"something.example.com\", then spoof \n> authentication-domain-name on the wifi. While this attack might be blocked \n> by the AP not allowing wifi clients to send packets to each other, this is \n> not true for all networks, and especially not for home networks where the \n> goal is for local clients to be able to connect to each other.  Is there a \n> better way to lock the authentication-domain-name? One possible method \n> might be to bind it to the ESSID. eg if the ESSID is wifi.nohats.ca. one \n> could only allow authentication-domain-name to be a name within nohats.ca. \n> Some method of reducing the scope of this attack is needed I believe.\n\n\nDoing something useful with EAP-TLS or ESSID seems fruitful.  Taking Paul's ESSID idea for example, the ESSID doesn't have to necessarily be the DNS name but instead there could be a mapping from \"Starbucks\" to the certificate expected at that ESSID (which for Starbucks networks managed by AT&T would not be starbucks.com).  I have been disappointed with IEEE's approach to WiFi security and it feels like a TLS connection to something -- like the network-advertised encrypted DNS server -- can close evil-twin attacks and perhaps close other attacks as well.\n\nI don't think split-horizon is the place to do it, though.  And it feels like scope creep to include into DNR or DDR, as well, as their primary goal is \"quit using DNSo53 on local network\", rather than \"fix WiFi evil twin attacks\".  Perhaps a new I-D in the SEC area, \"Enhancing WiFi Security with TLS to Network-Advertised Server\", could be a reasonable start.  That application server could be DoH/DoT like we're thinking, but I suppose could also be HTTPS or Network Time Security (RFC8915) as NTP is typically advertised for the local network (much like DNSo53).\n\n-d\n\n",
+          "createdAt": "2022-10-11T07:20:55Z",
+          "updatedAt": "2022-10-11T07:20:55Z"
+        }
+      ]
+    }
+  ],
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOHbyYm845AIzc",
+      "title": "General text and formatting cleanup",
+      "url": "https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority/pull/1",
+      "state": "MERGED",
+      "author": "bemasc",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Includes:\r\n* Text adjustments for grammar and clarity\r\n* Replacing \"public\" resolver with \"external\"\r\n* Changes to references and blockquotes\r\n* Made diagrams narrower",
+      "createdAt": "2022-06-02T20:34:44Z",
+      "updatedAt": "2022-06-08T14:32:21Z",
+      "baseRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "baseRefName": "main",
+      "baseRefOid": "c4057ad3971b4a6eff99648a5fa3ab307fbb6b91",
+      "headRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "headRefName": "bemasc-cleanup",
+      "headRefOid": "f4ec6fcd18c528c4a90c23a500eb0915ed7e4660",
+      "closedAt": "2022-06-06T18:04:00Z",
+      "mergedAt": "2022-06-06T18:04:00Z",
+      "mergedBy": "bemasc",
+      "mergeCommit": {
+        "oid": "b53b5e0740f227a1f5de908481e5975059c241c6"
+      },
+      "comments": [
+        {
+          "author": "bemasc",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@tireddy2 @danwing Please review",
+          "createdAt": "2022-06-02T20:35:43Z",
+          "updatedAt": "2022-06-02T20:35:43Z"
+        },
+        {
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Changes look good to me. ",
+          "createdAt": "2022-06-03T09:24:36Z",
+          "updatedAt": "2022-06-03T09:24:36Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHbyYm847Z3yY",
+          "commit": {
+            "abbreviatedOid": "c31a9fa"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-06T13:46:43Z",
+          "updatedAt": "2022-06-06T13:53:00Z",
+          "comments": [
+            {
+              "originalPosition": 297,
+              "body": "I suggest replacing TLS with PKIX or refer to https://datatracker.ietf.org/doc/html/rfc8310#section-8.",
+              "createdAt": "2022-06-06T13:46:43Z",
+              "updatedAt": "2022-06-06T13:53:00Z"
+            },
+            {
+              "originalPosition": 342,
+              "body": "I suggest replacing TLS with PKIX or refer to https://datatracker.ietf.org/doc/html/rfc8310#section-8.",
+              "createdAt": "2022-06-06T13:52:55Z",
+              "updatedAt": "2022-06-06T13:53:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHbyYm847acPa",
+          "commit": {
+            "abbreviatedOid": "c31a9fa"
+          },
+          "author": "bemasc",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-06T15:25:28Z",
+          "updatedAt": "2022-06-06T15:25:28Z",
+          "comments": [
+            {
+              "originalPosition": 297,
+              "body": "OK, added reference.",
+              "createdAt": "2022-06-06T15:25:28Z",
+              "updatedAt": "2022-06-06T15:25:28Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHbyYm847acR6",
+          "commit": {
+            "abbreviatedOid": "c31a9fa"
+          },
+          "author": "bemasc",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-06T15:25:34Z",
+          "updatedAt": "2022-06-06T15:25:35Z",
+          "comments": [
+            {
+              "originalPosition": 342,
+              "body": "OK, added reference.",
+              "createdAt": "2022-06-06T15:25:35Z",
+              "updatedAt": "2022-06-06T15:25:35Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHbyYm847a3me",
+          "commit": {
+            "abbreviatedOid": "f4ec6fc"
+          },
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-06-06T16:53:53Z",
+          "updatedAt": "2022-06-06T16:53:53Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOHbyYm847dWCD",
+          "commit": {
+            "abbreviatedOid": "c31a9fa"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-07T06:08:59Z",
+          "updatedAt": "2022-06-07T06:08:59Z",
+          "comments": [
+            {
+              "originalPosition": 180,
+              "body": "Replace \"validates its certificate\" with \"it will authenticate the server to its name using TLS (Section 8 of RFC8310])\" or modify this step to align with the step in other examples. ",
+              "createdAt": "2022-06-07T06:08:59Z",
+              "updatedAt": "2022-06-07T06:08:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHbyYm847mPEJ",
+          "commit": {
+            "abbreviatedOid": "c31a9fa"
+          },
+          "author": "bemasc",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-08T14:32:20Z",
+          "updatedAt": "2022-06-08T14:32:21Z",
+          "comments": [
+            {
+              "originalPosition": 180,
+              "body": "OK, see https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority/pull/3",
+              "createdAt": "2022-06-08T14:32:20Z",
+              "updatedAt": "2022-06-08T14:32:21Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "id": "PR_kwDOHbyYm845MCoF",
+      "title": "Adjust text based on feedback on the adoption thread",
+      "url": "https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority/pull/2",
+      "state": "MERGED",
+      "author": "bemasc",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "From Paul Wouters:\r\n> >    Clients SHOULD\r\n> >    apply whatever acceptance rules they would otherwise apply when using\r\n> >    this resolver (e.g. checking the AD bit, validating RRSIGs).\r\n>\r\n...\r\n> This \"SHOULD\" should therefor be a \"MUST\"\r\n\r\nFrom Michael Richardson:\r\n> The document does a really poor job of defining split-horizon DNS.",
+      "createdAt": "2022-06-06T18:59:38Z",
+      "updatedAt": "2022-06-14T16:30:18Z",
+      "baseRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "baseRefName": "main",
+      "baseRefOid": "b53b5e0740f227a1f5de908481e5975059c241c6",
+      "headRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "headRefName": "bemasc-feedback",
+      "headRefOid": "194b3685ec31fc922e60c33f44880abd455b8827",
+      "closedAt": "2022-06-14T16:30:15Z",
+      "mergedAt": "2022-06-14T16:30:15Z",
+      "mergedBy": "bemasc",
+      "mergeCommit": {
+        "oid": "0d49d104d0f289d78c975ff4ca098caedce34385"
+      },
+      "comments": [
+        {
+          "author": "bemasc",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Do you think this is a client configuration that we should reasonably\nexpect?  It seems to me that that behavior would be quite strange, although\nit is permissible. I think it's probably clearer for our examples to\nrepresent common configurations.\n\nOn Sun, Jun 12, 2022, 6:43 AM Tirumaleswar Reddy ***@***.***>\nwrote:\n\n> ***@***.**** commented on this pull request.\n> ------------------------------\n>\n> In draft-ietf-add-split-horizon-authority.xml\n> <https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority/pull/2#discussion_r895152018>\n> :\n>\n> > @@ -300,10 +303,16 @@\n>        possible tamperproof resolution methods are presented below.</t>\n>        <section anchor=\"validating-external\">\n>          <name>Using a Pre-configured External Resolver</name>\n> -        <t>The client sends the NS query to a pre-configured resolver that is\n> -        external to the network, over a secure transport. Clients <bcp14>SHOULD</bcp14> apply\n> -        whatever acceptance rules they would otherwise apply when using this\n> -        resolver (e.g. checking the AD bit, validating RRSIGs).</t>\n> +        <t>This method applies only if the client is already configured with\n> +        a default resolution strategy that sends queries to a resolver outside\n> +        of the network over a secure transport.  That resolution strategy is\n> +        considered \"tamperproof\" because any actor who could modify the NS\n> +        response could already modify all of the user's other DNS responses.</t>\n> +        <t>To ensure that this assumption holds, clients <bcp14>MUST NOT</bcp14>\n> +        relax the acceptance rules they would otherwise apply when using this\n> +        resolver. For example, if the client would check the AD bit or\n> +        validate RRSIGs locally when using this resolver, it must also do so\n> +        when resolving NS records for this purpose.</t>\n>\n> Do you think the below example would be useful to add ?\n>\n> Another example could be a client can do DNSSEC validation for the NS\n> query used for this purpose even if it has disabled DNSSEC validation for\n> other DNS queries.\n>\n> \u2014\n> Reply to this email directly, view it on GitHub\n> <https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority/pull/2#discussion_r895152018>,\n> or unsubscribe\n> <https://github.com/notifications/unsubscribe-auth/AABO3SOGRFF5XSO6SGRYWWDVOW5MJANCNFSM5YALCOMQ>\n> .\n> You are receiving this because you authored the thread.Message ID:\n> <ietf-wg-add/draft-ietf-add-split-horizon-authority/pull/2/review/1003592137\n> @github.com>\n>\n",
+          "createdAt": "2022-06-12T20:06:42Z",
+          "updatedAt": "2022-06-12T20:06:42Z"
+        },
+        {
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> \r\n\r\nI see two types of DNSSEC configurations (1) DNSSEC validations disabled for certain domains (see https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/dn593632(v=ws.11) or use of negative trust anchors to disable DNSSEC validation for certain domains (2) DNSSEC disabled by default by clients like browsers  for performance reasons or to deal with validation failure due to incorrectly handling DNSSEC records by middle boxes or DNSSEC mis-configuration. For case 2, the new configuration offers better security than having to force DNSSEC for all domains and the end-user does not have to deal with DNSSEC validation failures. ",
+          "createdAt": "2022-06-13T09:35:13Z",
+          "updatedAt": "2022-06-13T09:35:13Z"
+        },
+        {
+          "author": "bemasc",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@tireddy2 Can we discuss it separately?  This PR is for changes in response to feedback in the ADD adoption thread.  Do you approve of this PR for that purpose?\r\n\r\nPerhaps you can open a new PR if you would like to add more example text.",
+          "createdAt": "2022-06-13T17:10:52Z",
+          "updatedAt": "2022-06-13T17:10:52Z"
+        },
+        {
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> @tireddy2 Can we discuss it separately? This PR is for changes in response to feedback in the ADD adoption thread. Do you approve of this PR for that purpose?\r\n\r\nYes, changes look good to me. \r\n\r\n> \r\n> Perhaps you can open a new PR if you would like to add more example text.\r\n\r\nWorks for me. I proposed this text to address the comment from the WG on whether client implementations will enable DNSSEC to support the proposed mechanism.   ",
+          "createdAt": "2022-06-14T03:51:17Z",
+          "updatedAt": "2022-06-14T03:51:37Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHbyYm847b99S",
+          "commit": {
+            "abbreviatedOid": "194b368"
+          },
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-06-06T20:27:31Z",
+          "updatedAt": "2022-06-06T20:27:31Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOHbyYm847dfNT",
+          "commit": {
+            "abbreviatedOid": "194b368"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-07T06:50:01Z",
+          "updatedAt": "2022-06-07T06:50:01Z",
+          "comments": [
+            {
+              "originalPosition": 53,
+              "body": "We can add the following normative text:\r\nA DNSSEC-validating client MUST apply the same validation policy to query the NS records for this purpose as it does to other queries.  A client that does not validate DNSSEC MUST apply the same policy (if any) to query the NS records as it does to other queries.",
+              "createdAt": "2022-06-07T06:50:01Z",
+              "updatedAt": "2022-06-07T06:50:01Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHbyYm847mWX7",
+          "commit": {
+            "abbreviatedOid": "194b368"
+          },
+          "author": "bemasc",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-08T14:48:06Z",
+          "updatedAt": "2022-06-08T14:48:06Z",
+          "comments": [
+            {
+              "originalPosition": 53,
+              "body": "Why is this an improvement over the text in this PR?  To me, \"MUST NOT relax\" seems very clear, and also more precise: in principle, I don't see a problem with clients applying a stricter validation policy to the NS probe than they do to normal resolution.  Also, there are other possible acceptance rules beyond \"validate DNSSEC\" or \"never validate\", e.g. Unbound's harden-algo-downgrade.",
+              "createdAt": "2022-06-08T14:48:06Z",
+              "updatedAt": "2022-06-08T14:48:06Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHbyYm847phsD",
+          "commit": {
+            "abbreviatedOid": "194b368"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-09T05:34:40Z",
+          "updatedAt": "2022-06-09T05:34:40Z",
+          "comments": [
+            {
+              "originalPosition": 53,
+              "body": "I see your point. If DNSSEC is disabled by browsers for performance reasons or for validation failure due to incorrectly handling DNSSEC records by middle boxes. However, in our use case, organizations deploying split-horizon have every reason to correctly handle DNSSEC records otherwise DNSSEC validation will fail and the local resolver will not be used. DNSSEC can be conditionally enabled only for NS probe. ",
+              "createdAt": "2022-06-09T05:34:40Z",
+              "updatedAt": "2022-06-09T05:34:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHbyYm8470ZnJ",
+          "commit": {
+            "abbreviatedOid": "194b368"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-12T10:43:04Z",
+          "updatedAt": "2022-06-12T10:43:04Z",
+          "comments": [
+            {
+              "originalPosition": 53,
+              "body": "Do you think the below example would be useful to add ?\r\n\r\nAnother example could be a client can do DNSSEC validation for the NS query used for this purpose even if it has disabled DNSSEC validation for other DNS queries.",
+              "createdAt": "2022-06-12T10:43:04Z",
+              "updatedAt": "2022-06-12T10:43:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHbyYm8476gVb",
+          "commit": {
+            "abbreviatedOid": "194b368"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-06-14T03:51:58Z",
+          "updatedAt": "2022-06-14T03:51:58Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "id": "PR_kwDOHbyYm845U0Pu",
+      "title": "Use parallel language for the PvD and split-horizon lookups",
+      "url": "https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority/pull/3",
+      "state": "MERGED",
+      "author": "bemasc",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2022-06-08T14:32:11Z",
+      "updatedAt": "2022-06-14T16:30:33Z",
+      "baseRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "baseRefName": "main",
+      "baseRefOid": "b53b5e0740f227a1f5de908481e5975059c241c6",
+      "headRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "headRefName": "bemasc-authentication",
+      "headRefOid": "567166548d4d8699092164659eff0ed65416dae7",
+      "closedAt": "2022-06-14T16:30:30Z",
+      "mergedAt": "2022-06-14T16:30:30Z",
+      "mergedBy": "bemasc",
+      "mergeCommit": {
+        "oid": "cae90d301cfcd7654e32e99054c7dfb8563e0c72"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHbyYm847mpC6",
+          "commit": {
+            "abbreviatedOid": "5671665"
+          },
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-06-08T15:31:49Z",
+          "updatedAt": "2022-06-08T15:31:49Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOHbyYm847pi0V",
+          "commit": {
+            "abbreviatedOid": "5671665"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-06-09T05:42:00Z",
+          "updatedAt": "2022-06-09T05:42:00Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "id": "PR_kwDOHbyYm845xRXi",
+      "title": "Conditional DNSSEC",
+      "url": "https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority/pull/4",
+      "state": "CLOSED",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Discuss whether client implementations will have to enable DNSSEC to support the proposed mechanism.",
+      "createdAt": "2022-06-16T11:35:12Z",
+      "updatedAt": "2022-06-16T11:44:24Z",
+      "baseRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "baseRefName": "main",
+      "baseRefOid": "cae90d301cfcd7654e32e99054c7dfb8563e0c72",
+      "headRepository": "tireddy2/draft-ietf-add-split-horizon-authority",
+      "headRefName": "main",
+      "headRefOid": "f516087f4b71f72f240c5d468084ae24383eed2c",
+      "closedAt": "2022-06-16T11:44:24Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 5,
+      "id": "PR_kwDOHbyYm845xTmM",
+      "title": "Conditional DNSSEC",
+      "url": "https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority/pull/5",
+      "state": "CLOSED",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Discuss whether client implementations will have to enable DNSSEC to support the proposed mechanism.",
+      "createdAt": "2022-06-16T11:45:49Z",
+      "updatedAt": "2022-06-23T04:06:26Z",
+      "baseRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "baseRefName": "main",
+      "baseRefOid": "02ff91be04d59363131496db98fc318ff6429b3a",
+      "headRepository": "tireddy2/draft-ietf-add-split-horizon-authority",
+      "headRefName": "main",
+      "headRefOid": "bb0c1d4971a8dbc7c2e0b29fc2dc27e9da651b7f",
+      "closedAt": "2022-06-22T06:23:21Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "bemasc",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@tireddy2 It looks like you closed this without merging it.  Was that intentional?\r\n\r\nEDIT: It looks like you pushed these changes directly to `main`.  In the future, it's probably better to use the \"merge\" button on the Pull Request, so that we can tie the changes back to the discussion.",
+          "createdAt": "2022-06-22T15:36:24Z",
+          "updatedAt": "2022-06-22T15:38:54Z"
+        },
+        {
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> @tireddy2 It looks like you closed this without merging it. Was that intentional?\r\n\r\nNo, I closed it my mistake. \r\n\r\n> \r\n> EDIT: It looks like you pushed these changes directly to `main`. In the future, it's probably better to use the \"merge\" button on the Pull Request, so that we can tie the changes back to the discussion.\r\n\r\nSure.\r\n",
+          "createdAt": "2022-06-23T04:06:26Z",
+          "updatedAt": "2022-06-23T04:06:26Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHbyYm848Jm4Y",
+          "commit": {
+            "abbreviatedOid": "f516087"
+          },
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-06-16T14:37:40Z",
+          "updatedAt": "2022-06-16T14:37:40Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOHbyYm848cA2q",
+          "commit": {
+            "abbreviatedOid": "f516087"
+          },
+          "author": "bemasc",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-21T17:21:36Z",
+          "updatedAt": "2022-06-21T17:21:38Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "```suggestion\r\n        when resolving NS records for this purpose. Alternatively, a client might \r\n        perform DNSSEC validation for the NS query used for this purpose \r\n        even if it has disabled DNSSEC validation for other DNS queries.</t>\r\n```",
+              "createdAt": "2022-06-21T17:21:36Z",
+              "updatedAt": "2022-06-21T17:21:38Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "id": "PR_kwDOHbyYm846ILOD",
+      "title": "fix nit referring to two client behaviors",
+      "url": "https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority/pull/6",
+      "state": "MERGED",
+      "author": "danwing",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2022-06-22T14:44:33Z",
+      "updatedAt": "2022-06-24T13:40:14Z",
+      "baseRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "baseRefName": "main",
+      "baseRefOid": "1f64701c244273f547505f31e8bb9e15aeb74f79",
+      "headRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "headRefName": "danwing-nit-1",
+      "headRefOid": "fc24c6ff10827f458080cb378fe17edd4531f1ab",
+      "closedAt": "2022-06-24T04:28:01Z",
+      "mergedAt": "2022-06-24T04:28:01Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "d4d85fd49d27e1328f48cf973b048faf15d8f003"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHbyYm848hlaw",
+          "commit": {
+            "abbreviatedOid": "a69203b"
+          },
+          "author": "bemasc",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-22T15:39:52Z",
+          "updatedAt": "2022-06-22T15:39:59Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "```suggestion\r\n      them. Clients that strictly implement either of these resolution behaviors are out of scope for\r\n      this specification. Instead, this specification enables hybrid clients\r\n```",
+              "createdAt": "2022-06-22T15:39:52Z",
+              "updatedAt": "2022-06-22T15:40:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHbyYm848k9v4",
+          "commit": {
+            "abbreviatedOid": "a69203b"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-23T04:40:18Z",
+          "updatedAt": "2022-06-23T04:40:19Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "Update looks good. ",
+              "createdAt": "2022-06-23T04:40:19Z",
+              "updatedAt": "2022-06-23T04:40:19Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "id": "PR_kwDOHbyYm846IWE4",
+      "title": "Clarify the scope is not restricted to Enterprise Networks",
+      "url": "https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority/pull/7",
+      "state": "MERGED",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2022-06-22T15:10:45Z",
+      "updatedAt": "2022-06-23T03:51:52Z",
+      "baseRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "baseRefName": "main",
+      "baseRefOid": "1f64701c244273f547505f31e8bb9e15aeb74f79",
+      "headRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "headRefName": "main-1",
+      "headRefOid": "1fc9b1ea34e9a40c84acd6f8bb42fee748676c1c",
+      "closedAt": "2022-06-23T03:51:52Z",
+      "mergedAt": "2022-06-23T03:51:52Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "f0468e4d11229720a153e2c555cdb894255b5408"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHbyYm848hi-N",
+          "commit": {
+            "abbreviatedOid": "e71e20a"
+          },
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-22T15:34:03Z",
+          "updatedAt": "2022-06-22T15:34:04Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "```suggestion\r\n      The protocol is applicable to any type of network offering\r\n```",
+              "createdAt": "2022-06-22T15:34:03Z",
+              "updatedAt": "2022-06-22T15:34:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHbyYm848iF9p",
+          "commit": {
+            "abbreviatedOid": "e71e20a"
+          },
+          "author": "bemasc",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-22T16:45:45Z",
+          "updatedAt": "2022-06-22T16:45:45Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "I think this should be a new paragraph.",
+              "createdAt": "2022-06-22T16:45:45Z",
+              "updatedAt": "2022-06-22T16:45:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHbyYm848k2_e",
+          "commit": {
+            "abbreviatedOid": "e71e20a"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-23T03:43:57Z",
+          "updatedAt": "2022-06-23T03:43:58Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "Done.",
+              "createdAt": "2022-06-23T03:43:58Z",
+              "updatedAt": "2022-06-23T03:43:58Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "id": "PR_kwDOHbyYm846Sbn9",
+      "title": "Internal domains not leaked to external resolver",
+      "url": "https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority/pull/8",
+      "state": "CLOSED",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This patch addresses the comment to not leak internal domains to an external resolver.",
+      "createdAt": "2022-06-24T05:18:45Z",
+      "updatedAt": "2022-06-24T05:37:30Z",
+      "baseRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "baseRefName": "main",
+      "baseRefOid": "d4d85fd49d27e1328f48cf973b048faf15d8f003",
+      "headRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "headRefName": "main-2",
+      "headRefOid": "b03d4f1d5fdd5ab32bee41133d1157d9178f2b84",
+      "closedAt": "2022-06-24T05:37:30Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 9,
+      "id": "PR_kwDOHbyYm846Sd9N",
+      "title": "Internal domains not leaked to external resolver  via upload",
+      "url": "https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority/pull/9",
+      "state": "MERGED",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This fix addresses the comment to not leak internal domains to an external resolver.",
+      "createdAt": "2022-06-24T05:37:03Z",
+      "updatedAt": "2022-06-25T06:13:30Z",
+      "baseRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "baseRefName": "main",
+      "baseRefOid": "d4d85fd49d27e1328f48cf973b048faf15d8f003",
+      "headRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "headRefName": "main-3",
+      "headRefOid": "09e96177dfb0dc71660f63628b760fc6a5a57922",
+      "closedAt": "2022-06-25T06:13:30Z",
+      "mergedAt": "2022-06-25T06:13:30Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "e41da83e29c54480872e89342ca5340b88f95ea0"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHbyYm848tRQx",
+          "commit": {
+            "abbreviatedOid": "693babc"
+          },
+          "author": "bemasc",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-06-24T13:41:49Z",
+          "updatedAt": "2022-06-24T13:42:20Z",
+          "comments": [
+            {
+              "originalPosition": 28,
+              "body": "```suggestion\r\n      internal domain names, as they may be leaked in various other ways\r\n```",
+              "createdAt": "2022-06-24T13:41:49Z",
+              "updatedAt": "2022-06-24T13:42:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHbyYm848twnH",
+          "commit": {
+            "abbreviatedOid": "693babc"
+          },
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-24T15:17:00Z",
+          "updatedAt": "2022-06-24T15:17:00Z",
+          "comments": [
+            {
+              "originalPosition": 26,
+              "body": "```suggestion\r\n      such as DHCP will only learn the local domain hints but not learn the labels below internal.example.com.\r\n```",
+              "createdAt": "2022-06-24T15:17:00Z",
+              "updatedAt": "2022-06-24T15:17:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHbyYm848twty",
+          "commit": {
+            "abbreviatedOid": "693babc"
+          },
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-06-24T15:17:22Z",
+          "updatedAt": "2022-06-24T15:17:22Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "id": "PR_kwDOHbyYm848NgYA",
+      "title": "accommodate DDR providing IP address",
+      "url": "https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority/pull/11",
+      "state": "CLOSED",
+      "author": "danwing",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "if learned IP address of encrypted DNS server, connect to it and examine its TLS SAN's to find matching ADN.\n\n",
+      "createdAt": "2022-07-27T22:19:24Z",
+      "updatedAt": "2022-08-23T00:29:57Z",
+      "baseRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "baseRefName": "main",
+      "baseRefOid": "e41da83e29c54480872e89342ca5340b88f95ea0",
+      "headRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "headRefName": "accommodate_ddr",
+      "headRefOid": "8f5f06ff958426bd5fd78b5ca803bc720e377979",
+      "closedAt": "2022-08-23T00:29:57Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "body": "created new PR to resolve Tiru's comments.",
+          "createdAt": "2022-08-23T00:29:57Z",
+          "updatedAt": "2022-08-23T00:29:57Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHbyYm84-y7SJ",
+          "commit": {
+            "abbreviatedOid": "8f5f06f"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-07-28T06:18:24Z",
+          "updatedAt": "2022-07-28T06:18:34Z",
+          "comments": [
+            {
+              "originalPosition": 18,
+              "body": "In case of DDR, ADN is not present. You may want to update the above line related to DDR as follows;\r\nIf the encrypted resolver is identified by IP address (e.g., DDR), at least one of the subjectAltName entries in the resolver certificate MUST appear in an NS record for that zone. \r\n\r\nI think we should also say the client must first perform Verified Discovery (discussed in https://www.ietf.org/archive/id/draft-ietf-add-ddr-08.html#section-4.2) before performing the above check. In other words, opportunistic discovery mode cannot be used by the client (see https://www.ietf.org/archive/id/draft-ietf-add-ddr-08.html#section-4.3). ",
+              "createdAt": "2022-07-28T06:18:24Z",
+              "updatedAt": "2022-07-28T06:18:34Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHbyYm84-0SKi",
+          "commit": {
+            "abbreviatedOid": "8f5f06f"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-07-28T10:59:31Z",
+          "updatedAt": "2022-07-28T10:59:32Z",
+          "comments": [
+            {
+              "originalPosition": 18,
+              "body": "Right, having a name from the cert of the DDR server seems like a reasonable thing to tie to the NS record. It's not what the discovery was based on (which is an IP address), but it tells you that the resolver you can use is related to the zone.",
+              "createdAt": "2022-07-28T10:59:31Z",
+              "updatedAt": "2022-07-28T10:59:32Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "id": "PR_kwDOHbyYm849meoo",
+      "title": "better accommodation for DDR based on Tiru and Ben's comments",
+      "url": "https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority/pull/12",
+      "state": "MERGED",
+      "author": "danwing",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- accommodate DDR\n- better accommodation for DDR\n",
+      "createdAt": "2022-08-23T00:29:10Z",
+      "updatedAt": "2022-08-23T00:30:23Z",
+      "baseRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "baseRefName": "main",
+      "baseRefOid": "e41da83e29c54480872e89342ca5340b88f95ea0",
+      "headRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "headRefName": "betterDDR",
+      "headRefOid": "1261d89256ad8c7f0e0883d9ee36b45fc6398b6e",
+      "closedAt": "2022-08-23T00:30:23Z",
+      "mergedAt": "2022-08-23T00:30:23Z",
+      "mergedBy": "danwing",
+      "mergeCommit": {
+        "oid": "72ae2a768681063a0b4b98a58d67e3d6d6d350be"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 13,
+      "id": "PR_kwDOHbyYm84-1q2F",
+      "title": "Clarify that SUDN is out of scope",
+      "url": "https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority/pull/13",
+      "state": "CLOSED",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2022-09-13T06:51:14Z",
+      "updatedAt": "2022-09-13T06:56:08Z",
+      "baseRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "baseRefName": "main",
+      "baseRefOid": "72ae2a768681063a0b4b98a58d67e3d6d6d350be",
+      "headRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "headRefName": "tireddy2-patch-1",
+      "headRefOid": "15223ccbacd63e3c4812aa566008595cfd5f76e4",
+      "closedAt": "2022-09-13T06:56:08Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 14,
+      "id": "PR_kwDOHbyYm84-1sD0",
+      "title": "Clarify that SUDN is out of scope",
+      "url": "https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority/pull/14",
+      "state": "MERGED",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2022-09-13T06:56:41Z",
+      "updatedAt": "2022-09-14T13:28:39Z",
+      "baseRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "baseRefName": "main",
+      "baseRefOid": "72ae2a768681063a0b4b98a58d67e3d6d6d350be",
+      "headRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "headRefName": "tireddy2-patch-2",
+      "headRefOid": "6f87b4a6685511d2fce4c6d2c02aca51acc2e838",
+      "closedAt": "2022-09-14T13:28:39Z",
+      "mergedAt": "2022-09-14T13:28:39Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "cf867c0e0f5a726dd96a4bb7eedfb58f53e37c5b"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHbyYm85B6oOr",
+          "commit": {
+            "abbreviatedOid": "6f87b4a"
+          },
+          "author": "bemasc",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-09-13T14:14:03Z",
+          "updatedAt": "2022-09-13T14:14:32Z",
+          "comments": [
+            {
+              "originalPosition": 35,
+              "body": "Trailing whitespace",
+              "createdAt": "2022-09-13T14:14:03Z",
+              "updatedAt": "2022-09-13T14:14:32Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 15,
+      "id": "PR_kwDOHbyYm84_DUXU",
+      "title": "adjust Scope around special-use domain names",
+      "url": "https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority/pull/15",
+      "state": "MERGED",
+      "author": "danwing",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2022-09-15T20:06:51Z",
+      "updatedAt": "2022-09-16T13:16:58Z",
+      "baseRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "baseRefName": "main",
+      "baseRefOid": "cf867c0e0f5a726dd96a4bb7eedfb58f53e37c5b",
+      "headRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "headRefName": "adjust_scope",
+      "headRefOid": "ea6f83353db62eb0ce9a20ff782f9767f4fec51e",
+      "closedAt": "2022-09-16T13:16:58Z",
+      "mergedAt": "2022-09-16T13:16:58Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "8a295076640e4bec7ea4e1e08b0a9b83fc2c2be1"
+      },
+      "comments": [
+        {
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Update looks good to me.",
+          "createdAt": "2022-09-16T13:16:54Z",
+          "updatedAt": "2022-09-16T13:16:54Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 16,
+      "id": "PR_kwDOHbyYm85CBrgm",
+      "title": "DDR use in opportunistic discovery mode",
+      "url": "https://github.com/ietf-wg-add/draft-ietf-add-split-horizon-authority/pull/16",
+      "state": "MERGED",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2022-11-02T06:12:03Z",
+      "updatedAt": "2022-11-03T05:13:49Z",
+      "baseRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "baseRefName": "main",
+      "baseRefOid": "8a295076640e4bec7ea4e1e08b0a9b83fc2c2be1",
+      "headRepository": "ietf-wg-add/draft-ietf-add-split-horizon-authority",
+      "headRefName": "tireddy2-patch-3",
+      "headRefOid": "0fff243689a87c8c9ff8bc15ba16206817a23c43",
+      "closedAt": "2022-11-03T05:13:49Z",
+      "mergedAt": "2022-11-03T05:13:49Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "56a10a76648b524cf7861f1e4688b98d366cf000"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHbyYm85FdO7l",
+          "commit": {
+            "abbreviatedOid": "0fff243"
+          },
+          "author": "bemasc",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-11-02T13:52:27Z",
+          "updatedAt": "2022-11-02T13:53:22Z",
+          "comments": [
+            {
+              "originalPosition": 25,
+              "body": "I think we can make this a lot shorter:\r\n\r\n```suggestion\r\n      identified by IP address (e.g., DDR), then the resolver's certificate MUST\r\n      present a certificate that can be validated by the client, containing at least\r\n      one subjectAltName entry that matches an NS record for that zone.\r\n```",
+              "createdAt": "2022-11-02T13:52:27Z",
+              "updatedAt": "2022-11-02T13:53:22Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHbyYm85FgUd2",
+          "commit": {
+            "abbreviatedOid": "0fff243"
+          },
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "looks great with Ben's suggested shortening.",
+          "createdAt": "2022-11-02T22:50:12Z",
+          "updatedAt": "2022-11-02T22:50:12Z",
+          "comments": []
+        }
+      ]
+    }
+  ]
+}
