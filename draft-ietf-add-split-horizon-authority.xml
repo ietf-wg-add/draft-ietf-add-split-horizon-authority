@@ -314,8 +314,8 @@
             <li>"subdomains": An array containing the claimed subdomains, as
                 dot-separated names with the parent suffix already removed, in
                 canonical order.</li>
-            <li>"algorithm": The hash algorithm is represented as an unsigned
-                integer from the ZONEMD Hash Algorithms registry (<relref target="RFC8976"
+            <li>"algorithm": The hash algorithm is represented by its "Mnemonic"
+                string from the ZONEMD Hash Algorithms registry (<relref target="RFC8976"
                 section="5.2" displayFormat="comma"/>).</li>
             <li>"salt": The salt, encoded in base64url.</li>
           </ul>
@@ -769,7 +769,7 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
         <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-add-dnr.xml"/>
         <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-ipsecme-add-ike.xml"/>
 	<xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-add-ddr.xml"/>
-        <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-dnsop-domain-verification-techniques.xml"/>	
+        <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-dnsop-domain-verification-techniques.xml"/>
     </references>
     </references>
   </back>
