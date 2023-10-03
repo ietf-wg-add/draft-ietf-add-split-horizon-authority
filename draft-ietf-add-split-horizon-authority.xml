@@ -220,11 +220,11 @@
         <li>The DNS name of the authorizing parent zone.</li>
         <li>A set of subdomains of this parent zone that are claimed by
             the named local resolver (potentially including the entire parent
-            zone). To claim the entire parent zone, the claimed subdomain will be 
-            represented as an asterisk symbol "*".</li>
-        <li>A ZONEMD Hash Algorithm (<relref section="5.3" target="RFC8976"/>). 
+            zone). To claim the entire parent zone, the claimed subdomain
+            will be represented as an asterisk symbol "*".</li>
+        <li>A ZONEMD Hash Algorithm (<relref section="5.3" target="RFC8976"/>).
            For interoperability purposes implementations MUST support the
-           "mandatory to implement" hash algorithms defined in 
+           "mandatory to implement" hash algorithms defined in
            <relref section="2.2.3" target="RFC8976"/>. </li>
         <li>A high-entropy salt, up to 255 octets.</li>
       </ul>
@@ -247,7 +247,7 @@
         <li>Let $TOKEN = hash(len($SALT) || $SALT || $X). Where "||" denotes concatenation.</li>
       </ol>
       <t>The zone operator then publishes a "Verification Record" with the
-      following structure, following the advice in Sections 5.1 and 5.2 of 
+      following structure, following the advice in Sections 5.1 and 5.2 of
       <xref target="I-D.ietf-dnsop-domain-verification-techniques"/>:</t>
       <ul>
         <li>Type = TXT.</li>
@@ -269,7 +269,7 @@
           <li>Salt = "example salt bytes (should be random)"</li>
         </ul>
         <t>To approve this claim, the zone operator would publish the following record:</t>
-        <t>NOTE: '\' line wrapping per <xref target="RFC8792"/></t>  
+        <t>NOTE: '\' line wrapping per <xref target="RFC8792"/></t>
         <sourcecode type="dns-rr">
   resolver17.parent.example._splitdns-challenge.parent.example. \
   IN TXT "token=6rQ7oOZqdg8qQFRqtxpEhK97mNkgFwzNKTmNOtlxspBscZq\
@@ -287,11 +287,11 @@
           <name>Using DHCP</name>
           <t>
             In DHCP, each Authorization Claim is encoded as a DHCP Authentication
-            Option (<xref target="RFC3118"/> and <relref section="21.11" target="RFC8415"/>), 
-            using the Protocol value $TBD1, "Split DNS Authentication". In DHCPv4, the long-options 
-            mechanism described in <relref section="8" target="RFC3396"/> MUST be used if the 
-            authentication option exceeds the maximum DHCPv4 option size of 255 octets. The Algorithm field 
-            provides the ZONEMD Hash Algorithm, represented by its registered Value.  
+            Option (<xref target="RFC3118"/> and <relref section="21.11" target="RFC8415"/>),
+            using the Protocol value $TBD1, "Split DNS Authentication". In DHCPv4, the long-options
+            mechanism described in <relref section="8" target="RFC3396"/> MUST be used if the
+            authentication option exceeds the maximum DHCPv4 option size of 255 octets. The Algorithm field
+            provides the ZONEMD Hash Algorithm, represented by its registered Value.
             The Replay Detection Method (RDM) value <bcp14>MUST</bcp14> be 0x00. The Authentication Information
             <bcp14>MUST</bcp14> contain the following information, concatenated:</t>
           <ol>
@@ -314,10 +314,10 @@
             <li>"parent": The parent zone name as a dot-separated name.</li>
             <li>"subdomains": An array containing the claimed subdomains, as
                 dot-separated names with the parent suffix already removed, in
-                canonical order. To claim the entire parent zone, the claimed subdomain will be 
-                represented as an asterisk symbol "*". </li>
-            <li>"algorithm": The hash algorithm is represented as an unsigned 
-                integer from the ZONEMD Hash Algorithms registry (<relref target="RFC8976" 
+                canonical order. To claim the entire parent zone, the claimed subdomain 
+                will be represented as an asterisk symbol "*".</li>
+            <li>"algorithm": The hash algorithm is represented by its "Mnemonic"
+                string from the ZONEMD Hash Algorithms registry (<relref target="RFC8976"
                 section="5.2" displayFormat="comma"/>).</li>
             <li>"salt": The salt, encoded in base64url.</li>
           </ul>
@@ -621,7 +621,7 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
           </figure>
         </section>
       </section>
-      <section anchor="split">
+      <section>
         <name>Internal-only Subdomains</name>
         <t>In many split-horizon deployments, all non-public domain names are
         placed in a separate child zone (e.g., <tt>internal.example.com</tt>).
@@ -632,13 +632,12 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
         <t>As in <xref target="internal-only"/>, the internal DNS
         server will need a certificate signed by a CA trusted by the
         client.</t>
-        <t>In order to not leak the internal domains to an external resolver, this document 
-        recommends the internal domains be kept in a child zone of the local domain hints 
-        advertised by the network. It has the added advantage of reducing the 
-        frequency of changes to the Verification Record. For example, if the PvD "dnsZones"
-        entry is “internal.example.com” and the network-provided DNS resolver is
-        “ns1.internal.example.com”, the network operator can structure the internal
-        domain names as "private1.internal.example.com", "private2.internal.example.com",
+        <t>In order reduce the frequency of changes to the Verification Record, this document
+        recommends the internal domains be kept in a child zone of the local domain hints
+        advertised by the network. For example, if the PvD "dnsZones" entry is 
+        “internal.example.com” and the network-provided DNS resolver is“ns1.internal.example.com”,
+        the network operator can structure the internal domain names as
+        "private1.internal.example.com", "private2.internal.example.com",
         etc. The network-designated resolver will be used to resolve the subdomains of
         the local domain hint “*.internal.example.com”.</t> 
       </section>
@@ -656,17 +655,6 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
     </section>
     <section anchor="Security">
       <name>Security Considerations</name>
-      <t>If an internal zone name (e.g., <tt>internal.example.com</tt>) is used with
-      this specification and a public certificate is obtained
-      for validation, that internal zone name will exist in Certificate Transparency
-      logs <xref target="RFC9162"/>. However, if the recommendation given
-      in <xref target="split"/> is adhered to, adversaries that monitor
-      a network, such as through passive monitoring or active probing of protocols,
-      such as DHCP will only learn the local domain hints but not learn the sensitive labels. 
-      However, security by obscurity may not maintain or increase the security of the 
-      sensitive internal domain names, as they may be leaked in various 
-      other ways (e.g., browser reload).</t>
-    
       <t>The Authentication Domain Names of authorized local encrypted resolvers are
       revealed in the Owner Names of Verification Records.  This makes it easier for
       domain owners to understand which resolvers they are currently authorizing to
@@ -674,10 +662,10 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
       local encrypted resolver's name is inside a secret subdomain. To avoid leakage,
       local resolvers should be given a name that does not reveal any sensitive
       information (perhaps in addition to the more sensitive name).</t>
-      <t> The security properties of hashing algorithms are not fixed. Algorithm Agility 
-      (see <xref target="RFC7696"/>) is achieved by providing implementations with 
-      flexibility to choose hashing algorithms from the ZONEMD Schemes registry 
-      (<relref target="RFC8976" section="5.2" displayFormat="comma"/>).</t> 
+      <t> The security properties of hashing algorithms are not fixed. Algorithm Agility
+      (see <xref target="RFC7696"/>) is achieved by providing implementations with
+      flexibility to choose hashing algorithms from the ZONEMD Schemes registry
+      (<relref target="RFC8976" section="5.2" displayFormat="comma"/>).</t>
     </section>
     <section anchor="IANA">
       <name>IANA Considerations</name>
@@ -770,12 +758,12 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6731.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5986.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8310.xml"/>
-        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7696.xml"/>        
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7696.xml"/>
 	<xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8792.xml"/>
         <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-add-dnr.xml"/>
         <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-ipsecme-add-ike.xml"/>
 	<xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-add-ddr.xml"/>
-        <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-dnsop-domain-verification-techniques.xml"/>	      
+        <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-dnsop-domain-verification-techniques.xml"/>
     </references>
     </references>
   </back>
