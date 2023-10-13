@@ -222,6 +222,7 @@
             the named local resolver (potentially including the entire parent
             zone). To claim the entire parent zone, the claimed subdomain
             will be represented as an asterisk symbol "*".</li>
+            zone).</li>
         <li>A ZONEMD Hash Algorithm (<relref section="5.3" target="RFC8976"/>).
            For interoperability purposes implementations MUST support the
            "mandatory to implement" hash algorithms defined in
@@ -316,6 +317,8 @@
                 dot-separated names with the parent suffix already removed, in
                 canonical order. To claim the entire parent zone, the claimed subdomain 
                 will be represented as an asterisk symbol "*".</li>
+                canonical order.</li>
+
             <li>"algorithm": The hash algorithm is represented by its "Mnemonic"
                 string from the ZONEMD Hash Algorithms registry (<relref target="RFC8976"
                 section="5.2" displayFormat="comma"/>).</li>
