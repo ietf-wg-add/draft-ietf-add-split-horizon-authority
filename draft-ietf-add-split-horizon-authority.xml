@@ -64,7 +64,7 @@
       </address>
     </author>
     <author fullname="Benjamin Schwartz" initials="B." surname="Schwartz">
-      <organization abbrev="Google">Google LLC</organization>
+      <organization abbrev="Meta">Meta Platforms, Inc.</organization>
       <address>
         <email>ietf@bemasc.net</email>
       </address>
@@ -222,7 +222,6 @@
             the named local resolver (potentially including the entire parent
             zone). To claim the entire parent zone, the claimed subdomain
             will be represented as an asterisk symbol "*".</li>
-            zone).</li>
         <li>A ZONEMD Hash Algorithm (<relref section="5.3" target="RFC8976"/>).
            For interoperability purposes implementations MUST support the
            "mandatory to implement" hash algorithms defined in
@@ -317,8 +316,6 @@
                 dot-separated names with the parent suffix already removed, in
                 canonical order. To claim the entire parent zone, the claimed subdomain 
                 will be represented as an asterisk symbol "*".</li>
-                canonical order.</li>
-
             <li>"algorithm": The hash algorithm is represented by its "Mnemonic"
                 string from the ZONEMD Hash Algorithms registry (<relref target="RFC8976"
                 section="5.2" displayFormat="comma"/>).</li>
@@ -635,10 +632,11 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
         <t>As in <xref target="internal-only"/>, the internal DNS
         server will need a certificate signed by a CA trusted by the
         client.</t>
-        <t>In order reduce the frequency of changes to the Verification Record, this document
+        <t>Although placing internal domains inside a child domain is unnecessary to prevent leakage, 
+        such placement reduces the frequency of changes to the Verification Record, this document
         recommends the internal domains be kept in a child zone of the local domain hints
         advertised by the network. For example, if the PvD "dnsZones" entry is 
-        “internal.example.com” and the network-provided DNS resolver is“ns1.internal.example.com”,
+        “internal.example.com” and the network-provided DNS resolver is “ns1.internal.example.com”,
         the network operator can structure the internal domain names as
         "private1.internal.example.com", "private2.internal.example.com",
         etc. The network-designated resolver will be used to resolve the subdomains of
