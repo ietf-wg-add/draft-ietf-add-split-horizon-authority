@@ -64,7 +64,7 @@
       </address>
     </author>
     <author fullname="Benjamin Schwartz" initials="B." surname="Schwartz">
-      <organization abbrev="Google">Google LLC</organization>
+      <organization abbrev="Meta">Meta Platforms, Inc.</organization>
       <address>
         <email>ietf@bemasc.net</email>
       </address>
@@ -220,7 +220,8 @@
         <li>The DNS name of the authorizing parent zone.</li>
         <li>A set of subdomains of this parent zone that are claimed by
             the named local resolver (potentially including the entire parent
-            zone).</li>
+            zone). To claim the entire parent zone, the claimed subdomain
+            will be represented as an asterisk symbol "*".</li>
         <li>A ZONEMD Hash Algorithm (<relref section="5.3" target="RFC8976"/>).
            For interoperability purposes implementations MUST support the
            "mandatory to implement" hash algorithms defined in
@@ -313,7 +314,8 @@
             <li>"parent": The parent zone name as a dot-separated name.</li>
             <li>"subdomains": An array containing the claimed subdomains, as
                 dot-separated names with the parent suffix already removed, in
-                canonical order.</li>
+                canonical order. To claim the entire parent zone, the claimed subdomain 
+                will be represented as an asterisk symbol "*".</li>
             <li>"algorithm": The hash algorithm is represented by its "Mnemonic"
                 string from the ZONEMD Hash Algorithms registry (<relref target="RFC8976"
                 section="5.2" displayFormat="comma"/>).</li>
@@ -467,7 +469,7 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
   "splitDnsClaims": [{
     "resolver": "dns.example.net",
     "parent": "example.com",
-    "subdomains": [""],
+    "subdomains": ["*"],
     "algorithm": "SHA384",
     "salt": "abc...123"
   }]
@@ -630,6 +632,15 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
         <t>As in <xref target="internal-only"/>, the internal DNS
         server will need a certificate signed by a CA trusted by the
         client.</t>
+        <t>Although placing internal domains inside a child domain is unnecessary to prevent leakage, 
+        such placement reduces the frequency of changes to the Verification Record, this document
+        recommends the internal domains be kept in a child zone of the local domain hints
+        advertised by the network. For example, if the PvD "dnsZones" entry is 
+        “internal.example.com” and the network-provided DNS resolver is “ns1.internal.example.com”,
+        the network operator can structure the internal domain names as
+        "private1.internal.example.com", "private2.internal.example.com",
+        etc. The network-designated resolver will be used to resolve the subdomains of
+        the local domain hint “*.internal.example.com”.</t> 
       </section>
     </section>
     <section anchor="vpn">
@@ -645,22 +656,6 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
     </section>
     <section anchor="Security">
       <name>Security Considerations</name>
-      <t>If an internal zone name (e.g., <tt>internal.example.com</tt>) is used with
-      this specification and a public certificate is obtained
-      for validation, that internal zone name will exist in Certificate Transparency
-      logs <xref target="RFC9162"/>. In order to not leak the internal domains to
-      an external resolver, the internal domains can be kept in a child zone of the
-      local domain hints advertised by the network. For example, if the PvD "dnsZones"
-      entry is “internal.example.com” and the network-provided DNS resolver is
-      “ns1.internal.example.com”, the network operator can structure the internal
-      domain names as "private1.internal.example.com", "private2.internal.example.com",
-      etc. The network-designated resolver will be used to resolve the subdomains of
-      the local domain hint “*.internal.example.com”. Further, adversaries that monitor
-      a network such as through passive monitoring or active probing of protocols,
-      such as DHCP will only learn the local domain hints but not learn the labels below internal.example.com.
-      However, security by obscurity may not maintain or increase the security of the
-      internal domain names, as they may be leaked in various other ways
-      (e.g., browser reload).</t>
       <t>The Authentication Domain Names of authorized local encrypted resolvers are
       revealed in the Owner Names of Verification Records.  This makes it easier for
       domain owners to understand which resolvers they are currently authorizing to
