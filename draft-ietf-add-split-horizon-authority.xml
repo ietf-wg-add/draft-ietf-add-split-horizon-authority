@@ -272,8 +272,8 @@
         <t>NOTE: '\' line wrapping per <xref target="RFC8792"/></t>
         <sourcecode type="dns-rr">
   resolver17.parent.example._splitdns-challenge.parent.example. \
-  IN TXT "token=6rQ7oOZqdg8qQFRqtxpEhK97mNkgFwzNKTmNOtlxspBscZq\
-  UwFZZJDDD-Djetw2MCg"
+  IN TXT "token=z1qyK7QWwQPkT-ZmVW-tAQbsNyYenTNBPp5ogYB8S1wesVCR\
+  -KJDv2eFwfJcWQM"
 </sourcecode>
       </section>
       <section>
@@ -314,7 +314,7 @@
             <li>"parent": The parent zone name as a dot-separated name.</li>
             <li>"subdomains": An array containing the claimed subdomains, as
                 dot-separated names with the parent suffix already removed, in
-                canonical order. To claim the entire parent zone, the claimed subdomain 
+                canonical order. To claim the entire parent zone, the claimed subdomain
                 will be represented as an asterisk symbol "*".</li>
             <li>"algorithm": The hash algorithm is represented by its "Mnemonic"
                 string from the ZONEMD Hash Algorithms registry (<relref target="RFC8976"
@@ -632,15 +632,15 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
         <t>As in <xref target="internal-only"/>, the internal DNS
         server will need a certificate signed by a CA trusted by the
         client.</t>
-        <t>Although placing internal domains inside a child domain is unnecessary to prevent leakage, 
+        <t>Although placing internal domains inside a child domain is unnecessary to prevent leakage,
         such placement reduces the frequency of changes to the Verification Record, this document
         recommends the internal domains be kept in a child zone of the local domain hints
-        advertised by the network. For example, if the PvD "dnsZones" entry is 
+        advertised by the network. For example, if the PvD "dnsZones" entry is
         “internal.example.com” and the network-provided DNS resolver is “ns1.internal.example.com”,
         the network operator can structure the internal domain names as
         "private1.internal.example.com", "private2.internal.example.com",
         etc. The network-designated resolver will be used to resolve the subdomains of
-        the local domain hint “*.internal.example.com”.</t> 
+        the local domain hint “*.internal.example.com”.</t>
       </section>
     </section>
     <section anchor="vpn">
@@ -713,7 +713,7 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
     </section>
     <section>
       <name>Acknowledgements</name>
-      <t>Thanks to Mohamed Boucadair, Jim Reid, Tommy Pauly, Paul Vixie,
+      <t>Thanks to Mohamed Boucadair, Jim Reid, Tommy Pauly, Paul Vixie, Bob Halley,
       Michael Richardson, Bernie Volz and Vinny Parla for the discussion and comments.</t>
     </section>
   </middle>
