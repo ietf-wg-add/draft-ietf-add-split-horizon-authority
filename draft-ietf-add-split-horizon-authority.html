@@ -17,23 +17,23 @@
       to inform clients about local resolvers that are authorized to answer
       authoritatively for certain subdomains. 
     " name="description">
-<meta content="xml2rfc 3.18.0" name="generator">
+<meta content="xml2rfc 3.18.2" name="generator">
 <meta content="draft-ietf-add-split-horizon-authority-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.18.0
-    Python 3.11.5
+  xml2rfc 3.18.2
+    Python 3.11.6
     ConfigArgParse 1.5.3
     google-i18n-address 3.1.0
     intervaltree 3.1.0
     Jinja2 3.1.2
     lxml 4.9.3
-    platformdirs 3.10.0
+    platformdirs 4.0.0
     pycountry 22.3.5
     PyYAML 6.0
     requests 2.31.0
     setuptools 67.7.2
     six 1.16.0
-    wcwidth 0.2.6
+    wcwidth 0.2.10
 -->
 <link href="draft-ietf-add-split-horizon-authority.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1032,11 +1032,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Establishing Local DNS Authority</td>
-<td class="right">October 2023</td>
+<td class="right">November 2023</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Reddy, et al.</td>
-<td class="center">Expires 4 April 2024</td>
+<td class="center">Expires 31 May 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1049,12 +1049,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-add-split-horizon-authority-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-10-02" class="published">2 October 2023</time>
+<time datetime="2023-11-28" class="published">28 November 2023</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-04-04">4 April 2024</time></dd>
+<dd class="expires"><time datetime="2024-05-31">31 May 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1071,7 +1071,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </div>
 <div class="author">
       <div class="author-name">B. Schwartz</div>
-<div class="org">Google</div>
+<div class="org">Meta</div>
 </div>
 </dd>
 </dl>
@@ -1116,7 +1116,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 4 April 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 31 May 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1405,7 +1405,8 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </li>
         <li class="normal" id="section-5-3.3">A set of subdomains of this parent zone that are claimed by
             the named local resolver (potentially including the entire parent
-            zone).<a href="#section-5-3.3" class="pilcrow">¶</a>
+            zone). To claim the entire parent zone, the claimed subdomain
+            will be represented as an asterisk symbol "*".<a href="#section-5-3.3" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="section-5-3.4">A ZONEMD Hash Algorithm (<span><a href="https://rfc-editor.org/rfc/rfc8976#section-5.3" class="relref">Section 5.3</a> of [<a href="#RFC8976" class="cite xref">RFC8976</a>]</span>).
            For interoperability purposes implementations MUST support the
@@ -1475,8 +1476,8 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <div class="lang-dns-rr sourcecode" id="section-5.1-5">
 <pre>
   resolver17.parent.example._splitdns-challenge.parent.example. \
-  IN TXT "token=6rQ7oOZqdg8qQFRqtxpEhK97mNkgFwzNKTmNOtlxspBscZq\
-  UwFZZJDDD-Djetw2MCg"
+  IN TXT "token=z1qyK7QWwQPkT-ZmVW-tAQbsNyYenTNBPp5ogYB8S1wesVCR\
+  -KJDv2eFwfJcWQM"
 </pre><a href="#section-5.1-5" class="pilcrow">¶</a>
 </div>
 </section>
@@ -1530,7 +1531,8 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </li>
             <li class="normal" id="section-5.2.2-2.3">"subdomains": An array containing the claimed subdomains, as
                 dot-separated names with the parent suffix already removed, in
-                canonical order.<a href="#section-5.2.2-2.3" class="pilcrow">¶</a>
+                canonical order. To claim the entire parent zone, the claimed subdomain
+                will be represented as an asterisk symbol "*".<a href="#section-5.2.2-2.3" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-5.2.2-2.4">"algorithm": The hash algorithm is represented by its "Mnemonic"
                 string from the ZONEMD Hash Algorithms registry (<span>[<a href="#RFC8976" class="cite xref">RFC8976</a>], <a href="https://rfc-editor.org/rfc/rfc8976#section-5.2" class="relref">Section 5.2</a></span>).<a href="#section-5.2.2-2.4" class="pilcrow">¶</a>
@@ -1709,7 +1711,7 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
   "splitDnsClaims": [{
     "resolver": "dns.example.net",
     "parent": "example.com",
-    "subdomains": [""],
+    "subdomains": ["*"],
     "algorithm": "SHA384",
     "salt": "abc...123"
   }]
@@ -1898,6 +1900,15 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
 <p id="section-8.2-2">As in <a href="#internal-only" class="auto internal xref">Section 8.1</a>, the internal DNS
         server will need a certificate signed by a CA trusted by the
         client.<a href="#section-8.2-2" class="pilcrow">¶</a></p>
+<p id="section-8.2-3">Although placing internal domains inside a child domain is unnecessary to prevent leakage,
+        such placement reduces the frequency of changes to the Verification Record, this document
+        recommends the internal domains be kept in a child zone of the local domain hints
+        advertised by the network. For example, if the PvD "dnsZones" entry is
+        “internal.example.com” and the network-provided DNS resolver is “ns1.internal.example.com”,
+        the network operator can structure the internal domain names as
+        "private1.internal.example.com", "private2.internal.example.com",
+        etc. The network-designated resolver will be used to resolve the subdomains of
+        the local domain hint “*.internal.example.com”.<a href="#section-8.2-3" class="pilcrow">¶</a></p>
 </section>
 </section>
 <div id="vpn">
@@ -1920,33 +1931,17 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
       <h2 id="name-security-considerations">
 <a href="#section-10" class="section-number selfRef">10. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
-<p id="section-10-1">If an internal zone name (e.g., <code>internal.example.com</code>) is used with
-      this specification and a public certificate is obtained
-      for validation, that internal zone name will exist in Certificate Transparency
-      logs <span>[<a href="#RFC9162" class="cite xref">RFC9162</a>]</span>. In order to not leak the internal domains to
-      an external resolver, the internal domains can be kept in a child zone of the
-      local domain hints advertised by the network. For example, if the PvD "dnsZones"
-      entry is “internal.example.com” and the network-provided DNS resolver is
-      “ns1.internal.example.com”, the network operator can structure the internal
-      domain names as "private1.internal.example.com", "private2.internal.example.com",
-      etc. The network-designated resolver will be used to resolve the subdomains of
-      the local domain hint “*.internal.example.com”. Further, adversaries that monitor
-      a network such as through passive monitoring or active probing of protocols,
-      such as DHCP will only learn the local domain hints but not learn the labels below internal.example.com.
-      However, security by obscurity may not maintain or increase the security of the
-      internal domain names, as they may be leaked in various other ways
-      (e.g., browser reload).<a href="#section-10-1" class="pilcrow">¶</a></p>
-<p id="section-10-2">The Authentication Domain Names of authorized local encrypted resolvers are
+<p id="section-10-1">The Authentication Domain Names of authorized local encrypted resolvers are
       revealed in the Owner Names of Verification Records.  This makes it easier for
       domain owners to understand which resolvers they are currently authorizing to
       implement Split DNS, but it could create a confidentiality problem if the
       local encrypted resolver's name is inside a secret subdomain. To avoid leakage,
       local resolvers should be given a name that does not reveal any sensitive
-      information (perhaps in addition to the more sensitive name).<a href="#section-10-2" class="pilcrow">¶</a></p>
-<p id="section-10-3"> The security properties of hashing algorithms are not fixed. Algorithm Agility
+      information (perhaps in addition to the more sensitive name).<a href="#section-10-1" class="pilcrow">¶</a></p>
+<p id="section-10-2"> The security properties of hashing algorithms are not fixed. Algorithm Agility
       (see <span>[<a href="#RFC7696" class="cite xref">RFC7696</a>]</span>) is achieved by providing implementations with
       flexibility to choose hashing algorithms from the ZONEMD Schemes registry
-      (<span>[<a href="#RFC8976" class="cite xref">RFC8976</a>], <a href="https://rfc-editor.org/rfc/rfc8976#section-5.2" class="relref">Section 5.2</a></span>).<a href="#section-10-3" class="pilcrow">¶</a></p>
+      (<span>[<a href="#RFC8976" class="cite xref">RFC8976</a>], <a href="https://rfc-editor.org/rfc/rfc8976#section-5.2" class="relref">Section 5.2</a></span>).<a href="#section-10-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="IANA">
@@ -2021,7 +2016,7 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
       <h2 id="name-acknowledgements">
 <a href="#section-12" class="section-number selfRef">12. </a><a href="#name-acknowledgements" class="section-name selfRef">Acknowledgements</a>
       </h2>
-<p id="section-12-1">Thanks to Mohamed Boucadair, Jim Reid, Tommy Pauly, Paul Vixie,
+<p id="section-12-1">Thanks to Mohamed Boucadair, Jim Reid, Tommy Pauly, Paul Vixie, Bob Halley,
       Michael Richardson, Bernie Volz and Vinny Parla for the discussion and comments.<a href="#section-12-1" class="pilcrow">¶</a></p>
 </section>
 <section id="section-13">
@@ -2098,7 +2093,7 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
 <dd class="break"></dd>
 <dt id="I-D.ietf-dnsop-domain-verification-techniques">[I-D.ietf-dnsop-domain-verification-techniques]</dt>
         <dd>
-<span class="refAuthor">Sahib, S. K.</span>, <span class="refAuthor">Huque, S.</span>, and <span class="refAuthor">P. Wouters</span>, <span class="refTitle">"Domain Control Validation using DNS"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-dnsop-domain-verification-techniques-02</span>, <time datetime="2023-07-10" class="refDate">10 July 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-dnsop-domain-verification-techniques-02">https://datatracker.ietf.org/doc/html/draft-ietf-dnsop-domain-verification-techniques-02</a>&gt;</span>. </dd>
+<span class="refAuthor">Sahib, S. K.</span>, <span class="refAuthor">Huque, S.</span>, <span class="refAuthor">Wouters, P.</span>, and <span class="refAuthor">E. Nygren</span>, <span class="refTitle">"Domain Control Validation using DNS"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-dnsop-domain-verification-techniques-03</span>, <time datetime="2023-10-17" class="refDate">17 October 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-dnsop-domain-verification-techniques-03">https://datatracker.ietf.org/doc/html/draft-ietf-dnsop-domain-verification-techniques-03</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-ipsecme-add-ike">[I-D.ietf-ipsecme-add-ike]</dt>
         <dd>
@@ -2199,7 +2194,7 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
 </address>
 <address class="vcard">
         <div dir="auto" class="left"><span class="fn nameRole">Benjamin Schwartz</span></div>
-<div dir="auto" class="left"><span class="org">Google LLC</span></div>
+<div dir="auto" class="left"><span class="org">Meta Platforms, Inc.</span></div>
 <div class="email">
 <span>Email:</span>
 <a href="mailto:ietf@bemasc.net" class="email">ietf@bemasc.net</a>

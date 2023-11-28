@@ -5,12 +5,12 @@
 ADD                                                             T. Reddy
 Internet-Draft                                                     Nokia
 Intended status: Standards Track                                 D. Wing
-Expires: 4 April 2024                                             Citrix
+Expires: 31 May 2024                                              Citrix
                                                                 K. Smith
                                                                 Vodafone
                                                              B. Schwartz
-                                                                  Google
-                                                          2 October 2023
+                                                                    Meta
+                                                        28 November 2023
 
 
 Establishing Local DNS Authority in Validated Split-Horizon Environments
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 April 2024.
+   This Internet-Draft will expire on 31 May 2024.
 
 Copyright Notice
 
@@ -246,7 +246,8 @@ Table of Contents
 
    *  A set of subdomains of this parent zone that are claimed by the
       named local resolver (potentially including the entire parent
-      zone).
+      zone).  To claim the entire parent zone, the claimed subdomain
+      will be represented as an asterisk symbol "*".
 
    *  A ZONEMD Hash Algorithm (Section 5.3 of [RFC8976]).  For
       interoperability purposes implementations MUST support the
@@ -315,8 +316,8 @@ Table of Contents
    NOTE: '\' line wrapping per [RFC8792]
 
      resolver17.parent.example._splitdns-challenge.parent.example. \
-     IN TXT "token=6rQ7oOZqdg8qQFRqtxpEhK97mNkgFwzNKTmNOtlxspBscZq\
-     UwFZZJDDD-Djetw2MCg"
+     IN TXT "token=z1qyK7QWwQPkT-ZmVW-tAQbsNyYenTNBPp5ogYB8S1wesVCR\
+     -KJDv2eFwfJcWQM"
 
 5.2.  Conveying Authorization Claims
 
@@ -360,7 +361,8 @@ Table of Contents
 
    *  "subdomains": An array containing the claimed subdomains, as dot-
       separated names with the parent suffix already removed, in
-      canonical order.
+      canonical order.  To claim the entire parent zone, the claimed
+      subdomain will be represented as an asterisk symbol "*".
 
    *  "algorithm": The hash algorithm is represented by its "Mnemonic"
       string from the ZONEMD Hash Algorithms registry ([RFC8976],
@@ -512,7 +514,7 @@ Table of Contents
         "splitDnsClaims": [{
           "resolver": "dns.example.net",
           "parent": "example.com",
-          "subdomains": [""],
+          "subdomains": ["*"],
           "algorithm": "SHA384",
           "salt": "abc...123"
         }]
@@ -664,6 +666,18 @@ Table of Contents
    As in Section 8.1, the internal DNS server will need a certificate
    signed by a CA trusted by the client.
 
+   Although placing internal domains inside a child domain is
+   unnecessary to prevent leakage, such placement reduces the frequency
+   of changes to the Verification Record, this document recommends the
+   internal domains be kept in a child zone of the local domain hints
+   advertised by the network.  For example, if the PvD "dnsZones" entry
+   is “internal.example.com” and the network-provided DNS resolver is
+   “ns1.internal.example.com”, the network operator can structure the
+   internal domain names as "private1.internal.example.com",
+   "private2.internal.example.com", etc.  The network-designated
+   resolver will be used to resolve the subdomains of the local domain
+   hint “*.internal.example.com”.
+
 9.  Validation with IKEv2
 
    When the VPN tunnel is IPsec, the encrypted DNS resolver hosted by
@@ -678,25 +692,6 @@ Table of Contents
    detailed here.
 
 10.  Security Considerations
-
-   If an internal zone name (e.g., internal.example.com) is used with
-   this specification and a public certificate is obtained for
-   validation, that internal zone name will exist in Certificate
-   Transparency logs [RFC9162].  In order to not leak the internal
-   domains to an external resolver, the internal domains can be kept in
-   a child zone of the local domain hints advertised by the network.
-   For example, if the PvD "dnsZones" entry is “internal.example.com”
-   and the network-provided DNS resolver is “ns1.internal.example.com”,
-   the network operator can structure the internal domain names as
-   "private1.internal.example.com", "private2.internal.example.com",
-   etc.  The network-designated resolver will be used to resolve the
-   subdomains of the local domain hint “*.internal.example.com”.
-   Further, adversaries that monitor a network such as through passive
-   monitoring or active probing of protocols, such as DHCP will only
-   learn the local domain hints but not learn the labels below
-   internal.example.com.  However, security by obscurity may not
-   maintain or increase the security of the internal domain names, as
-   they may be leaked in various other ways (e.g., browser reload).
 
    The Authentication Domain Names of authorized local encrypted
    resolvers are revealed in the Owner Names of Verification Records.
@@ -764,9 +759,9 @@ Table of Contents
 
 12.  Acknowledgements
 
-   Thanks to Mohamed Boucadair, Jim Reid, Tommy Pauly, Paul Vixie,
-   Michael Richardson, Bernie Volz and Vinny Parla for the discussion
-   and comments.
+   Thanks to Mohamed Boucadair, Jim Reid, Tommy Pauly, Paul Vixie, Bob
+   Halley, Michael Richardson, Bernie Volz and Vinny Parla for the
+   discussion and comments.
 
 13.  References
 
@@ -848,11 +843,12 @@ Table of Contents
               add-dnr-16>.
 
    [I-D.ietf-dnsop-domain-verification-techniques]
-              Sahib, S. K., Huque, S., and P. Wouters, "Domain Control
-              Validation using DNS", Work in Progress, Internet-Draft,
-              draft-ietf-dnsop-domain-verification-techniques-02, 10
-              July 2023, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-dnsop-domain-verification-techniques-02>.
+              Sahib, S. K., Huque, S., Wouters, P., and E. Nygren,
+              "Domain Control Validation using DNS", Work in Progress,
+              Internet-Draft, draft-ietf-dnsop-domain-verification-
+              techniques-03, 17 October 2023,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-dnsop-
+              domain-verification-techniques-03>.
 
    [I-D.ietf-ipsecme-add-ike]
               Boucadair, M., Reddy.K, T., Wing, D., and V. Smyslov,
@@ -949,5 +945,5 @@ Authors' Addresses
 
 
    Benjamin Schwartz
-   Google LLC
+   Meta Platforms, Inc.
    Email: ietf@bemasc.net
