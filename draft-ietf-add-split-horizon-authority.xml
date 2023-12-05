@@ -73,8 +73,8 @@
     <workgroup>ADD</workgroup>
     <abstract>
       <t>When split-horizon DNS is deployed by a network, certain domains can
-      be resolved authoritatively by the network-provided DNS resolver. DNS
-      clients that don't always use this resolver might wish to do so for
+      be resolved authoritatively by the network-provided DNS resolver. DNS clients
+      that are not configured to use this resolver can use it, but only to resolve
       these domains. This specification defines a mechanism for domain owners
       to inform clients about local resolvers that are authorized to answer
       authoritatively for certain subdomains.</t>
@@ -110,8 +110,9 @@
       (e.g. DHCP OFFER, IPv6 Router Advertisement). Although this server is
       formally specified as a recursive resolver (e.g. <relref section="5.1"
       target="RFC8106"/>), some networks provide a hybrid resolver
-      instead. If this resolver acts as an authoritative server for some
-      names, we say that the network has "split-horizon DNS", because those
+      instead. If this resolver acts as an authoritative server for some names
+      and provides different answers for those domains depending on the source
+      of the query, we say that the network has "split-horizon DNS", because those
       names resolve in this way only from inside the network.</t>
       <t>Network clients that use pure stub resolution, sending all queries to
       the network-provided resolver, will always receive the split-horizon
@@ -654,6 +655,26 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
       <t>Other VPN tunnel types have similar configuration capabilities, not
       detailed here.</t>
     </section>
+    <section anchor="aclaim">
+      <name>Authorization Claim Update</name>
+      <t>A verification record is only valid until it expires. Expiry occurs when the Time To Live (TTL)
+      or DNSSEC signature validity period ends. When the verification record expires, clients MUST
+      fetch the verification records again and repeat the verification procedure.</t>
+      <t>A new verification record must be added to the RRset before the corresponding Authorization
+      Claim is updated.  After the claim is updated, the following procedures can be used:</t>
+      <ol>
+        <li>DHCP reconfiguration can be initiated by the DHCP server to prompt DHCP clients for
+        dynamically requesting the updated Authorization Claim. This process avoids the need for
+        the client to wait for its current lease to complete and request a new one, enabling the lease
+        renewal to be driven by the DHCP server.</li>
+        <li>The sequence number in the RA (Router Advertisement) PvD (Prefix Delegation) option
+        will be incremented, requiring clients to fetch PvD additional information from the HTTPS
+        server due to the updated sequence number in the new RA (<relref target="RFC8801" section="4.1"
+        displayFormat="comma"/>).</li>
+        <li>The old verification record needs to be maintained until the DHCP lease time or PvD
+        Additional Information expiry.</li>
+      </ol>
+    </section>
     <section anchor="Security">
       <name>Security Considerations</name>
       <t>The Authentication Domain Names of authorized local encrypted resolvers are
@@ -713,8 +734,11 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
     </section>
     <section>
       <name>Acknowledgements</name>
-      <t>Thanks to Mohamed Boucadair, Jim Reid, Tommy Pauly, Paul Vixie, Bob Halley,
-      Michael Richardson, Bernie Volz and Vinny Parla for the discussion and comments.</t>
+      <t>Thanks to Mohamed Boucadair, Jim Reid, Tommy Pauly, Paul Vixie, Michael Richardson,
+      Bernie Volz and Vinny Parla for the discussion and comments.</t>
+
+      <t>Thanks to Tianran Zhou for the opsdir review, Watson Ladd for the secdir review and
+      Bob Halley for the intdir review.</t>
     </section>
   </middle>
   <!--  *****BACK MATTER ***** -->
