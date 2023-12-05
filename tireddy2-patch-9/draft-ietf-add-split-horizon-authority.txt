@@ -5,12 +5,12 @@
 ADD                                                             T. Reddy
 Internet-Draft                                                     Nokia
 Intended status: Standards Track                                 D. Wing
-Expires: 6 June 2024                                              Citrix
+Expires: 7 June 2024                                              Citrix
                                                                 K. Smith
                                                                 Vodafone
                                                              B. Schwartz
                                                                     Meta
-                                                         4 December 2023
+                                                         5 December 2023
 
 
 Establishing Local DNS Authority in Validated Split-Horizon Environments
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 June 2024.
+   This Internet-Draft will expire on 7 June 2024.
 
 Copyright Notice
 
@@ -695,10 +695,14 @@ Table of Contents
 
 10.  Authorization Claim Update
 
-   The duration of the Authorization Claim is limited to the Time To
-   Live (TTL) and DNSSEC signature validity period of the verification
-   record.  When the Authorization Claim is updated, the following
-   procedures can be used:
+   A verification record is only valid until it expires.  Expiry occurs
+   when the Time To Live (TTL) or DNSSEC signature validity period ends.
+   When the verification record expires, clients MUST fetch the
+   verification records again and repeat the verification procedure.
+
+   A new verification record must be added to the RRset before the
+   corresponding Authorization Claim is updated.  After the claim is
+   updated, the following procedures can be used:
 
    1.  DHCP reconfiguration can be initiated by the DHCP server to
        prompt DHCP clients for dynamically requesting the updated
