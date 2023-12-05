@@ -734,7 +734,7 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
     </section>
     <section>
       <name>Acknowledgements</name>
-      <t>Thanks to Mohamed Boucadair, Jim Reid, Tommy Pauly, Paul Vixie Michael Richardson,
+      <t>Thanks to Mohamed Boucadair, Jim Reid, Tommy Pauly, Paul Vixie, Michael Richardson,
       Bernie Volz and Vinny Parla for the discussion and comments.</t>
 
       <t>Thanks to Tianran Zhou for the opsdir review, Watson Ladd for the secdir review and
