@@ -657,9 +657,11 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
     </section>
     <section anchor="aclaim">
       <name>Authorization Claim Update</name>
-      <t>The duration of the Authorization Claim is limited to the Time To Live (TTL)
-      and DNSSEC signature validity period of the verification record. When the Authorization
-      Claim is updated, the following procedures can be used:</t>
+      <t>A verification record is only valid until it expires. Expiry occurs when the Time To Live (TTL)
+      or DNSSEC signature validity period ends. When the verification record expires, clients MUST
+      fetch the verification records again and repeat the verification procedure.</t>
+      <t>A new verification record must be added to the RRset before the corresponding Authorization
+      Claim is updated.  After the claim is updated, the following procedures can be used:</t>
       <ol>
         <li>DHCP reconfiguration can be initiated by the DHCP server to prompt DHCP clients for
         dynamically requesting the updated Authorization Claim. This process avoids the need for
