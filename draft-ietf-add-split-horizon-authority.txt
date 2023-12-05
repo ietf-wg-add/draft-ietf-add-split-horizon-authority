@@ -5,12 +5,12 @@
 ADD                                                             T. Reddy
 Internet-Draft                                                     Nokia
 Intended status: Standards Track                                 D. Wing
-Expires: 31 May 2024                                              Citrix
+Expires: 7 June 2024                                              Citrix
                                                                 K. Smith
                                                                 Vodafone
                                                              B. Schwartz
                                                                     Meta
-                                                        28 November 2023
+                                                         5 December 2023
 
 
 Establishing Local DNS Authority in Validated Split-Horizon Environments
@@ -20,10 +20,10 @@ Abstract
 
    When split-horizon DNS is deployed by a network, certain domains can
    be resolved authoritatively by the network-provided DNS resolver.
-   DNS clients that don't always use this resolver might wish to do so
-   for these domains.  This specification defines a mechanism for domain
-   owners to inform clients about local resolvers that are authorized to
-   answer authoritatively for certain subdomains.
+   DNS clients that are not configured to use this resolver can use it,
+   but only to resolve these domains.  This specification defines a
+   mechanism for domain owners to inform clients about local resolvers
+   that are authorized to answer authoritatively for certain subdomains.
 
 Discussion Venues
 
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 31 May 2024.
+   This Internet-Draft will expire on 7 June 2024.
 
 Copyright Notice
 
@@ -89,15 +89,16 @@ Table of Contents
        8.1.2.  Verification using DNSSEC
      8.2.  Internal-only Subdomains
    9.  Validation with IKEv2
-   10. Security Considerations
-   11. IANA Considerations
-     11.1.  DHCP Split DNS Authentication Algorithm
-     11.2.  Provisioning Domains Split DNS Additional Information
-     11.3.  DNS Underscore Name
-   12. Acknowledgements
-   13. References
-     13.1.  Normative References
-     13.2.  Informative References
+   10. Authorization Claim Update
+   11. Security Considerations
+   12. IANA Considerations
+     12.1.  DHCP Split DNS Authentication Algorithm
+     12.2.  Provisioning Domains Split DNS Additional Information
+     12.3.  DNS Underscore Name
+   13. Acknowledgements
+   14. References
+     14.1.  Normative References
+     14.2.  Informative References
    Authors' Addresses
 
 1.  Introduction
@@ -123,9 +124,10 @@ Table of Contents
    (e.g.  DHCP OFFER, IPv6 Router Advertisement).  Although this server
    is formally specified as a recursive resolver (e.g.  Section 5.1 of
    [RFC8106]), some networks provide a hybrid resolver instead.  If this
-   resolver acts as an authoritative server for some names, we say that
-   the network has "split-horizon DNS", because those names resolve in
-   this way only from inside the network.
+   resolver acts as an authoritative server for some names and provides
+   different answers for those domains depending on the source of the
+   query, we say that the network has "split-horizon DNS", because those
+   names resolve in this way only from inside the network.
 
    Network clients that use pure stub resolution, sending all queries to
    the network-provided resolver, will always receive the split-horizon
@@ -691,7 +693,32 @@ Table of Contents
    Other VPN tunnel types have similar configuration capabilities, not
    detailed here.
 
-10.  Security Considerations
+10.  Authorization Claim Update
+
+   A verification record is only valid until it expires.  Expiry occurs
+   when the Time To Live (TTL) or DNSSEC signature validity period ends.
+   When the verification record expires, clients MUST fetch the
+   verification records again and repeat the verification procedure.
+
+   A new verification record must be added to the RRset before the
+   corresponding Authorization Claim is updated.  After the claim is
+   updated, the following procedures can be used:
+
+   1.  DHCP reconfiguration can be initiated by the DHCP server to
+       prompt DHCP clients for dynamically requesting the updated
+       Authorization Claim.  This process avoids the need for the client
+       to wait for its current lease to complete and request a new one,
+       enabling the lease renewal to be driven by the DHCP server.
+
+   2.  The sequence number in the RA (Router Advertisement) PvD (Prefix
+       Delegation) option will be incremented, requiring clients to
+       fetch PvD additional information from the HTTPS server due to the
+       updated sequence number in the new RA ([RFC8801], Section 4.1).
+
+   3.  The old verification record needs to be maintained until the DHCP
+       lease time or PvD Additional Information expiry.
+
+11.  Security Considerations
 
    The Authentication Domain Names of authorized local encrypted
    resolvers are revealed in the Owner Names of Verification Records.
@@ -707,9 +734,9 @@ Table of Contents
    implementations with flexibility to choose hashing algorithms from
    the ZONEMD Schemes registry ([RFC8976], Section 5.2).
 
-11.  IANA Considerations
+12.  IANA Considerations
 
-11.1.  DHCP Split DNS Authentication Algorithm
+12.1.  DHCP Split DNS Authentication Algorithm
 
    IANA is requested to add the following entry to the "Protocol Name
    Space Values" registry on the "Dynamic Host Configuration Protocol
@@ -721,7 +748,7 @@ Table of Contents
 
    *  Reference: (This Document)
 
-11.2.  Provisioning Domains Split DNS Additional Information
+12.2.  Provisioning Domains Split DNS Additional Information
 
    IANA is requested to add the following entry to the "Additional
    Information PvD Keys" registry on the "Provisioning Domains (PvDs)"
@@ -745,7 +772,7 @@ Table of Contents
 
    *  Reference: (This document)
 
-11.3.  DNS Underscore Name
+12.3.  DNS Underscore Name
 
    IANA is requested to add the following entry to the "Underscored and
    Globally Scoped DNS Node Names" registry on the "Domain Name System
@@ -757,15 +784,18 @@ Table of Contents
 
    *  Reference: (This document)
 
-12.  Acknowledgements
+13.  Acknowledgements
 
-   Thanks to Mohamed Boucadair, Jim Reid, Tommy Pauly, Paul Vixie, Bob
-   Halley, Michael Richardson, Bernie Volz and Vinny Parla for the
-   discussion and comments.
+   Thanks to Mohamed Boucadair, Jim Reid, Tommy Pauly, Paul Vixie,
+   Michael Richardson, Bernie Volz and Vinny Parla for the discussion
+   and comments.
 
-13.  References
+   Thanks to Tianran Zhou for the opsdir review, Watson Ladd for the
+   secdir review and Bob Halley for the intdir review.
 
-13.1.  Normative References
+14.  References
+
+14.1.  Normative References
 
    [IANA-SUDN]
               IANA, "Special-Use Domain Names",
@@ -825,7 +855,7 @@ Table of Contents
               DOI 10.17487/RFC8976, February 2021,
               <https://www.rfc-editor.org/info/rfc8976>.
 
-13.2.  Informative References
+14.2.  Informative References
 
    [I-D.ietf-add-ddr]
               Pauly, T., Kinnear, E., Wood, C. A., McManus, P., and T.
