@@ -426,12 +426,19 @@ Table of Contents
 
 7.  Delegating DNSSEC across Split DNS Boundaries
 
-   We wish to enable DNSSEC validation of local DNS names without
-   requiring the local resolver to hold DNSSEC private keys that are
+   When the local zone can be signed with globally trusted keys for the
+   parent zone, support for DNSSEC can be accomplished simply by placing
+   a zone cut at the parent zone and including a suitable DS record for
+   the local resolver's DNSKEY.  Zones in this configuration appear the
+   same to validating stubs whether or not they implement this
+   specification.
+
+   We also wish to enable DNSSEC validation of local DNS names when the
+   local zone cannot safely be signed with DNSSEC private keys that are
    valid for the parent zone.  To support this configuration, parent
    zones MAY add a "ds=..." key to the Verification Record whose value
    is the RDATA of a single DS record, base64url-encoded.  This DS
-   record authorizes a DNSKEY whose Owner Name is "resolver.arpa."
+   record authorizes a DNSKEY whose Owner Name is "resolver.arpa.".
 
    To validate DNSSEC, the client first fetches and validates the
    Verification Record.  If it is valid and contains a "ds" key, the
@@ -448,7 +455,12 @@ Table of Contents
    Verification Record, the client MUST disable DNSSEC validation when
    resolving the claimed subdomains via this local encrypted resolver.
 
-   ;; Parent zone
+   Note that in this configuration, any claimed subdomains MUST be
+   marked as unsigned in the public DNS.  Otherwise, resolution results
+   would be rejected by validating stubs that do not implement this
+   specification.
+
+   ;; Parent zone.
    $ORIGIN parent.example.
 
    ; Parent zone's public KSK and ZSK
@@ -459,6 +471,12 @@ Table of Contents
    ; resolver's KSK.  This is an ordinary public TXT record,
    ; secured by RRSIGs from the public ZSK.
    resolver.example._splitdns-challenge IN TXT "token=abc...,ds=QWE..."
+
+   ; NSEC record indicating that unsigned delegations are permitted at
+   ; this subdomain.  This is required for compatibility with non-split-aware
+   ; validating stub resolvers.  If the claimed label is confidential, the
+   ; parent zone can conceal it using NSEC3 (with or without "opt-out").
+   @ IN NSEC subdomain.parent.example. NS
 
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

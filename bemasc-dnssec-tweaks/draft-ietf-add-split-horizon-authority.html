@@ -1618,28 +1618,36 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="name-delegating-dnssec-across-sp">
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-delegating-dnssec-across-sp" class="section-name selfRef">Delegating DNSSEC across Split DNS Boundaries</a>
       </h2>
-<p id="section-7-1">We wish to enable DNSSEC validation of local DNS names without requiring
-      the local resolver to hold DNSSEC private keys that are valid for the parent
+<p id="section-7-1">When the local zone can be signed with globally trusted keys for the parent
+      zone, support for DNSSEC can be accomplished simply by placing a zone cut at
+      the parent zone and including a suitable DS record for the local resolver's
+      DNSKEY.  Zones in this configuration appear the same to validating stubs whether
+      or not they implement this specification.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-2">We also wish to enable DNSSEC validation of local DNS names when the local
+      zone cannot safely be signed with DNSSEC private keys that are valid for the parent
       zone.  To support this configuration, parent zones <span class="bcp14">MAY</span> add a
       "ds=..." key to the Verification Record whose value is the RDATA of a single
       DS record, base64url-encoded. This DS record authorizes a DNSKEY whose Owner
-      Name is "resolver.arpa."<a href="#section-7-1" class="pilcrow">¶</a></p>
-<p id="section-7-2">To validate DNSSEC, the client first fetches and validates the Verification
+      Name is "resolver.arpa.".<a href="#section-7-2" class="pilcrow">¶</a></p>
+<p id="section-7-3">To validate DNSSEC, the client first fetches and validates the Verification
       Record.  If it is valid and contains a "ds" key, the client <span class="bcp14">MAY</span>
       send a DNSKEY query for "resolver.arpa." to the local encrypted resolver.
       At least one resulting DNSKEY RR <span class="bcp14">MUST</span> match the DS RDATA from
       the "ds" key in the Verification Record. All local resolution results for
       subdomains in this claim <span class="bcp14">MUST</span> offer RRSIGs that chain to a
-      DNSKEY whose RDATA is identical to one of these approved DNSKEYs.<a href="#section-7-2" class="pilcrow">¶</a></p>
-<p id="section-7-3">The "ds" key <span class="bcp14">MAY</span> appear multiple
+      DNSKEY whose RDATA is identical to one of these approved DNSKEYs.<a href="#section-7-3" class="pilcrow">¶</a></p>
+<p id="section-7-4">The "ds" key <span class="bcp14">MAY</span> appear multiple
       times in a single Verification Record, in order to authorize multiple DNSKEYs
       for this local encrypted resolver.  If the "ds" key is not present in a valid
       Verification Record, the client <span class="bcp14">MUST</span> disable DNSSEC validation
-      when resolving the claimed subdomains via this local encrypted resolver.<a href="#section-7-3" class="pilcrow">¶</a></p>
+      when resolving the claimed subdomains via this local encrypted resolver.<a href="#section-7-4" class="pilcrow">¶</a></p>
+<p id="section-7-5">Note that in this configuration, any claimed subdomains MUST be marked as
+      unsigned in the public DNS.  Otherwise, resolution results would be rejected
+      by validating stubs that do not implement this specification.<a href="#section-7-5" class="pilcrow">¶</a></p>
 <span id="name-example-use-of-ds"></span><figure id="figure-1">
-        <div class="sourcecode" id="section-7-4.1">
+        <div class="sourcecode" id="section-7-6.1">
 <pre>
-;; Parent zone
+;; Parent zone.
 $ORIGIN parent.example.
 
 ; Parent zone's public KSK and ZSK
@@ -1650,6 +1658,12 @@ $ORIGIN parent.example.
 ; resolver's KSK.  This is an ordinary public TXT record,
 ; secured by RRSIGs from the public ZSK.
 resolver.example._splitdns-challenge IN TXT "token=abc...,ds=QWE..."
+
+; NSEC record indicating that unsigned delegations are permitted at
+; this subdomain.  This is required for compatibility with non-split-aware
+; validating stub resolvers.  If the claimed label is confidential, the
+; parent zone can conceal it using NSEC3 (with or without "opt-out").
+@ IN NSEC subdomain.parent.example. NS
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
