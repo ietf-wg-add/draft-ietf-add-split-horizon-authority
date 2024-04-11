@@ -465,7 +465,7 @@ Table of Contents
    ;; Local zone, claiming "subdomain.parent.example".
 
    ; The local resolver's KSK, validated by the Verification Record.
-   ; It does not have a corresponding RRSIG.
+   ; It may not have a corresponding RRSIG.
    resolver.arpa. IN DNSKEY 257 3 5 ASDF...=
 
    ; Each claimed subdomain duplicates the local resolver's KSK at its
