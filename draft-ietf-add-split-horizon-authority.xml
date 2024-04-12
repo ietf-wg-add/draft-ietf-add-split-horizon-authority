@@ -724,10 +724,10 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
         <name>New PvD Split DNS Claims Registry</name>
         <t>IANA is requested to create a new registry "PvD Split DNS Claims Registry",
         within the "Provisioning Domains (PvDs)" registry page.  This new registry
-        reserves JSON keys for use in sub-dictionaries under the splitDnsClaims JSON key.        
-        The initial contents of this registry are given in <xref target="splitclaims"/>.</t>  
+        reserves JSON keys for use in sub-dictionaries under the splitDnsClaims JSON key.
+        The initial contents of this registry are given in <xref target="splitclaims"/>.</t>
         <t>The keys defined in this document are mandatory. Any new assignments of keys will be considered
-        as optional for the purpose of the mechanism described in this document.</t>                   
+        as optional for the purpose of the mechanism described in this document.</t>
         <t>New assignments in the "PvD Split DNS Claims Registry" registry will be
         administered by IANA through Expert Review <xref target="RFC8126"/>. Experts are
         requested to ensure that defined keys do not overlap in names or semantics.</t>
