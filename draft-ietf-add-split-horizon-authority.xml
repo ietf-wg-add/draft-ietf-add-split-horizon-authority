@@ -153,7 +153,7 @@
       <xref target="RFC2119"/><xref target="RFC8174"/> when, and
       only when, they appear in all capitals, as shown here.</t>
       <t>This document makes use of the terms defined in <xref
-      target="RFC8499"/>, e.g. "Global DNS".  The following additional terms are
+      target="RFC9499"/>, e.g. "Global DNS".  The following additional terms are
       used throughout the document:</t>
       <dl>
         <dt>Encrypted DNS</dt><dd>A DNS protocol that provides an
@@ -163,7 +163,7 @@
           that also acts as an authoritative server for some names, providing
           resolution results that are meaningfully different from those in the
           Global DNS. (See "Split DNS" in <relref section="6"
-          target="RFC8499"/>.)</dd>
+          target="RFC9499"/>.)</dd>
         <dt>Validated Split-Horizon</dt><dd>A split horizon configuration for
           some name is considered "validated" if the client has confirmed that
           a parent of that name has authorized this resolver  to serve its own
@@ -181,7 +181,7 @@
       split-horizon DNS configuration. The endpoint does not need any prior
       configuration to confirm that a local domain hint was indeed authorized
       by the domain.</t>
-      <t>All of the special-use domain names registered with IANA <xref target="IANA-SUDN"/>,
+      <t>All of the special-use domain names registered with IANA <xref target="RFC6761"/>,
       most notably ".home.arpa", "resolver.arpa.", "ipv4only.arpa." and ".local", are never
       unique to a specific DNS server's authority. All special-use domain names are outside the
       scope of this document and MUST NOT be validated using the mechanism described in this document. </t>
@@ -210,8 +210,8 @@
       <name>Establishing Local DNS Authority</name>
       <t>To establish its authority over some DNS zone, a
       participating network <bcp14>MUST</bcp14> offer one or more
-      encrypted resolvers via DNR <xref target="I-D.ietf-add-dnr"/>,
-      DDR <xref target="I-D.ietf-add-ddr"/>, or an equivalent mechanism
+      encrypted resolvers via DNR <xref target="RFC9463"/>,
+      DDR <xref target="RFC9462"/>, or an equivalent mechanism
       (see <xref target="vpn"/>).</t>
       <t>To establish local authority, the network MUST convey one or more
       "Authorization Claims" to the client.  An "Authorization Claim" is an
@@ -303,7 +303,7 @@
             <li>The $X value defined in <xref target="establishing"/>.</li>
           </ol>
         </section>
-        <section>
+        <section anchor="splitclaims">
           <name>Using Provisioning Domains</name>
           <t>When using <xref target="RFC8801">Provisioning Domains</xref>, the
           Authorization Claims are represented by the PvD Additional
@@ -450,12 +450,12 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
         <ul empty="true">
           <li><strong>Steps 1-2</strong>: The client determines the network's DNS
             server (dns.example.net) and Provisioning Domain (pvd.example.com)
-            using <xref target="I-D.ietf-add-dnr">DNR</xref> and <xref
+            using <xref target="RFC9463">DNR</xref> and <xref
             target="RFC8801">PvD</xref>, using one of DNR Router Solicitation,
             DHCPv4, or DHCPv6.</li>
           <li><strong>Step 3-5</strong>: The client connects to dns.example.net
             using an encrypted transport as indicated in <xref
-            target="I-D.ietf-add-dnr">DNR</xref>, authenticating the server to
+            target="RFC9463">DNR</xref>, authenticating the server to
             its name using TLS (<relref target="RFC8310" section="8"
             displayFormat="comma"/>), and
             sends it a query for the address of <tt>pvd.example.com</tt>.</li>
@@ -533,7 +533,7 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
               <tt>example.com</tt> has authorized <tt>dns.example.net</tt>
               to serve <tt>example.com</tt>. When the client connects using an
               encrypted transport as indicated in <xref
-              target="I-D.ietf-add-dnr">DNR</xref>, it will authenticate
+              target="RFC9463">DNR</xref>, it will authenticate
               the server to its name using TLS (<relref target="RFC8310"
               section="8" displayFormat="comma"/>), and send queries to resolve
               any names that fall within the claimed zones.</li>
@@ -586,7 +586,7 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
             <li><strong>Step 3</strong>: The DNSSEC validation is successful and
               the token matches, so this Authorization Claim is validated.
               When the client connects using an encrypted transport as indicated
-              in <xref target="I-D.ietf-add-dnr">DNR</xref>, it will authenticate
+              in <xref target="RFC9463">DNR</xref>, it will authenticate
               the server to its name using TLS (<relref target="RFC8310"
               section="8" displayFormat="comma"/>), and send queries to resolve
               any names that fall within the claimed zones.</li>
@@ -649,7 +649,7 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
       <t>When the VPN tunnel is IPsec, the encrypted DNS resolver hosted by
       the VPN service provider can be securely discovered by the endpoint
       using the ENCDNS_IP*_* IKEv2 Configuration Payload Attribute Types
-      defined in <xref target="I-D.ietf-ipsecme-add-ike"/>. The VPN client
+      defined in <xref target="RFC9464"/>. The VPN client
       can use the mechanism defined in Section 6 to validate that the discovered
       encrypted DNS resolver is authorized to answer for the claimed subdomains.</t>
       <t>Other VPN tunnel types have similar configuration capabilities, not
@@ -721,6 +721,18 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
         </ul>
       </section>
       <section>
+        <name>New PvD Split DNS Claims Registry</name>
+        <t>IANA is requested to create a new registry "PvD Split DNS Claims Registry",
+        within the "Provisioning Domains (PvDs)" registry page.  This new registry
+        reserves JSON keys for use in sub-dictionaries under the splitDnsClaims JSON key.        
+        The initial contents of this registry are given in <xref target="splitclaims"/>.</t>  
+        <t>The keys defined in this document are mandatory. Any new assignments of keys will be considered
+        as optional for the purpose of the mechanism described in this document.</t>                   
+        <t>New assignments in the "PvD Split DNS Claims Registry" registry will be
+        administered by IANA through Expert Review <xref target="RFC8126"/>. Experts are
+        requested to ensure that defined keys do not overlap in names or semantics.</t>
+      </section>
+      <section>
         <name>DNS Underscore Name</name>
         <t>IANA is requested to add the following entry to the "Underscored and
         Globally Scoped DNS Node Names" registry on the "Domain Name System (DNS)
@@ -759,21 +771,13 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8976.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8415.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.3396.xml"/>
-        <reference anchor="IANA-SUDN"
-                   target="https://www.iana.org/assignments/special-use-domain-names/special-use-domain-names.xhtml">
-          <front>
-            <title>Special-Use Domain Names</title>
-            <author fullname="IANA">
-              <organization />
-            </author>
-            <date />
-          </front>
-        </reference>      </references>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6761.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8126.xml"/>
+      </references>
       <references>
         <name>Informative References</name>
 
-        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8499.xml"/>
-        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9162.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9499.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8598.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7686.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8806.xml"/>
@@ -785,9 +789,9 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8310.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7696.xml"/>
 	<xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8792.xml"/>
-        <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-add-dnr.xml"/>
-        <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-ipsecme-add-ike.xml"/>
-	<xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-add-ddr.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9463.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9464.xml"/>
+	<xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9462.xml"/>
         <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-dnsop-domain-verification-techniques.xml"/>
     </references>
     </references>
