@@ -1427,7 +1427,8 @@ svg :is([fill="white"], [fill^="#fff"]) {
       identifying name MUST be the one used in any corresponding Authorization
       Claim.  Otherwise (e.g., DDR using IP addresses), the resolver MUST
       present a validatable certificate containing a subjectAltName that
-      matches the Authorization Claim.<a href="#section-5-4" class="pilcrow">¶</a></p>
+      matches the Authorization Claim using the validation techniques for
+      matching as described in <span>[<a href="#RFC9525" class="cite xref">RFC9525</a>]</span>.<a href="#section-5-4" class="pilcrow">¶</a></p>
 <p id="section-5-5">To establish its authority, the network MUST provide each Authorization
       Claim to the parent zone operator.  If the contents are approved, the
       parent zone operator computes a "Verification Token" according to the
@@ -2127,8 +2128,12 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
 <span class="refAuthor">Pfister, P.</span>, <span class="refAuthor">Vyncke, É.</span>, <span class="refAuthor">Pauly, T.</span>, <span class="refAuthor">Schinazi, D.</span>, and <span class="refAuthor">W. Shao</span>, <span class="refTitle">"Discovering Provisioning Domain Names and Data"</span>, <span class="seriesInfo">RFC 8801</span>, <span class="seriesInfo">DOI 10.17487/RFC8801</span>, <time datetime="2020-07" class="refDate">July 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8801">https://www.rfc-editor.org/info/rfc8801</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8976">[RFC8976]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">Wessels, D.</span>, <span class="refAuthor">Barber, P.</span>, <span class="refAuthor">Weinberg, M.</span>, <span class="refAuthor">Kumari, W.</span>, and <span class="refAuthor">W. Hardaker</span>, <span class="refTitle">"Message Digest for DNS Zones"</span>, <span class="seriesInfo">RFC 8976</span>, <span class="seriesInfo">DOI 10.17487/RFC8976</span>, <time datetime="2021-02" class="refDate">February 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8976">https://www.rfc-editor.org/info/rfc8976</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9525">[RFC9525]</dt>
+      <dd>
+<span class="refAuthor">Saint-Andre, P.</span> and <span class="refAuthor">R. Salz</span>, <span class="refTitle">"Service Identity in TLS"</span>, <span class="seriesInfo">RFC 9525</span>, <span class="seriesInfo">DOI 10.17487/RFC9525</span>, <time datetime="2023-11" class="refDate">November 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc9525">https://www.rfc-editor.org/info/rfc9525</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>

@@ -262,7 +262,8 @@ Table of Contents
    that identifying name MUST be the one used in any corresponding
    Authorization Claim.  Otherwise (e.g., DDR using IP addresses), the
    resolver MUST present a validatable certificate containing a
-   subjectAltName that matches the Authorization Claim.
+   subjectAltName that matches the Authorization Claim using the
+   validation techniques for matching as described in [RFC9525].
 
    To establish its authority, the network MUST provide each
    Authorization Claim to the parent zone operator.  If the contents are
@@ -873,6 +874,10 @@ Table of Contents
               Hardaker, "Message Digest for DNS Zones", RFC 8976,
               DOI 10.17487/RFC8976, February 2021,
               <https://www.rfc-editor.org/info/rfc8976>.
+
+   [RFC9525]  Saint-Andre, P. and R. Salz, "Service Identity in TLS",
+              RFC 9525, DOI 10.17487/RFC9525, November 2023,
+              <https://www.rfc-editor.org/info/rfc9525>.
 
 14.2.  Informative References
 
