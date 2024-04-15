@@ -97,8 +97,8 @@
       these behaviors are called "authoritative nameservers", "full/recursive
       resolvers", and "forwarders" (or "stub resolvers") respectively. However, an
       implementation can also implement a mixture of these behaviors,
-      depending on a local policy, for each query. We term such an
-      implementation a "hybrid resolver".</t>
+      depending on a local policy, for each query. Such an implementation
+      is termed a "hybrid resolver".</t>
       <t>Most DNS resolvers are hybrids of some kind. For example, stub
       resolvers frequently support a local "hosts file" that preempts query
       forwarding, and most DNS forwarders and full resolvers can also serve
@@ -112,7 +112,7 @@
       target="RFC8106"/>), some networks provide a hybrid resolver
       instead. If this resolver acts as an authoritative server for some names
       and provides different answers for those domains depending on the source
-      of the query, we say that the network has "split-horizon DNS", because those
+      of the query, it is described as the network having "split-horizon DNS", because those
       names resolve in this way only from inside the network.</t>
       <t>Network clients that use pure stub resolution, sending all queries to
       the network-provided resolver, will always receive the split-horizon
@@ -382,12 +382,11 @@
 
     <section>
       <name>Delegating DNSSEC across Split DNS Boundaries</name>
-      <t>We wish to enable DNSSEC validation of local DNS names without requiring
+      <t>To enable DNSSEC validation of local DNS names without requiring
       the local resolver to hold DNSSEC private keys that are valid for the parent
-      zone.  To support this configuration, parent zones <bcp14>MAY</bcp14> add a
-      "ds=..." key to the Verification Record whose value is the RDATA of a single
-      DS record, base64url-encoded. This DS record authorizes a DNSKEY whose Owner
-      Name is "resolver.arpa."</t>
+      zone, parent zones <bcp14>MAY</bcp14> add a "ds=..." key to the Verification
+      Record whose value is the RDATA of a single DS record, base64url-encoded. This
+      DS record authorizes a DNSKEY whose Owner Name is "resolver.arpa."</t>
       <t>To validate DNSSEC, the client first fetches and validates the Verification
       Record.  If it is valid and contains a "ds" key, the client <bcp14>MAY</bcp14>
       send a DNSKEY query for "resolver.arpa." to the local encrypted resolver.
