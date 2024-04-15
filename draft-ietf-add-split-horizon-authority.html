@@ -17,23 +17,23 @@
       to inform clients about local resolvers that are authorized to answer
       authoritatively for certain subdomains. 
     " name="description">
-<meta content="xml2rfc 3.18.2" name="generator">
+<meta content="xml2rfc 3.20.1" name="generator">
 <meta content="draft-ietf-add-split-horizon-authority-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.18.2
-    Python 3.11.6
-    ConfigArgParse 1.5.3
+  xml2rfc 3.20.1
+    Python 3.11.8
+    ConfigArgParse 1.7
     google-i18n-address 3.1.0
     intervaltree 3.1.0
     Jinja2 3.1.2
     lxml 4.9.3
-    platformdirs 4.0.0
+    platformdirs 4.2.0
     pycountry 22.3.5
-    PyYAML 6.0
+    PyYAML 6.0.1
     requests 2.31.0
-    setuptools 67.7.2
+    setuptools 68.2.2
     six 1.16.0
-    wcwidth 0.2.12
+    wcwidth 0.2.13
 -->
 <link href="draft-ietf-add-split-horizon-authority.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1032,11 +1032,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Establishing Local DNS Authority</td>
-<td class="right">December 2023</td>
+<td class="right">April 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Reddy, et al.</td>
-<td class="center">Expires 7 June 2024</td>
+<td class="center">Expires 17 October 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1049,12 +1049,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-add-split-horizon-authority-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-12-05" class="published">5 December 2023</time>
+<time datetime="2024-04-15" class="published">15 April 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-06-07">7 June 2024</time></dd>
+<dd class="expires"><time datetime="2024-10-17">17 October 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1116,7 +1116,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 7 June 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 17 October 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1125,7 +1125,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2023 IETF Trust and the persons identified as the
+            Copyright (c) 2024 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1228,7 +1228,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <p id="section-toc.1-1.12.2.2.1"><a href="#section-12.2" class="auto internal xref">12.2</a>.  <a href="#name-provisioning-domains-split-" class="internal xref">Provisioning Domains Split DNS Additional Information</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.3">
-                <p id="section-toc.1-1.12.2.3.1"><a href="#section-12.3" class="auto internal xref">12.3</a>.  <a href="#name-dns-underscore-name" class="internal xref">DNS Underscore Name</a></p>
+                <p id="section-toc.1-1.12.2.3.1"><a href="#section-12.3" class="auto internal xref">12.3</a>.  <a href="#name-new-pvd-split-dns-claims-re" class="internal xref">New PvD Split DNS Claims Registry</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.4">
+                <p id="section-toc.1-1.12.2.4.1"><a href="#section-12.4" class="auto internal xref">12.4</a>.  <a href="#name-dns-underscore-name" class="internal xref">DNS Underscore Name</a></p>
 </li>
             </ul>
 </li>
@@ -1318,7 +1321,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
       "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as described in BCP 14
       <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span><span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and
       only when, they appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
-<p id="section-2-2">This document makes use of the terms defined in <span>[<a href="#RFC8499" class="cite xref">RFC8499</a>]</span>, e.g. "Global DNS".  The following additional terms are
+<p id="section-2-2">This document makes use of the terms defined in <span>[<a href="#RFC9499" class="cite xref">RFC9499</a>]</span>, e.g. "Global DNS".  The following additional terms are
       used throughout the document:<a href="#section-2-2" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-2-3">
         <dt id="section-2-3.1">Encrypted DNS</dt>
@@ -1331,7 +1334,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         <dd style="margin-left: 1.5em" id="section-2-3.4">The DNS service provided by a resolver
           that also acts as an authoritative server for some names, providing
           resolution results that are meaningfully different from those in the
-          Global DNS. (See "Split DNS" in <span><a href="https://rfc-editor.org/rfc/rfc8499#section-6" class="relref">Section 6</a> of [<a href="#RFC8499" class="cite xref">RFC8499</a>]</span>.)<a href="#section-2-3.4" class="pilcrow">¶</a>
+          Global DNS. (See "Split DNS" in <span><a href="https://rfc-editor.org/rfc/rfc9499#section-6" class="relref">Section 6</a> of [<a href="#RFC9499" class="cite xref">RFC9499</a>]</span>.)<a href="#section-2-3.4" class="pilcrow">¶</a>
 </dd>
         <dd class="break"></dd>
 <dt id="section-2-3.5">Validated Split-Horizon</dt>
@@ -1357,7 +1360,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
       split-horizon DNS configuration. The endpoint does not need any prior
       configuration to confirm that a local domain hint was indeed authorized
       by the domain.<a href="#section-3-2" class="pilcrow">¶</a></p>
-<p id="section-3-3">All of the special-use domain names registered with IANA <span>[<a href="#IANA-SUDN" class="cite xref">IANA-SUDN</a>]</span>,
+<p id="section-3-3">All of the special-use domain names registered with IANA <span>[<a href="#RFC6761" class="cite xref">RFC6761</a>]</span>,
       most notably ".home.arpa", "resolver.arpa.", "ipv4only.arpa." and ".local", are never
       unique to a specific DNS server's authority. All special-use domain names are outside the
       scope of this document and MUST NOT be validated using the mechanism described in this document.<a href="#section-3-3" class="pilcrow">¶</a></p>
@@ -1396,8 +1399,8 @@ svg :is([fill="white"], [fill^="#fff"]) {
       </h2>
 <p id="section-5-1">To establish its authority over some DNS zone, a
       participating network <span class="bcp14">MUST</span> offer one or more
-      encrypted resolvers via DNR <span>[<a href="#I-D.ietf-add-dnr" class="cite xref">I-D.ietf-add-dnr</a>]</span>,
-      DDR <span>[<a href="#I-D.ietf-add-ddr" class="cite xref">I-D.ietf-add-ddr</a>]</span>, or an equivalent mechanism
+      encrypted resolvers via DNR <span>[<a href="#RFC9463" class="cite xref">RFC9463</a>]</span>,
+      DDR <span>[<a href="#RFC9462" class="cite xref">RFC9462</a>]</span>, or an equivalent mechanism
       (see <a href="#vpn" class="auto internal xref">Section 9</a>).<a href="#section-5-1" class="pilcrow">¶</a></p>
 <p id="section-5-2">To establish local authority, the network MUST convey one or more
       "Authorization Claims" to the client.  An "Authorization Claim" is an
@@ -1519,6 +1522,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </li>
           </ol>
 </section>
+<div id="splitclaims">
 <section id="section-5.2.2">
           <h4 id="name-using-provisioning-domains">
 <a href="#section-5.2.2" class="section-number selfRef">5.2.2. </a><a href="#name-using-provisioning-domains" class="section-name selfRef">Using Provisioning Domains</a>
@@ -1545,6 +1549,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </li>
           </ul>
 </section>
+</div>
 </section>
 </section>
 </div>
@@ -1693,12 +1698,12 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
 <li class="normal ulEmpty" id="section-8.1-4.1">
             <strong>Steps 1-2</strong>: The client determines the network's DNS
             server (dns.example.net) and Provisioning Domain (pvd.example.com)
-            using <span><a href="#I-D.ietf-add-dnr" class="internal xref">DNR</a> [<a href="#I-D.ietf-add-dnr" class="cite xref">I-D.ietf-add-dnr</a>]</span> and <span><a href="#RFC8801" class="internal xref">PvD</a> [<a href="#RFC8801" class="cite xref">RFC8801</a>]</span>, using one of DNR Router Solicitation,
+            using <span><a href="#RFC9463" class="internal xref">DNR</a> [<a href="#RFC9463" class="cite xref">RFC9463</a>]</span> and <span><a href="#RFC8801" class="internal xref">PvD</a> [<a href="#RFC8801" class="cite xref">RFC8801</a>]</span>, using one of DNR Router Solicitation,
             DHCPv4, or DHCPv6.<a href="#section-8.1-4.1" class="pilcrow">¶</a>
 </li>
           <li class="normal ulEmpty" id="section-8.1-4.2">
             <strong>Step 3-5</strong>: The client connects to dns.example.net
-            using an encrypted transport as indicated in <span><a href="#I-D.ietf-add-dnr" class="internal xref">DNR</a> [<a href="#I-D.ietf-add-dnr" class="cite xref">I-D.ietf-add-dnr</a>]</span>, authenticating the server to
+            using an encrypted transport as indicated in <span><a href="#RFC9463" class="internal xref">DNR</a> [<a href="#RFC9463" class="cite xref">RFC9463</a>]</span>, authenticating the server to
             its name using TLS (<span>[<a href="#RFC8310" class="cite xref">RFC8310</a>], <a href="https://rfc-editor.org/rfc/rfc8310#section-8" class="relref">Section 8</a></span>), and
             sends it a query for the address of <code>pvd.example.com</code>.<a href="#section-8.1-4.2" class="pilcrow">¶</a>
 </li>
@@ -1790,7 +1795,7 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
               <strong>Step 3</strong>: The client has validated that
               <code>example.com</code> has authorized <code>dns.example.net</code>
               to serve <code>example.com</code>. When the client connects using an
-              encrypted transport as indicated in <span><a href="#I-D.ietf-add-dnr" class="internal xref">DNR</a> [<a href="#I-D.ietf-add-dnr" class="cite xref">I-D.ietf-add-dnr</a>]</span>, it will authenticate
+              encrypted transport as indicated in <span><a href="#RFC9463" class="internal xref">DNR</a> [<a href="#RFC9463" class="cite xref">RFC9463</a>]</span>, it will authenticate
               the server to its name using TLS (<span>[<a href="#RFC8310" class="cite xref">RFC8310</a>], <a href="https://rfc-editor.org/rfc/rfc8310#section-8" class="relref">Section 8</a></span>), and send queries to resolve
               any names that fall within the claimed zones.<a href="#section-8.1.1-2.2" class="pilcrow">¶</a>
 </li>
@@ -1851,7 +1856,7 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
               <strong>Step 3</strong>: The DNSSEC validation is successful and
               the token matches, so this Authorization Claim is validated.
               When the client connects using an encrypted transport as indicated
-              in <span><a href="#I-D.ietf-add-dnr" class="internal xref">DNR</a> [<a href="#I-D.ietf-add-dnr" class="cite xref">I-D.ietf-add-dnr</a>]</span>, it will authenticate
+              in <span><a href="#RFC9463" class="internal xref">DNR</a> [<a href="#RFC9463" class="cite xref">RFC9463</a>]</span>, it will authenticate
               the server to its name using TLS (<span>[<a href="#RFC8310" class="cite xref">RFC8310</a>], <a href="https://rfc-editor.org/rfc/rfc8310#section-8" class="relref">Section 8</a></span>), and send queries to resolve
               any names that fall within the claimed zones.<a href="#section-8.1.2-2.2" class="pilcrow">¶</a>
 </li>
@@ -1923,7 +1928,7 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
 <p id="section-9-1">When the VPN tunnel is IPsec, the encrypted DNS resolver hosted by
       the VPN service provider can be securely discovered by the endpoint
       using the ENCDNS_IP*_* IKEv2 Configuration Payload Attribute Types
-      defined in <span>[<a href="#I-D.ietf-ipsecme-add-ike" class="cite xref">I-D.ietf-ipsecme-add-ike</a>]</span>. The VPN client
+      defined in <span>[<a href="#RFC9464" class="cite xref">RFC9464</a>]</span>. The VPN client
       can use the mechanism defined in Section 6 to validate that the discovered
       encrypted DNS resolver is authorized to answer for the claimed subdomains.<a href="#section-9-1" class="pilcrow">¶</a></p>
 <p id="section-9-2">Other VPN tunnel types have similar configuration capabilities, not
@@ -2025,18 +2030,32 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
         </ul>
 </section>
 <section id="section-12.3">
-        <h3 id="name-dns-underscore-name">
-<a href="#section-12.3" class="section-number selfRef">12.3. </a><a href="#name-dns-underscore-name" class="section-name selfRef">DNS Underscore Name</a>
+        <h3 id="name-new-pvd-split-dns-claims-re">
+<a href="#section-12.3" class="section-number selfRef">12.3. </a><a href="#name-new-pvd-split-dns-claims-re" class="section-name selfRef">New PvD Split DNS Claims Registry</a>
         </h3>
-<p id="section-12.3-1">IANA is requested to add the following entry to the "Underscored and
+<p id="section-12.3-1">IANA is requested to create a new registry "PvD Split DNS Claims Registry",
+        within the "Provisioning Domains (PvDs)" registry page.  This new registry
+        reserves JSON keys for use in sub-dictionaries under the splitDnsClaims JSON key.
+        The initial contents of this registry are given in <a href="#splitclaims" class="auto internal xref">Section 5.2.2</a>.<a href="#section-12.3-1" class="pilcrow">¶</a></p>
+<p id="section-12.3-2">The keys defined in this document are mandatory. Any new assignments of keys will be considered
+        as optional for the purpose of the mechanism described in this document.<a href="#section-12.3-2" class="pilcrow">¶</a></p>
+<p id="section-12.3-3">New assignments in the "PvD Split DNS Claims Registry" registry will be
+        administered by IANA through Expert Review <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>. Experts are
+        requested to ensure that defined keys do not overlap in names or semantics.<a href="#section-12.3-3" class="pilcrow">¶</a></p>
+</section>
+<section id="section-12.4">
+        <h3 id="name-dns-underscore-name">
+<a href="#section-12.4" class="section-number selfRef">12.4. </a><a href="#name-dns-underscore-name" class="section-name selfRef">DNS Underscore Name</a>
+        </h3>
+<p id="section-12.4-1">IANA is requested to add the following entry to the "Underscored and
         Globally Scoped DNS Node Names" registry on the "Domain Name System (DNS)
-        Parameters" page:<a href="#section-12.3-1" class="pilcrow">¶</a></p>
+        Parameters" page:<a href="#section-12.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-12.3-2.1">RR Type: TXT<a href="#section-12.3-2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-12.4-2.1">RR Type: TXT<a href="#section-12.4-2.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-12.3-2.2">_NODE NAME: _splitdns-challenge<a href="#section-12.3-2.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-12.4-2.2">_NODE NAME: _splitdns-challenge<a href="#section-12.4-2.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-12.3-2.3">Reference: (This document)<a href="#section-12.3-2.3" class="pilcrow">¶</a>
+          <li class="normal" id="section-12.4-2.3">Reference: (This document)<a href="#section-12.4-2.3" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
@@ -2060,10 +2079,6 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
 <a href="#section-14.1" class="section-number selfRef">14.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
-<dt id="IANA-SUDN">[IANA-SUDN]</dt>
-        <dd>
-<span class="refAuthor">IANA</span>, <span class="refTitle">"Special-Use Domain Names"</span>, <span>&lt;<a href="https://www.iana.org/assignments/special-use-domain-names/special-use-domain-names.xhtml">https://www.iana.org/assignments/special-use-domain-names/special-use-domain-names.xhtml</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;</span>. </dd>
@@ -2088,9 +2103,17 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
         <dd>
 <span class="refAuthor">Hoffman, P.</span> and <span class="refAuthor">J. Schlyter</span>, <span class="refTitle">"The DNS-Based Authentication of Named Entities (DANE) Transport Layer Security (TLS) Protocol: TLSA"</span>, <span class="seriesInfo">RFC 6698</span>, <span class="seriesInfo">DOI 10.17487/RFC6698</span>, <time datetime="2012-08" class="refDate">August 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6698">https://www.rfc-editor.org/info/rfc6698</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC6761">[RFC6761]</dt>
+        <dd>
+<span class="refAuthor">Cheshire, S.</span> and <span class="refAuthor">M. Krochmal</span>, <span class="refTitle">"Special-Use Domain Names"</span>, <span class="seriesInfo">RFC 6761</span>, <span class="seriesInfo">DOI 10.17487/RFC6761</span>, <time datetime="2013-02" class="refDate">February 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6761">https://www.rfc-editor.org/info/rfc6761</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC6762">[RFC6762]</dt>
         <dd>
 <span class="refAuthor">Cheshire, S.</span> and <span class="refAuthor">M. Krochmal</span>, <span class="refTitle">"Multicast DNS"</span>, <span class="seriesInfo">RFC 6762</span>, <span class="seriesInfo">DOI 10.17487/RFC6762</span>, <time datetime="2013-02" class="refDate">February 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6762">https://www.rfc-editor.org/info/rfc6762</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8126">[RFC8126]</dt>
+        <dd>
+<span class="refAuthor">Cotton, M.</span>, <span class="refAuthor">Leiba, B.</span>, and <span class="refAuthor">T. Narten</span>, <span class="refTitle">"Guidelines for Writing an IANA Considerations Section in RFCs"</span>, <span class="seriesInfo">BCP 26</span>, <span class="seriesInfo">RFC 8126</span>, <span class="seriesInfo">DOI 10.17487/RFC8126</span>, <time datetime="2017-06" class="refDate">June 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8126">https://www.rfc-editor.org/info/rfc8126</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8174">[RFC8174]</dt>
         <dd>
@@ -2115,21 +2138,9 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
 <a href="#section-14.2" class="section-number selfRef">14.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
-<dt id="I-D.ietf-add-ddr">[I-D.ietf-add-ddr]</dt>
-        <dd>
-<span class="refAuthor">Pauly, T.</span>, <span class="refAuthor">Kinnear, E.</span>, <span class="refAuthor">Wood, C. A.</span>, <span class="refAuthor">McManus, P.</span>, and <span class="refAuthor">T. Jensen</span>, <span class="refTitle">"Discovery of Designated Resolvers"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-add-ddr-10</span>, <time datetime="2022-08-05" class="refDate">5 August 2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-add-ddr-10">https://datatracker.ietf.org/doc/html/draft-ietf-add-ddr-10</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="I-D.ietf-add-dnr">[I-D.ietf-add-dnr]</dt>
-        <dd>
-<span class="refAuthor">Boucadair, M.</span>, <span class="refAuthor">Reddy.K, T.</span>, <span class="refAuthor">Wing, D.</span>, <span class="refAuthor">Cook, N.</span>, and <span class="refAuthor">T. Jensen</span>, <span class="refTitle">"DHCP and Router Advertisement Options for the Discovery of Network-designated Resolvers (DNR)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-add-dnr-16</span>, <time datetime="2023-04-27" class="refDate">27 April 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-add-dnr-16">https://datatracker.ietf.org/doc/html/draft-ietf-add-dnr-16</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="I-D.ietf-dnsop-domain-verification-techniques">[I-D.ietf-dnsop-domain-verification-techniques]</dt>
         <dd>
-<span class="refAuthor">Sahib, S. K.</span>, <span class="refAuthor">Huque, S.</span>, <span class="refAuthor">Wouters, P.</span>, and <span class="refAuthor">E. Nygren</span>, <span class="refTitle">"Domain Control Validation using DNS"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-dnsop-domain-verification-techniques-03</span>, <time datetime="2023-10-17" class="refDate">17 October 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-dnsop-domain-verification-techniques-03">https://datatracker.ietf.org/doc/html/draft-ietf-dnsop-domain-verification-techniques-03</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="I-D.ietf-ipsecme-add-ike">[I-D.ietf-ipsecme-add-ike]</dt>
-        <dd>
-<span class="refAuthor">Boucadair, M.</span>, <span class="refAuthor">Reddy.K, T.</span>, <span class="refAuthor">Wing, D.</span>, and <span class="refAuthor">V. Smyslov</span>, <span class="refTitle">"Internet Key Exchange Protocol Version 2 (IKEv2) Configuration for Encrypted DNS"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-ipsecme-add-ike-14</span>, <time datetime="2023-05-10" class="refDate">10 May 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-ipsecme-add-ike-14">https://datatracker.ietf.org/doc/html/draft-ietf-ipsecme-add-ike-14</a>&gt;</span>. </dd>
+<span class="refAuthor">Sahib, S. K.</span>, <span class="refAuthor">Huque, S.</span>, <span class="refAuthor">Wouters, P.</span>, and <span class="refAuthor">E. Nygren</span>, <span class="refTitle">"Domain Control Validation using DNS"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-dnsop-domain-verification-techniques-04</span>, <time datetime="2024-03-03" class="refDate">3 March 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-dnsop-domain-verification-techniques-04">https://datatracker.ietf.org/doc/html/draft-ietf-dnsop-domain-verification-techniques-04</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC4702">[RFC4702]</dt>
         <dd>
@@ -2163,10 +2174,6 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
         <dd>
 <span class="refAuthor">Dickinson, S.</span>, <span class="refAuthor">Gillmor, D.</span>, and <span class="refAuthor">T. Reddy</span>, <span class="refTitle">"Usage Profiles for DNS over TLS and DNS over DTLS"</span>, <span class="seriesInfo">RFC 8310</span>, <span class="seriesInfo">DOI 10.17487/RFC8310</span>, <time datetime="2018-03" class="refDate">March 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8310">https://www.rfc-editor.org/info/rfc8310</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC8499">[RFC8499]</dt>
-        <dd>
-<span class="refAuthor">Hoffman, P.</span>, <span class="refAuthor">Sullivan, A.</span>, and <span class="refAuthor">K. Fujiwara</span>, <span class="refTitle">"DNS Terminology"</span>, <span class="seriesInfo">BCP 219</span>, <span class="seriesInfo">RFC 8499</span>, <span class="seriesInfo">DOI 10.17487/RFC8499</span>, <time datetime="2019-01" class="refDate">January 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8499">https://www.rfc-editor.org/info/rfc8499</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC8598">[RFC8598]</dt>
         <dd>
 <span class="refAuthor">Pauly, T.</span> and <span class="refAuthor">P. Wouters</span>, <span class="refTitle">"Split DNS Configuration for the Internet Key Exchange Protocol Version 2 (IKEv2)"</span>, <span class="seriesInfo">RFC 8598</span>, <span class="seriesInfo">DOI 10.17487/RFC8598</span>, <time datetime="2019-05" class="refDate">May 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8598">https://www.rfc-editor.org/info/rfc8598</a>&gt;</span>. </dd>
@@ -2179,9 +2186,21 @@ deeper.subdomain.parent.example. IN AAAA 2001:db8::18
         <dd>
 <span class="refAuthor">Kumari, W.</span> and <span class="refAuthor">P. Hoffman</span>, <span class="refTitle">"Running a Root Server Local to a Resolver"</span>, <span class="seriesInfo">RFC 8806</span>, <span class="seriesInfo">DOI 10.17487/RFC8806</span>, <time datetime="2020-06" class="refDate">June 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8806">https://www.rfc-editor.org/info/rfc8806</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC9162">[RFC9162]</dt>
+<dt id="RFC9462">[RFC9462]</dt>
+        <dd>
+<span class="refAuthor">Pauly, T.</span>, <span class="refAuthor">Kinnear, E.</span>, <span class="refAuthor">Wood, C. A.</span>, <span class="refAuthor">McManus, P.</span>, and <span class="refAuthor">T. Jensen</span>, <span class="refTitle">"Discovery of Designated Resolvers"</span>, <span class="seriesInfo">RFC 9462</span>, <span class="seriesInfo">DOI 10.17487/RFC9462</span>, <time datetime="2023-11" class="refDate">November 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc9462">https://www.rfc-editor.org/info/rfc9462</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9463">[RFC9463]</dt>
+        <dd>
+<span class="refAuthor">Boucadair, M., Ed.</span>, <span class="refAuthor">Reddy.K, T., Ed.</span>, <span class="refAuthor">Wing, D.</span>, <span class="refAuthor">Cook, N.</span>, and <span class="refAuthor">T. Jensen</span>, <span class="refTitle">"DHCP and Router Advertisement Options for the Discovery of Network-designated Resolvers (DNR)"</span>, <span class="seriesInfo">RFC 9463</span>, <span class="seriesInfo">DOI 10.17487/RFC9463</span>, <time datetime="2023-11" class="refDate">November 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc9463">https://www.rfc-editor.org/info/rfc9463</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9464">[RFC9464]</dt>
+        <dd>
+<span class="refAuthor">Boucadair, M.</span>, <span class="refAuthor">Reddy.K, T.</span>, <span class="refAuthor">Wing, D.</span>, and <span class="refAuthor">V. Smyslov</span>, <span class="refTitle">"Internet Key Exchange Protocol Version 2 (IKEv2) Configuration for Encrypted DNS"</span>, <span class="seriesInfo">RFC 9464</span>, <span class="seriesInfo">DOI 10.17487/RFC9464</span>, <time datetime="2023-11" class="refDate">November 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc9464">https://www.rfc-editor.org/info/rfc9464</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9499">[RFC9499]</dt>
       <dd>
-<span class="refAuthor">Laurie, B.</span>, <span class="refAuthor">Messeri, E.</span>, and <span class="refAuthor">R. Stradling</span>, <span class="refTitle">"Certificate Transparency Version 2.0"</span>, <span class="seriesInfo">RFC 9162</span>, <span class="seriesInfo">DOI 10.17487/RFC9162</span>, <time datetime="2021-12" class="refDate">December 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc9162">https://www.rfc-editor.org/info/rfc9162</a>&gt;</span>. </dd>
+<span class="refAuthor">Hoffman, P.</span> and <span class="refAuthor">K. Fujiwara</span>, <span class="refTitle">"DNS Terminology"</span>, <span class="seriesInfo">BCP 219</span>, <span class="seriesInfo">RFC 9499</span>, <span class="seriesInfo">DOI 10.17487/RFC9499</span>, <time datetime="2024-03" class="refDate">March 2024</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc9499">https://www.rfc-editor.org/info/rfc9499</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>

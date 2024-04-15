@@ -5,12 +5,12 @@
 ADD                                                             T. Reddy
 Internet-Draft                                                     Nokia
 Intended status: Standards Track                                 D. Wing
-Expires: 7 June 2024                                              Citrix
+Expires: 17 October 2024                                          Citrix
                                                                 K. Smith
                                                                 Vodafone
                                                              B. Schwartz
                                                                     Meta
-                                                         5 December 2023
+                                                           15 April 2024
 
 
 Establishing Local DNS Authority in Validated Split-Horizon Environments
@@ -52,11 +52,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 June 2024.
+   This Internet-Draft will expire on 17 October 2024.
 
 Copyright Notice
 
-   Copyright (c) 2023 IETF Trust and the persons identified as the
+   Copyright (c) 2024 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -94,7 +94,8 @@ Table of Contents
    12. IANA Considerations
      12.1.  DHCP Split DNS Authentication Algorithm
      12.2.  Provisioning Domains Split DNS Additional Information
-     12.3.  DNS Underscore Name
+     12.3.  New PvD Split DNS Claims Registry
+     12.4.  DNS Underscore Name
    13. Acknowledgements
    14. References
      14.1.  Normative References
@@ -170,7 +171,7 @@ Table of Contents
    14 [RFC2119][RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-   This document makes use of the terms defined in [RFC8499], e.g.
+   This document makes use of the terms defined in [RFC9499], e.g.
    "Global DNS".  The following additional terms are used throughout the
    document:
 
@@ -181,7 +182,7 @@ Table of Contents
    Split-Horizon DNS  The DNS service provided by a resolver that also
       acts as an authoritative server for some names, providing
       resolution results that are meaningfully different from those in
-      the Global DNS.  (See "Split DNS" in Section 6 of [RFC8499].)
+      the Global DNS.  (See "Split DNS" in Section 6 of [RFC9499].)
 
    Validated Split-Horizon  A split horizon configuration for some name
       is considered "validated" if the client has confirmed that a
@@ -202,7 +203,7 @@ Table of Contents
    configuration to confirm that a local domain hint was indeed
    authorized by the domain.
 
-   All of the special-use domain names registered with IANA [IANA-SUDN],
+   All of the special-use domain names registered with IANA [RFC6761],
    most notably ".home.arpa", "resolver.arpa.", "ipv4only.arpa." and
    ".local", are never unique to a specific DNS server's authority.  All
    special-use domain names are outside the scope of this document and
@@ -234,9 +235,8 @@ Table of Contents
 5.  Establishing Local DNS Authority
 
    To establish its authority over some DNS zone, a participating
-   network MUST offer one or more encrypted resolvers via DNR
-   [I-D.ietf-add-dnr], DDR [I-D.ietf-add-ddr], or an equivalent
-   mechanism (see Section 9).
+   network MUST offer one or more encrypted resolvers via DNR [RFC9463],
+   DDR [RFC9462], or an equivalent mechanism (see Section 9).
 
    To establish local authority, the network MUST convey one or more
    "Authorization Claims" to the client.  An "Authorization Claim" is an
@@ -496,14 +496,13 @@ Table of Contents
 
       *Steps 1-2*: The client determines the network's DNS server
       (dns.example.net) and Provisioning Domain (pvd.example.com) using
-      DNR [I-D.ietf-add-dnr] and PvD [RFC8801], using one of DNR Router
+      DNR [RFC9463] and PvD [RFC8801], using one of DNR Router
       Solicitation, DHCPv4, or DHCPv6.
 
       *Step 3-5*: The client connects to dns.example.net using an
-      encrypted transport as indicated in DNR [I-D.ietf-add-dnr],
-      authenticating the server to its name using TLS ([RFC8310],
-      Section 8), and sends it a query for the address of
-      pvd.example.com.
+      encrypted transport as indicated in DNR [RFC9463], authenticating
+      the server to its name using TLS ([RFC8310], Section 8), and sends
+      it a query for the address of pvd.example.com.
 
       *Steps 6-7*: The client connects to the PvD server, validates its
       certificate, and retrieves the provisioning domain JSON
@@ -576,10 +575,10 @@ Table of Contents
 
       *Step 3*: The client has validated that example.com has authorized
       dns.example.net to serve example.com.  When the client connects
-      using an encrypted transport as indicated in DNR
-      [I-D.ietf-add-dnr], it will authenticate the server to its name
-      using TLS ([RFC8310], Section 8), and send queries to resolve any
-      names that fall within the claimed zones.
+      using an encrypted transport as indicated in DNR [RFC9463], it
+      will authenticate the server to its name using TLS ([RFC8310],
+      Section 8), and send queries to resolve any names that fall within
+      the claimed zones.
 
    +---------+                  +--------------------+  +----------+
    | Client  |                  | Network's          |  | External |
@@ -625,9 +624,9 @@ Table of Contents
       *Step 3*: The DNSSEC validation is successful and the token
       matches, so this Authorization Claim is validated.  When the
       client connects using an encrypted transport as indicated in DNR
-      [I-D.ietf-add-dnr], it will authenticate the server to its name
-      using TLS ([RFC8310], Section 8), and send queries to resolve any
-      names that fall within the claimed zones.
+      [RFC9463], it will authenticate the server to its name using TLS
+      ([RFC8310], Section 8), and send queries to resolve any names that
+      fall within the claimed zones.
 
    +---------+                                    +--------------------+
    | Client  |                                    | Network's          |
@@ -685,10 +684,9 @@ Table of Contents
    When the VPN tunnel is IPsec, the encrypted DNS resolver hosted by
    the VPN service provider can be securely discovered by the endpoint
    using the ENCDNS_IP*_* IKEv2 Configuration Payload Attribute Types
-   defined in [I-D.ietf-ipsecme-add-ike].  The VPN client can use the
-   mechanism defined in Section 6 to validate that the discovered
-   encrypted DNS resolver is authorized to answer for the claimed
-   subdomains.
+   defined in [RFC9464].  The VPN client can use the mechanism defined
+   in Section 6 to validate that the discovered encrypted DNS resolver
+   is authorized to answer for the claimed subdomains.
 
    Other VPN tunnel types have similar configuration capabilities, not
    detailed here.
@@ -772,7 +770,24 @@ Table of Contents
 
    *  Reference: (This document)
 
-12.3.  DNS Underscore Name
+12.3.  New PvD Split DNS Claims Registry
+
+   IANA is requested to create a new registry "PvD Split DNS Claims
+   Registry", within the "Provisioning Domains (PvDs)" registry page.
+   This new registry reserves JSON keys for use in sub-dictionaries
+   under the splitDnsClaims JSON key.  The initial contents of this
+   registry are given in Section 5.2.2.
+
+   The keys defined in this document are mandatory.  Any new assignments
+   of keys will be considered as optional for the purpose of the
+   mechanism described in this document.
+
+   New assignments in the "PvD Split DNS Claims Registry" registry will
+   be administered by IANA through Expert Review [RFC8126].  Experts are
+   requested to ensure that defined keys do not overlap in names or
+   semantics.
+
+12.4.  DNS Underscore Name
 
    IANA is requested to add the following entry to the "Underscored and
    Globally Scoped DNS Node Names" registry on the "Domain Name System
@@ -796,11 +811,6 @@ Table of Contents
 14.  References
 
 14.1.  Normative References
-
-   [IANA-SUDN]
-              IANA, "Special-Use Domain Names",
-              <https://www.iana.org/assignments/special-use-domain-
-              names/special-use-domain-names.xhtml>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -831,9 +841,18 @@ Table of Contents
               Protocol: TLSA", RFC 6698, DOI 10.17487/RFC6698, August
               2012, <https://www.rfc-editor.org/info/rfc6698>.
 
+   [RFC6761]  Cheshire, S. and M. Krochmal, "Special-Use Domain Names",
+              RFC 6761, DOI 10.17487/RFC6761, February 2013,
+              <https://www.rfc-editor.org/info/rfc6761>.
+
    [RFC6762]  Cheshire, S. and M. Krochmal, "Multicast DNS", RFC 6762,
               DOI 10.17487/RFC6762, February 2013,
               <https://www.rfc-editor.org/info/rfc6762>.
+
+   [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for
+              Writing an IANA Considerations Section in RFCs", BCP 26,
+              RFC 8126, DOI 10.17487/RFC8126, June 2017,
+              <https://www.rfc-editor.org/info/rfc8126>.
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
@@ -857,36 +876,13 @@ Table of Contents
 
 14.2.  Informative References
 
-   [I-D.ietf-add-ddr]
-              Pauly, T., Kinnear, E., Wood, C. A., McManus, P., and T.
-              Jensen, "Discovery of Designated Resolvers", Work in
-              Progress, Internet-Draft, draft-ietf-add-ddr-10, 5 August
-              2022, <https://datatracker.ietf.org/doc/html/draft-ietf-
-              add-ddr-10>.
-
-   [I-D.ietf-add-dnr]
-              Boucadair, M., Reddy.K, T., Wing, D., Cook, N., and T.
-              Jensen, "DHCP and Router Advertisement Options for the
-              Discovery of Network-designated Resolvers (DNR)", Work in
-              Progress, Internet-Draft, draft-ietf-add-dnr-16, 27 April
-              2023, <https://datatracker.ietf.org/doc/html/draft-ietf-
-              add-dnr-16>.
-
    [I-D.ietf-dnsop-domain-verification-techniques]
               Sahib, S. K., Huque, S., Wouters, P., and E. Nygren,
               "Domain Control Validation using DNS", Work in Progress,
               Internet-Draft, draft-ietf-dnsop-domain-verification-
-              techniques-03, 17 October 2023,
+              techniques-04, 3 March 2024,
               <https://datatracker.ietf.org/doc/html/draft-ietf-dnsop-
-              domain-verification-techniques-03>.
-
-   [I-D.ietf-ipsecme-add-ike]
-              Boucadair, M., Reddy.K, T., Wing, D., and V. Smyslov,
-              "Internet Key Exchange Protocol Version 2 (IKEv2)
-              Configuration for Encrypted DNS", Work in Progress,
-              Internet-Draft, draft-ietf-ipsecme-add-ike-14, 10 May
-              2023, <https://datatracker.ietf.org/doc/html/draft-ietf-
-              ipsecme-add-ike-14>.
+              domain-verification-techniques-04>.
 
    [RFC4702]  Stapp, M., Volz, B., and Y. Rekhter, "The Dynamic Host
               Configuration Protocol (DHCP) Client Fully Qualified
@@ -928,10 +924,6 @@ Table of Contents
               DOI 10.17487/RFC8310, March 2018,
               <https://www.rfc-editor.org/info/rfc8310>.
 
-   [RFC8499]  Hoffman, P., Sullivan, A., and K. Fujiwara, "DNS
-              Terminology", BCP 219, RFC 8499, DOI 10.17487/RFC8499,
-              January 2019, <https://www.rfc-editor.org/info/rfc8499>.
-
    [RFC8598]  Pauly, T. and P. Wouters, "Split DNS Configuration for the
               Internet Key Exchange Protocol Version 2 (IKEv2)",
               RFC 8598, DOI 10.17487/RFC8598, May 2019,
@@ -946,9 +938,26 @@ Table of Contents
               a Resolver", RFC 8806, DOI 10.17487/RFC8806, June 2020,
               <https://www.rfc-editor.org/info/rfc8806>.
 
-   [RFC9162]  Laurie, B., Messeri, E., and R. Stradling, "Certificate
-              Transparency Version 2.0", RFC 9162, DOI 10.17487/RFC9162,
-              December 2021, <https://www.rfc-editor.org/info/rfc9162>.
+   [RFC9462]  Pauly, T., Kinnear, E., Wood, C. A., McManus, P., and T.
+              Jensen, "Discovery of Designated Resolvers", RFC 9462,
+              DOI 10.17487/RFC9462, November 2023,
+              <https://www.rfc-editor.org/info/rfc9462>.
+
+   [RFC9463]  Boucadair, M., Ed., Reddy.K, T., Ed., Wing, D., Cook, N.,
+              and T. Jensen, "DHCP and Router Advertisement Options for
+              the Discovery of Network-designated Resolvers (DNR)",
+              RFC 9463, DOI 10.17487/RFC9463, November 2023,
+              <https://www.rfc-editor.org/info/rfc9463>.
+
+   [RFC9464]  Boucadair, M., Reddy.K, T., Wing, D., and V. Smyslov,
+              "Internet Key Exchange Protocol Version 2 (IKEv2)
+              Configuration for Encrypted DNS", RFC 9464,
+              DOI 10.17487/RFC9464, November 2023,
+              <https://www.rfc-editor.org/info/rfc9464>.
+
+   [RFC9499]  Hoffman, P. and K. Fujiwara, "DNS Terminology", BCP 219,
+              RFC 9499, DOI 10.17487/RFC9499, March 2024,
+              <https://www.rfc-editor.org/info/rfc9499>.
 
 Authors' Addresses
 
