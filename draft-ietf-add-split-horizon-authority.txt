@@ -5,12 +5,12 @@
 ADD                                                             T. Reddy
 Internet-Draft                                                     Nokia
 Intended status: Standards Track                                 D. Wing
-Expires: 17 October 2024                                          Citrix
+Expires: 18 October 2024                                          Citrix
                                                                 K. Smith
                                                                 Vodafone
                                                              B. Schwartz
                                                                     Meta
-                                                           15 April 2024
+                                                           16 April 2024
 
 
 Establishing Local DNS Authority in Validated Split-Horizon Environments
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 October 2024.
+   This Internet-Draft will expire on 18 October 2024.
 
 Copyright Notice
 
@@ -426,12 +426,19 @@ Table of Contents
 
 7.  Delegating DNSSEC across Split DNS Boundaries
 
-   We wish to enable DNSSEC validation of local DNS names without
-   requiring the local resolver to hold DNSSEC private keys that are
+   When the local zone can be signed with globally trusted keys for the
+   parent zone, support for DNSSEC can be accomplished simply by placing
+   a zone cut at the parent zone and including a suitable DS record for
+   the local resolver's DNSKEY.  Zones in this configuration appear the
+   same to validating stubs whether or not they implement this
+   specification.
+
+   We also wish to enable DNSSEC validation of local DNS names when the
+   local zone cannot safely be signed with DNSSEC private keys that are
    valid for the parent zone.  To support this configuration, parent
    zones MAY add a "ds=..." key to the Verification Record whose value
    is the RDATA of a single DS record, base64url-encoded.  This DS
-   record authorizes a DNSKEY whose Owner Name is "resolver.arpa."
+   record authorizes a DNSKEY whose Owner Name is "resolver.arpa.".
 
    To validate DNSSEC, the client first fetches and validates the
    Verification Record.  If it is valid and contains a "ds" key, the
@@ -439,7 +446,8 @@ Table of Contents
    encrypted resolver.  At least one resulting DNSKEY RR MUST match the
    DS RDATA from the "ds" key in the Verification Record.  All local
    resolution results for subdomains in this claim MUST offer RRSIGs
-   that chain to one of these approved DNSKEYs.
+   that chain to a DNSKEY whose RDATA is identical to one of these
+   approved DNSKEYs.
 
    The "ds" key MAY appear multiple times in a single Verification
    Record, in order to authorize multiple DNSKEYs for this local
@@ -447,7 +455,12 @@ Table of Contents
    Verification Record, the client MUST disable DNSSEC validation when
    resolving the claimed subdomains via this local encrypted resolver.
 
-   ;; Parent zone
+   Note that in this configuration, any claimed subdomains MUST be
+   marked as unsigned in the public DNS.  Otherwise, resolution results
+   would be rejected by validating stubs that do not implement this
+   specification.
+
+   ;; Parent zone.
    $ORIGIN parent.example.
 
    ; Parent zone's public KSK and ZSK
@@ -459,18 +472,32 @@ Table of Contents
    ; secured by RRSIGs from the public ZSK.
    resolver.example._splitdns-challenge IN TXT "token=abc...,ds=QWE..."
 
+   ; NSEC record indicating that unsigned delegations are permitted at
+   ; this subdomain.  This is required for compatibility with non-split-aware
+   ; validating stub resolvers.  If the claimed label is confidential, the
+   ; parent zone can conceal it using NSEC3 (with or without "opt-out").
+   @ IN NSEC subdomain.parent.example. NS
+
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
    ;; Local zone, claiming "subdomain.parent.example".
 
    ; The local resolver's KSK, validated by the Verification Record.
+   ; It may not have a corresponding RRSIG.
    resolver.arpa. IN DNSKEY 257 3 5 ASDF...=
 
-   ; Each claimed subdomain has its own ZSK, which is signed by the
-   ; KSK and is used to sign records at that subdomain and below.
+   ; Each claimed subdomain duplicates the local resolver's KSK at its
+   ; zone apex and uses it to sign the ZSK.
+   subdomain.parent.example.        IN DNSKEY 257 3 5 ASDF...=
    subdomain.parent.example.        IN DNSKEY 256 3 5 FDSA...=
+   subdomain.parent.example         IN RRSIG DNSKEY 5 3 ...  \
+           (KSK key tag) subdomain.parent.example. ...
    subdomain.parent.example.        IN AAAA 2001:db8::17
+   subdomain.parent.example         IN RRSIG AAAA 5 3 ...    \
+           (ZSK key tag) subdomain.parent.example. ...
    deeper.subdomain.parent.example. IN AAAA 2001:db8::18
+   deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
+           (ZSK key tag) subdomain.parent.example. ...
 
                      Figure 1: Example use of "ds=..."
 
