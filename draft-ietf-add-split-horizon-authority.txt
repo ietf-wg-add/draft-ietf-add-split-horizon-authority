@@ -5,12 +5,12 @@
 ADD                                                             T. Reddy
 Internet-Draft                                                     Nokia
 Intended status: Standards Track                                 D. Wing
-Expires: 18 October 2024                                          Citrix
+Expires: 28 October 2024                                          Citrix
                                                                 K. Smith
                                                                 Vodafone
                                                              B. Schwartz
                                                                     Meta
-                                                           16 April 2024
+                                                           26 April 2024
 
 
 Establishing Local DNS Authority in Validated Split-Horizon Environments
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 October 2024.
+   This Internet-Draft will expire on 28 October 2024.
 
 Copyright Notice
 
@@ -112,7 +112,7 @@ Table of Contents
    "full/recursive resolvers", and "forwarders" (or "stub resolvers")
    respectively.  However, an implementation can also implement a
    mixture of these behaviors, depending on a local policy, for each
-   query.  We term such an implementation a "hybrid resolver".
+   query.  Such an implementation is termed a "hybrid resolver".
 
    Most DNS resolvers are hybrids of some kind.  For example, stub
    resolvers frequently support a local "hosts file" that preempts query
@@ -127,8 +127,8 @@ Table of Contents
    [RFC8106]), some networks provide a hybrid resolver instead.  If this
    resolver acts as an authoritative server for some names and provides
    different answers for those domains depending on the source of the
-   query, we say that the network has "split-horizon DNS", because those
-   names resolve in this way only from inside the network.
+   query, it is described as the network having "split-horizon DNS",
+   because those names resolve in this way only from inside the network.
 
    Network clients that use pure stub resolution, sending all queries to
    the network-provided resolver, will always receive the split-horizon
@@ -262,7 +262,8 @@ Table of Contents
    that identifying name MUST be the one used in any corresponding
    Authorization Claim.  Otherwise (e.g., DDR using IP addresses), the
    resolver MUST present a validatable certificate containing a
-   subjectAltName that matches the Authorization Claim.
+   subjectAltName that matches the Authorization Claim using the
+   validation techniques for matching as described in [RFC9525].
 
    To establish its authority, the network MUST provide each
    Authorization Claim to the parent zone operator.  If the contents are
@@ -433,12 +434,12 @@ Table of Contents
    same to validating stubs whether or not they implement this
    specification.
 
-   We also wish to enable DNSSEC validation of local DNS names when the
-   local zone cannot safely be signed with DNSSEC private keys that are
-   valid for the parent zone.  To support this configuration, parent
-   zones MAY add a "ds=..." key to the Verification Record whose value
-   is the RDATA of a single DS record, base64url-encoded.  This DS
-   record authorizes a DNSKEY whose Owner Name is "resolver.arpa.".
+   To enable DNSSEC validation of local DNS names without requiring the
+   local resolver to hold DNSSEC private keys that are valid for the
+   parent zone, parent zones MAY add a "ds=..." key to the Verification
+   Record whose value is the RDATA of a single DS record, base64url-
+   encoded.  This DS record authorizes a DNSKEY whose Owner Name is
+   "resolver.arpa."
 
    To validate DNSSEC, the client first fetches and validates the
    Verification Record.  If it is valid and contains a "ds" key, the
@@ -900,6 +901,10 @@ Table of Contents
               Hardaker, "Message Digest for DNS Zones", RFC 8976,
               DOI 10.17487/RFC8976, February 2021,
               <https://www.rfc-editor.org/info/rfc8976>.
+
+   [RFC9525]  Saint-Andre, P. and R. Salz, "Service Identity in TLS",
+              RFC 9525, DOI 10.17487/RFC9525, November 2023,
+              <https://www.rfc-editor.org/info/rfc9525>.
 
 14.2.  Informative References
 
