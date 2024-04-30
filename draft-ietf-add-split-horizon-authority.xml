@@ -72,11 +72,11 @@
     <date/>
     <workgroup>ADD</workgroup>
     <abstract>
-      <t>When split-horizon DNS is deployed by a network, certain domains can
-      be resolved authoritatively by the network-provided DNS resolver. DNS clients
-      that are not configured to use this resolver can use it, but only to resolve
-      these domains. This specification defines a mechanism for domain owners
-      to inform clients about local resolvers that are authorized to answer
+      <t>When split-horizon DNS is deployed by a network, certain domain names can
+      be resolved authoritatively by a network-provided DNS resolver. DNS clients
+      that are not configured to use this resolver can still use it, but only to resolve
+      these specific domains. This specification defines a mechanism for domain owners
+      to inform DNS clients about local resolvers that are authorized to answer
       authoritatively for certain subdomains.</t>
     </abstract>
     <note title="Discussion Venues" removeInRFC="true">
@@ -90,7 +90,7 @@
   <middle>
     <section anchor="intro">
       <name>Introduction</name>
-      <t>To resolve a DNS query, there are three essential behaviors that an
+      <t>To resolve a DNS query, there are three main behaviors that an
       implementation can apply: (1) answer from a local database, (2) query
       the relevant authorities and their parents, or (3) ask a server to query
       those authorities and return the final answer. Implementations that use
@@ -100,21 +100,21 @@
       depending on a local policy, for each query. Such an implementation
       is termed a "hybrid resolver".</t>
       <t>Most DNS resolvers are hybrids of some kind. For example, stub
-      resolvers frequently support a local "hosts file" that preempts query
+      resolvers support a local "hosts file" that preempts query
       forwarding, and most DNS forwarders and full resolvers can also serve
       responses from a local zone file. Other standardized hybrid resolution
       behaviors include <xref target="RFC8806">Local Root</xref>, <xref
       target="RFC6762">mDNS</xref>, and <xref target="RFC7686">NXDOMAIN
       synthesis for .onion</xref>.</t>
-      <t>In many network environments, the network offers clients a DNS server
+      <t>Networks usually offers clients a DNS resolver using means such as
       (e.g. DHCP OFFER, IPv6 Router Advertisement). Although this server is
-      formally specified as a recursive resolver (e.g. <relref section="5.1"
+      formally specified as a recursive resolver (e.g., <relref section="5.1"
       target="RFC8106"/>), some networks provide a hybrid resolver
       instead. If this resolver acts as an authoritative server for some names
       and provides different answers for those domains depending on the source
       of the query, it is described as the network having "split-horizon DNS", because those
       names resolve in this way only from inside the network.</t>
-      <t>Network clients that use pure stub resolution, sending all queries to
+      <t>DNS clients that use pure stub resolution, sending all queries to
       the network-provided resolver, will always receive the split-horizon
       results. Conversely, clients that send all queries to a different
       resolver or implement pure full resolution locally will never receive
@@ -135,11 +135,11 @@
       determine whether this special treatment is authorized by the domain
       owner. Instead, these specifications require clients to make their own
       determinations about whether to trust and rely on these hints.</t>
-      <t>This specification describes a protocol between domains, networks,
+      <t>This specification describes a mechanism between domain names, networks,
       and clients that allows the network to establish its authority over a
       domain to a client (<xref target="establishing"/>). Clients can
       use this protocol to confirm that a local domain hint was authorized by
-      the domain (<xref target="validating"/>), which might influence
+      the domain owner (<xref target="validating"/>), which might influence
       its processing of that hint.  This process requires cooperation between
       the local DNS zone and the public zone.</t>
       <t>This specification relies on securely identified local DNS servers,
@@ -153,12 +153,15 @@
       <xref target="RFC2119"/><xref target="RFC8174"/> when, and
       only when, they appear in all capitals, as shown here.</t>
       <t>This document makes use of the terms defined in <xref
-      target="RFC9499"/>, e.g. "Global DNS".  The following additional terms are
+      target="RFC9499"/>, e.g., "Global DNS".  The following additional terms are
       used throughout the document:</t>
       <dl>
         <dt>Encrypted DNS</dt><dd>A DNS protocol that provides an
         encrypted channel between a DNS client and server (e.g., DNS
-        over TLS (DoT), HTTPS (DoH), QUIC (DoQ)).</dd>
+        over TLS (DoT) <xref
+      target="RFC7858"/>, HTTPS (DoH) <xref
+      target="RFC8484"/>, QUIC (DoQ) <xref
+      target="RFC9250"/>).</dd>
           <dt>Split-Horizon DNS</dt><dd>The DNS service provided by a resolver
           that also acts as an authoritative server for some names, providing
           resolution results that are meaningfully different from those in the
@@ -170,6 +173,9 @@
           responses for that name. Such authorization generally extends to the
           entire subtree of names below the authorization point.</dd>
       </dl>
+      <t>In this document, the terms 'owner' and 'operator' are used interchangeably
+      and refer to the individual or entity responsible for the management and
+      maintenance of domains.</t>
     </section>
     <section>
       <name>Scope</name>
@@ -201,9 +207,9 @@
         <li>Local zone confidentiality: The specification does not leak
           local network subdomains to anyone outside of the network.</li>
         <li>Flexibility: The specification can represent and authorize
-          a typical Split DNS zone structure.</li>
+          a Split DNS zone structure.</li>
         <li>DNSSEC Compatibility: The specification supports DNSSEC-based
-          object security for local zone contents.</li>
+          <xref target="RFC9364"/> object security for local zone contents.</li>
       </ul>
     </section>
     <section anchor="establishing">
@@ -249,7 +255,7 @@
         <li>Let $TOKEN = hash(len($SALT) || $SALT || $X). Where "||" denotes concatenation.</li>
       </ol>
       <t>The zone operator then publishes a "Verification Record" with the
-      following structure, following the advice in Sections 5.1 and 5.2 of
+      following structure, following advices such as in Sections 5.1 and 5.2 of
       <xref target="I-D.ietf-dnsop-domain-verification-techniques"/>:</t>
       <ul>
         <li>Type = TXT.</li>
@@ -267,7 +273,7 @@
           <li>Parent = "parent.example"</li>
           <li>Subdomains = "payroll.parent.example",
               "secret.project.parent.example"</li>
-          <li>Hash Algorithm = SHA-384</li>
+          <li>Hash Algorithm = SHA-384 <xref target="RFC6234"/></li>
           <li>Salt = "example salt bytes (should be random)"</li>
         </ul>
         <t>To approve this claim, the zone operator would publish the following record:</t>
@@ -290,7 +296,7 @@
           <t>
             In DHCP, each Authorization Claim is encoded as a DHCP Authentication
             Option (<xref target="RFC3118"/> and <relref section="21.11" target="RFC8415"/>),
-            using the Protocol value $TBD1, "Split DNS Authentication". In DHCPv4, the long-options
+            using the Protocol value $TBD1, "Split DNS Authentication". In DHCPv4 <xref target="RFC2131"/>, the long-options
             mechanism described in <relref section="8" target="RFC3396"/> MUST be used if the
             authentication option exceeds the maximum DHCPv4 option size of 255 octets. The Algorithm field
             provides the ZONEMD Hash Algorithm, represented by its registered Value.
@@ -323,23 +329,28 @@
                 section="5.2" displayFormat="comma"/>).</li>
             <li>"salt": The salt, encoded in base64url.</li>
           </ul>
+
+        <t>Future specifications aiming to define new keys will need to add them to the
+        IANA registry defined in <xref target="IANA"/>. DNS client implementations
+        will ignore any keys they don't recognize but may also report about
+        unknown keys.</t>
         </section>
       </section>
     </section>
     <section anchor="validating">
       <name>Validating Authority over Local Domain Hints</name>
-      <t>To validate an Authorization Claim provided by the network, participating
-      clients <bcp14>MUST</bcp14> resolve the Verification Record for that name.
+      <t>To validate an Authorization Claim provided by the network, DNS clients
+      <bcp14>MUST</bcp14> resolve the Verification Record for that name.
       If the resolution produces an RRSet containing the expected token for this
       Claim, the client <bcp14>SHALL</bcp14> regard the named resolver as
       authoritative for the claimed subdomains. Clients <bcp14>MUST</bcp14> ignore
       any unrecognized keys in the Verification Record.</t>
-      <t>Each validation of authority applies only to a specific Authentication
-      Domain Name. If a network offers multiple encrypted resolvers, each claimed
+      <t>Each validation of authority applies only to a specific ADN.
+      If a network offers multiple encrypted resolvers, each claimed
       subdomain may be authorized for a distinct subset of the network-provided
       resolvers.</t>
       <t>A zone is termed a "Validated Split-Horizon zone" after successful
-      validation using a "tamperproof" DNS resolution method, i.e. a method
+      validation using a "tamperproof" DNS resolution method, i.e., a method
       that is not subject to interference by the local network operator. Two
       possible tamperproof resolution methods are presented below.</t>
       <section anchor="validating-external">
@@ -351,8 +362,8 @@
         response could already modify all of the user's other DNS responses.</t>
         <t>To ensure that this assumption holds, clients <bcp14>MUST NOT</bcp14>
         relax the acceptance rules they would otherwise apply when using this
-        resolver. For example, if the client would check the AD bit or
-        validate RRSIGs locally when using this resolver, it must also do so
+        resolver. For example, if the client would check the Authenticated Data (AD)
+        bit or validate RRSIGs locally when using this resolver, it must also do so
         when resolving TXT records for this purpose. Alternatively, a client might
         perform DNSSEC validation for the verification query
         even if it has disabled DNSSEC validation for other DNS queries.</t>
@@ -362,7 +373,7 @@
       <section anchor="validating-dnssec">
         <name>Using DNSSEC</name>
         <t>The client resolves the Verification Record using any resolution method of
-        its choice (e.g. querying one of the network-provided resolvers,
+        its choice (e.g., querying one of the network-provided resolvers,
         performing iterative resolution locally), and performs full DNSSEC
         validation locally <xref target="RFC6698"/>. The result is
         processed based on its DNSSEC validation state (<relref section="4.3"
@@ -501,7 +512,7 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
             are defined in <xref target="RFC8801"/>.</t></li>
         </ul>
         <figure anchor="fig-learn">
-          <name>Learning Local Claims of DNS Authority</name>
+          <name>An Example of Learning Local Claims of DNS Authority</name>
           <artwork><![CDATA[
 +---------+         +--------------------+  +------------+ +--------+
 | Client  |         | Network's          |  | Network    | | Router |
@@ -512,11 +523,11 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
    | DHCPv4/DHCPv6 (1)                   |         |            |
    |----------------------------------------------------------->|
    |                                     |         |            |
-   |  Response with DNR hostnames &      |         |            |
+   |  Response with DNR ADN &            |         |            |
    |  PvD FQDN (2)                       |         |            |
    |<-----------------------------------------------------------|
    | ----------------------------\       |         |            |
-   |-| now knows DNR hostnames & |       |         |            |
+   |-| now knows DNR ADN &       |       |         |            |
    | | PvD FQDN                  |       |         |            |
    | |---------------------------/       |         |            |
    |                                     |         |            |
@@ -543,8 +554,8 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
 ]]></artwork>
         </figure>
         <section anchor="example-verify-external">
-          <name>Verification using an external resolver</name>
-          <t>The figure below shows the steps performed to verify the local
+          <name>Verification Using an External Resolver</name>
+          <t><xref target="fig-learn2"/> shows the steps performed to verify the local
           claims of DNS authority using an external resolver.</t>
           <ul empty="true">
             <li><strong>Steps 1-2</strong>: The client uses an encrypted DNS
@@ -560,7 +571,7 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
               section="8" displayFormat="comma"/>), and send queries to resolve
               any names that fall within the claimed zones.</li>
           </ul>
-          <figure>
+          <figure anchor="fig-learn2">
             <name>Verifying claims using an external resolver</name>
             <artwork><![CDATA[
 +---------+                  +--------------------+  +----------+
@@ -597,7 +608,7 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
 
         <section anchor="example-verify-dnssec">
           <name>Verification using DNSSEC</name>
-          <t>The figure below shows the steps performed to verify the local
+          <t><xref target="fig-learn3"/> shows the steps performed to verify the local
           claims of DNS authority using DNSSEC.</t>
           <ul empty="true">
             <li><strong>Steps 1-2</strong>: The DNSSEC-validating client queries
@@ -613,8 +624,8 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
               section="8" displayFormat="comma"/>), and send queries to resolve
               any names that fall within the claimed zones.</li>
           </ul>
-          <figure>
-            <name>Verifying claims using DNSSEC</name>
+          <figure anchor="fig-learn3">
+            <name>An Example of Verifying Claims using DNSSEC</name>
             <artwork><![CDATA[
 +---------+                                    +--------------------+
 | Client  |                                    | Network's          |
@@ -653,17 +664,17 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
         subdomain (e.g., <tt>www.example.com</tt>) are sent to the
         external resolver rather than the resolver for internal.example.com.</t>
         <t>As in <xref target="internal-only"/>, the internal DNS
-        server will need a certificate signed by a CA trusted by the
+        server will need a certificate signed by a Certification Authority (CA) trusted by the
         client.</t>
         <t>Although placing internal domains inside a child domain is unnecessary to prevent leakage,
         such placement reduces the frequency of changes to the Verification Record, this document
         recommends the internal domains be kept in a child zone of the local domain hints
         advertised by the network. For example, if the PvD "dnsZones" entry is
-        “internal.example.com” and the network-provided DNS resolver is “ns1.internal.example.com”,
+        "internal.example.com" and the network-provided DNS resolver is "ns1.internal.example.com",
         the network operator can structure the internal domain names as
         "private1.internal.example.com", "private2.internal.example.com",
         etc. The network-designated resolver will be used to resolve the subdomains of
-        the local domain hint “*.internal.example.com”.</t>
+        the local domain hint "*.internal.example.com".</t>
       </section>
     </section>
     <section anchor="vpn">
@@ -689,7 +700,7 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
         dynamically requesting the updated Authorization Claim. This process avoids the need for
         the client to wait for its current lease to complete and request a new one, enabling the lease
         renewal to be driven by the DHCP server.</li>
-        <li>The sequence number in the RA (Router Advertisement) PvD (Prefix Delegation) option
+        <li>The sequence number in the RA PvD option
         will be incremented, requiring clients to fetch PvD additional information from the HTTPS
         server due to the updated sequence number in the new RA (<relref target="RFC8801" section="4.1"
         displayFormat="comma"/>).</li>
@@ -727,7 +738,7 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
       <section>
         <name>Provisioning Domains Split DNS Additional Information</name>
         <t>IANA is requested to add the following entry to the "Additional
-        Information PvD Keys" registry on the "Provisioning Domains (PvDs)" page:</t>
+        Information PvD Keys" registry under the "Provisioning Domains (PvDs)" registry group:</t>
         <ul>
           <li>JSON key: "splitDnsClaims"</li>
           <li>Description: "Verifiable locally served domains"</li>
@@ -744,7 +755,7 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
       </section>
       <section>
         <name>New PvD Split DNS Claims Registry</name>
-        <t>IANA is requested to create a new registry "PvD Split DNS Claims Registry",
+        <t>IANA is requested to create a new registry "PvD Split DNS Claims" Registry,
         within the "Provisioning Domains (PvDs)" registry page.  This new registry
         reserves JSON keys for use in sub-dictionaries under the splitDnsClaims JSON key.
         The initial contents of this registry are given in <xref target="splitclaims"/>.</t>
@@ -753,12 +764,30 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
         <t>New assignments in the "PvD Split DNS Claims Registry" registry will be
         administered by IANA through Expert Review <xref target="RFC8126"/>. Experts are
         requested to ensure that defined keys do not overlap in names or semantics.</t>
+        <section>
+          <name>Guidelines for the Designated Experts</name>
+          <t>It is suggested that multiple designated experts be appointed for
+          registry change requests.</t>
+
+          <t>Criteria that should be applied by the designated experts include
+          determining whether the proposed registration duplicates existing
+          entries and whether the registration description is clear and fits
+          the purpose of this registry.</t>
+
+          <t>Registration requests are evaluated within a three-week review period
+          on the advice of one or more designated experts. Within the review
+          period, the designated experts will either approve or deny the
+          registration request, communicating this decision to IANA. Denials
+          should include an explanation and, if applicable, suggestions as to
+          how to make the request successful.</t>
+
+        </section>
       </section>
       <section>
         <name>DNS Underscore Name</name>
         <t>IANA is requested to add the following entry to the "Underscored and
-        Globally Scoped DNS Node Names" registry on the "Domain Name System (DNS)
-        Parameters" page:</t>
+        Globally Scoped DNS Node Names" registry under the "Domain Name System (DNS)
+        Parameters" registry group:</t>
         <ul>
           <li>RR Type: TXT</li>
           <li>_NODE NAME: _splitdns-challenge</li>
@@ -784,6 +813,7 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
         <name>Normative References</name>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.2119.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.3118.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.2131.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4034.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8174.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8801.xml"/>
@@ -811,6 +841,11 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5986.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8310.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7696.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7858.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8484.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9250.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9364.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6234.xml"/>
 	<xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8792.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9463.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9464.xml"/>
