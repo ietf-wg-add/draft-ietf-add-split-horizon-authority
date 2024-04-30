@@ -10,11 +10,11 @@
 <meta content="Kevin Smith" name="author">
 <meta content="Benjamin Schwartz" name="author">
 <meta content="
-       When split-horizon DNS is deployed by a network, certain domains can
-      be resolved authoritatively by the network-provided DNS resolver. DNS clients
-      that are not configured to use this resolver can use it, but only to resolve
-      these domains. This specification defines a mechanism for domain owners
-      to inform clients about local resolvers that are authorized to answer
+       When split-horizon DNS is deployed by a network, certain domain names can
+      be resolved authoritatively by a network-provided DNS resolver. DNS clients
+      that are not configured to use this resolver can still use it, but only to resolve
+      these specific domains. This specification defines a mechanism for domain owners
+      to inform DNS clients about local resolvers that are authorized to answer
       authoritatively for certain subdomains. 
     " name="description">
 <meta content="xml2rfc 3.21.0" name="generator">
@@ -1036,7 +1036,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Reddy, et al.</td>
-<td class="center">Expires 28 October 2024</td>
+<td class="center">Expires 1 November 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1049,12 +1049,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-add-split-horizon-authority-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-04-26" class="published">26 April 2024</time>
+<time datetime="2024-04-30" class="published">30 April 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-10-28">28 October 2024</time></dd>
+<dd class="expires"><time datetime="2024-11-01">1 November 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1079,11 +1079,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <h1 id="title">Establishing Local DNS Authority in Validated Split-Horizon Environments</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">When split-horizon DNS is deployed by a network, certain domains can
-      be resolved authoritatively by the network-provided DNS resolver. DNS clients
-      that are not configured to use this resolver can use it, but only to resolve
-      these domains. This specification defines a mechanism for domain owners
-      to inform clients about local resolvers that are authorized to answer
+<p id="section-abstract-1">When split-horizon DNS is deployed by a network, certain domain names can
+      be resolved authoritatively by a network-provided DNS resolver. DNS clients
+      that are not configured to use this resolver can still use it, but only to resolve
+      these specific domains. This specification defines a mechanism for domain owners
+      to inform DNS clients about local resolvers that are authorized to answer
       authoritatively for certain subdomains.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
@@ -1116,7 +1116,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 28 October 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 1 November 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1197,7 +1197,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-split-horizon-entire-zone" class="internal xref">Split-Horizon Entire Zone</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1.2.1">
-                    <p id="section-toc.1-1.8.2.1.2.1.1"><a href="#section-8.1.1" class="auto internal xref">8.1.1</a>.  <a href="#name-verification-using-an-exter" class="internal xref">Verification using an external resolver</a></p>
+                    <p id="section-toc.1-1.8.2.1.2.1.1"><a href="#section-8.1.1" class="auto internal xref">8.1.1</a>.  <a href="#name-verification-using-an-exter" class="internal xref">Verification Using an External Resolver</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1.2.2">
                     <p id="section-toc.1-1.8.2.1.2.2.1"><a href="#section-8.1.2" class="auto internal xref">8.1.2</a>.  <a href="#name-verification-using-dnssec" class="internal xref">Verification using DNSSEC</a></p>
@@ -1229,6 +1229,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.3">
                 <p id="section-toc.1-1.12.2.3.1"><a href="#section-12.3" class="auto internal xref">12.3</a>.  <a href="#name-new-pvd-split-dns-claims-re" class="internal xref">New PvD Split DNS Claims Registry</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.3.2.1">
+                    <p id="section-toc.1-1.12.2.3.2.1.1"><a href="#section-12.3.1" class="auto internal xref">12.3.1</a>.  <a href="#name-guidelines-for-the-designat" class="internal xref">Guidelines for the Designated Experts</a></p>
+</li>
+                </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.4">
                 <p id="section-toc.1-1.12.2.4.1"><a href="#section-12.4" class="auto internal xref">12.4</a>.  <a href="#name-dns-underscore-name" class="internal xref">DNS Underscore Name</a></p>
@@ -1261,7 +1266,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">To resolve a DNS query, there are three essential behaviors that an
+<p id="section-1-1">To resolve a DNS query, there are three main behaviors that an
       implementation can apply: (1) answer from a local database, (2) query
       the relevant authorities and their parents, or (3) ask a server to query
       those authorities and return the final answer. Implementations that use
@@ -1271,19 +1276,19 @@ svg :is([fill="white"], [fill^="#fff"]) {
       depending on a local policy, for each query. Such an implementation
       is termed a "hybrid resolver".<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">Most DNS resolvers are hybrids of some kind. For example, stub
-      resolvers frequently support a local "hosts file" that preempts query
+      resolvers support a local "hosts file" that preempts query
       forwarding, and most DNS forwarders and full resolvers can also serve
       responses from a local zone file. Other standardized hybrid resolution
       behaviors include <span><a href="#RFC8806" class="internal xref">Local Root</a> [<a href="#RFC8806" class="cite xref">RFC8806</a>]</span>, <span><a href="#RFC6762" class="internal xref">mDNS</a> [<a href="#RFC6762" class="cite xref">RFC6762</a>]</span>, and <span><a href="#RFC7686" class="internal xref">NXDOMAIN
       synthesis for .onion</a> [<a href="#RFC7686" class="cite xref">RFC7686</a>]</span>.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">In many network environments, the network offers clients a DNS server
+<p id="section-1-3">Networks usually offers clients a DNS resolver using means such as
       (e.g. DHCP OFFER, IPv6 Router Advertisement). Although this server is
-      formally specified as a recursive resolver (e.g. <span><a href="https://rfc-editor.org/rfc/rfc8106#section-5.1" class="relref">Section 5.1</a> of [<a href="#RFC8106" class="cite xref">RFC8106</a>]</span>), some networks provide a hybrid resolver
+      formally specified as a recursive resolver (e.g., <span><a href="https://rfc-editor.org/rfc/rfc8106#section-5.1" class="relref">Section 5.1</a> of [<a href="#RFC8106" class="cite xref">RFC8106</a>]</span>), some networks provide a hybrid resolver
       instead. If this resolver acts as an authoritative server for some names
       and provides different answers for those domains depending on the source
       of the query, it is described as the network having "split-horizon DNS", because those
       names resolve in this way only from inside the network.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">Network clients that use pure stub resolution, sending all queries to
+<p id="section-1-4">DNS clients that use pure stub resolution, sending all queries to
       the network-provided resolver, will always receive the split-horizon
       results. Conversely, clients that send all queries to a different
       resolver or implement pure full resolution locally will never receive
@@ -1300,11 +1305,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
       determine whether this special treatment is authorized by the domain
       owner. Instead, these specifications require clients to make their own
       determinations about whether to trust and rely on these hints.<a href="#section-1-5" class="pilcrow">¶</a></p>
-<p id="section-1-6">This specification describes a protocol between domains, networks,
+<p id="section-1-6">This specification describes a mechanism between domain names, networks,
       and clients that allows the network to establish its authority over a
       domain to a client (<a href="#establishing" class="auto internal xref">Section 5</a>). Clients can
       use this protocol to confirm that a local domain hint was authorized by
-      the domain (<a href="#validating" class="auto internal xref">Section 6</a>), which might influence
+      the domain owner (<a href="#validating" class="auto internal xref">Section 6</a>), which might influence
       its processing of that hint.  This process requires cooperation between
       the local DNS zone and the public zone.<a href="#section-1-6" class="pilcrow">¶</a></p>
 <p id="section-1-7">This specification relies on securely identified local DNS servers,
@@ -1321,13 +1326,13 @@ svg :is([fill="white"], [fill^="#fff"]) {
       "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as described in BCP 14
       <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span><span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and
       only when, they appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
-<p id="section-2-2">This document makes use of the terms defined in <span>[<a href="#RFC9499" class="cite xref">RFC9499</a>]</span>, e.g. "Global DNS".  The following additional terms are
+<p id="section-2-2">This document makes use of the terms defined in <span>[<a href="#RFC9499" class="cite xref">RFC9499</a>]</span>, e.g., "Global DNS".  The following additional terms are
       used throughout the document:<a href="#section-2-2" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-2-3">
         <dt id="section-2-3.1">Encrypted DNS</dt>
         <dd style="margin-left: 1.5em" id="section-2-3.2">A DNS protocol that provides an
         encrypted channel between a DNS client and server (e.g., DNS
-        over TLS (DoT), HTTPS (DoH), QUIC (DoQ)).<a href="#section-2-3.2" class="pilcrow">¶</a>
+        over TLS (DoT) <span>[<a href="#RFC7858" class="cite xref">RFC7858</a>]</span>, HTTPS (DoH) <span>[<a href="#RFC8484" class="cite xref">RFC8484</a>]</span>, QUIC (DoQ) <span>[<a href="#RFC9250" class="cite xref">RFC9250</a>]</span>).<a href="#section-2-3.2" class="pilcrow">¶</a>
 </dd>
         <dd class="break"></dd>
 <dt id="section-2-3.3">Split-Horizon DNS</dt>
@@ -1346,6 +1351,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </dd>
       <dd class="break"></dd>
 </dl>
+<p id="section-2-4">In this document, the terms 'owner' and 'operator' are used interchangeably
+      and refer to the individual or entity responsible for the management and
+      maintenance of domains.<a href="#section-2-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <section id="section-3">
@@ -1385,10 +1393,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
           local network subdomains to anyone outside of the network.<a href="#section-4-2.3" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="section-4-2.4">Flexibility: The specification can represent and authorize
-          a typical Split DNS zone structure.<a href="#section-4-2.4" class="pilcrow">¶</a>
+          a Split DNS zone structure.<a href="#section-4-2.4" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="section-4-2.5">DNSSEC Compatibility: The specification supports DNSSEC-based
-          object security for local zone contents.<a href="#section-4-2.5" class="pilcrow">¶</a>
+          <span>[<a href="#RFC9364" class="cite xref">RFC9364</a>]</span> object security for local zone contents.<a href="#section-4-2.5" class="pilcrow">¶</a>
 </li>
       </ul>
 </section>
@@ -1448,7 +1456,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </li>
       </ol>
 <p id="section-5-7">The zone operator then publishes a "Verification Record" with the
-      following structure, following the advice in Sections 5.1 and 5.2 of
+      following structure, following advices such as in Sections 5.1 and 5.2 of
       <span>[<a href="#I-D.ietf-dnsop-domain-verification-techniques" class="cite xref">I-D.ietf-dnsop-domain-verification-techniques</a>]</span>:<a href="#section-5-7" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5-8.1">Type = TXT.<a href="#section-5-8.1" class="pilcrow">¶</a>
@@ -1474,7 +1482,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
           <li class="normal" id="section-5.1-2.3">Subdomains = "payroll.parent.example",
               "secret.project.parent.example"<a href="#section-5.1-2.3" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-5.1-2.4">Hash Algorithm = SHA-384<a href="#section-5.1-2.4" class="pilcrow">¶</a>
+          <li class="normal" id="section-5.1-2.4">Hash Algorithm = SHA-384 <span>[<a href="#RFC6234" class="cite xref">RFC6234</a>]</span><a href="#section-5.1-2.4" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-5.1-2.5">Salt = "example salt bytes (should be random)"<a href="#section-5.1-2.5" class="pilcrow">¶</a>
 </li>
@@ -1504,7 +1512,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <p id="section-5.2.1-1">
             In DHCP, each Authorization Claim is encoded as a DHCP Authentication
             Option (<span>[<a href="#RFC3118" class="cite xref">RFC3118</a>]</span> and <span><a href="https://rfc-editor.org/rfc/rfc8415#section-21.11" class="relref">Section 21.11</a> of [<a href="#RFC8415" class="cite xref">RFC8415</a>]</span>),
-            using the Protocol value $TBD1, "Split DNS Authentication". In DHCPv4, the long-options
+            using the Protocol value $TBD1, "Split DNS Authentication". In DHCPv4 <span>[<a href="#RFC2131" class="cite xref">RFC2131</a>]</span>, the long-options
             mechanism described in <span><a href="https://rfc-editor.org/rfc/rfc3396#section-8" class="relref">Section 8</a> of [<a href="#RFC3396" class="cite xref">RFC3396</a>]</span> MUST be used if the
             authentication option exceeds the maximum DHCPv4 option size of 255 octets. The Algorithm field
             provides the ZONEMD Hash Algorithm, represented by its registered Value.
@@ -1549,6 +1557,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <li class="normal" id="section-5.2.2-2.5">"salt": The salt, encoded in base64url.<a href="#section-5.2.2-2.5" class="pilcrow">¶</a>
 </li>
           </ul>
+<p id="section-5.2.2-3">Future specifications aiming to define new keys will need to add them to the
+        IANA registry defined in <a href="#IANA" class="auto internal xref">Section 12</a>. DNS client implementations
+        will ignore any keys they don't recognize but may also report about
+        unknown keys.<a href="#section-5.2.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1559,18 +1571,18 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="name-validating-authority-over-l">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-validating-authority-over-l" class="section-name selfRef">Validating Authority over Local Domain Hints</a>
       </h2>
-<p id="section-6-1">To validate an Authorization Claim provided by the network, participating
-      clients <span class="bcp14">MUST</span> resolve the Verification Record for that name.
+<p id="section-6-1">To validate an Authorization Claim provided by the network, DNS clients
+      <span class="bcp14">MUST</span> resolve the Verification Record for that name.
       If the resolution produces an RRSet containing the expected token for this
       Claim, the client <span class="bcp14">SHALL</span> regard the named resolver as
       authoritative for the claimed subdomains. Clients <span class="bcp14">MUST</span> ignore
       any unrecognized keys in the Verification Record.<a href="#section-6-1" class="pilcrow">¶</a></p>
-<p id="section-6-2">Each validation of authority applies only to a specific Authentication
-      Domain Name. If a network offers multiple encrypted resolvers, each claimed
+<p id="section-6-2">Each validation of authority applies only to a specific ADN.
+      If a network offers multiple encrypted resolvers, each claimed
       subdomain may be authorized for a distinct subset of the network-provided
       resolvers.<a href="#section-6-2" class="pilcrow">¶</a></p>
 <p id="section-6-3">A zone is termed a "Validated Split-Horizon zone" after successful
-      validation using a "tamperproof" DNS resolution method, i.e. a method
+      validation using a "tamperproof" DNS resolution method, i.e., a method
       that is not subject to interference by the local network operator. Two
       possible tamperproof resolution methods are presented below.<a href="#section-6-3" class="pilcrow">¶</a></p>
 <div id="validating-external">
@@ -1585,8 +1597,8 @@ svg :is([fill="white"], [fill^="#fff"]) {
         response could already modify all of the user's other DNS responses.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
 <p id="section-6.1-2">To ensure that this assumption holds, clients <span class="bcp14">MUST NOT</span>
         relax the acceptance rules they would otherwise apply when using this
-        resolver. For example, if the client would check the AD bit or
-        validate RRSIGs locally when using this resolver, it must also do so
+        resolver. For example, if the client would check the Authenticated Data (AD)
+        bit or validate RRSIGs locally when using this resolver, it must also do so
         when resolving TXT records for this purpose. Alternatively, a client might
         perform DNSSEC validation for the verification query
         even if it has disabled DNSSEC validation for other DNS queries.<a href="#section-6.1-2" class="pilcrow">¶</a></p>
@@ -1598,7 +1610,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-using-dnssec" class="section-name selfRef">Using DNSSEC</a>
         </h3>
 <p id="section-6.2-1">The client resolves the Verification Record using any resolution method of
-        its choice (e.g. querying one of the network-provided resolvers,
+        its choice (e.g., querying one of the network-provided resolvers,
         performing iterative resolution locally), and performs full DNSSEC
         validation locally <span>[<a href="#RFC6698" class="cite xref">RFC6698</a>]</span>. The result is
         processed based on its DNSSEC validation state (<span>[<a href="#RFC4035" class="cite xref">RFC4035</a>], <a href="https://rfc-editor.org/rfc/rfc4035#section-4.3" class="relref">Section 4.3</a></span>):<a href="#section-6.2-1" class="pilcrow">¶</a></p>
@@ -1752,7 +1764,7 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
             are defined in <span>[<a href="#RFC8801" class="cite xref">RFC8801</a>]</span>.<a href="#section-8.1-4.3.3" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<span id="name-learning-local-claims-of-dn"></span><div id="fig-learn">
+<span id="name-an-example-of-learning-loca"></span><div id="fig-learn">
 <figure id="figure-2">
           <div class="alignLeft art-text artwork" id="section-8.1-5.1">
 <pre>
@@ -1765,11 +1777,11 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
    | DHCPv4/DHCPv6 (1)                   |         |            |
    |-----------------------------------------------------------&gt;|
    |                                     |         |            |
-   |  Response with DNR hostnames &amp;      |         |            |
+   |  Response with DNR ADN &amp;            |         |            |
    |  PvD FQDN (2)                       |         |            |
    |&lt;-----------------------------------------------------------|
    | ----------------------------\       |         |            |
-   |-| now knows DNR hostnames &amp; |       |         |            |
+   |-| now knows DNR ADN &amp;       |       |         |            |
    | | PvD FQDN                  |       |         |            |
    | |---------------------------/       |         |            |
    |                                     |         |            |
@@ -1796,15 +1808,15 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
 </pre>
 </div>
 <figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
-<a href="#name-learning-local-claims-of-dn" class="selfRef">Learning Local Claims of DNS Authority</a>
+<a href="#name-an-example-of-learning-loca" class="selfRef">An Example of Learning Local Claims of DNS Authority</a>
           </figcaption></figure>
 </div>
 <div id="example-verify-external">
 <section id="section-8.1.1">
           <h4 id="name-verification-using-an-exter">
-<a href="#section-8.1.1" class="section-number selfRef">8.1.1. </a><a href="#name-verification-using-an-exter" class="section-name selfRef">Verification using an external resolver</a>
+<a href="#section-8.1.1" class="section-number selfRef">8.1.1. </a><a href="#name-verification-using-an-exter" class="section-name selfRef">Verification Using an External Resolver</a>
           </h4>
-<p id="section-8.1.1-1">The figure below shows the steps performed to verify the local
+<p id="section-8.1.1-1"><a href="#fig-learn2" class="auto internal xref">Figure 3</a> shows the steps performed to verify the local
           claims of DNS authority using an external resolver.<a href="#section-8.1.1-1" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="section-8.1.1-2.1">
@@ -1822,7 +1834,8 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
               any names that fall within the claimed zones.<a href="#section-8.1.1-2.2" class="pilcrow">¶</a>
 </li>
           </ul>
-<span id="name-verifying-claims-using-an-e"></span><figure id="figure-3">
+<span id="name-verifying-claims-using-an-e"></span><div id="fig-learn2">
+<figure id="figure-3">
             <div class="alignLeft art-text artwork" id="section-8.1.1-3.1">
 <pre>
 +---------+                  +--------------------+  +----------+
@@ -1857,6 +1870,7 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
 <figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
 <a href="#name-verifying-claims-using-an-e" class="selfRef">Verifying claims using an external resolver</a>
             </figcaption></figure>
+</div>
 </section>
 </div>
 <div id="example-verify-dnssec">
@@ -1864,7 +1878,7 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
           <h4 id="name-verification-using-dnssec">
 <a href="#section-8.1.2" class="section-number selfRef">8.1.2. </a><a href="#name-verification-using-dnssec" class="section-name selfRef">Verification using DNSSEC</a>
           </h4>
-<p id="section-8.1.2-1">The figure below shows the steps performed to verify the local
+<p id="section-8.1.2-1"><a href="#fig-learn3" class="auto internal xref">Figure 4</a> shows the steps performed to verify the local
           claims of DNS authority using DNSSEC.<a href="#section-8.1.2-1" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="section-8.1.2-2.1">
@@ -1883,7 +1897,8 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
               any names that fall within the claimed zones.<a href="#section-8.1.2-2.2" class="pilcrow">¶</a>
 </li>
           </ul>
-<span id="name-verifying-claims-using-dnss"></span><figure id="figure-4">
+<span id="name-an-example-of-verifying-cla"></span><div id="fig-learn3">
+<figure id="figure-4">
             <div class="alignLeft art-text artwork" id="section-8.1.2-3.1">
 <pre>
 +---------+                                    +--------------------+
@@ -1913,8 +1928,9 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
 </pre>
 </div>
 <figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
-<a href="#name-verifying-claims-using-dnss" class="selfRef">Verifying claims using DNSSEC</a>
+<a href="#name-an-example-of-verifying-cla" class="selfRef">An Example of Verifying Claims using DNSSEC</a>
             </figcaption></figure>
+</div>
 </section>
 </div>
 </section>
@@ -1929,17 +1945,17 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
         subdomain (e.g., <code>www.example.com</code>) are sent to the
         external resolver rather than the resolver for internal.example.com.<a href="#section-8.2-1" class="pilcrow">¶</a></p>
 <p id="section-8.2-2">As in <a href="#internal-only" class="auto internal xref">Section 8.1</a>, the internal DNS
-        server will need a certificate signed by a CA trusted by the
+        server will need a certificate signed by a Certification Authority (CA) trusted by the
         client.<a href="#section-8.2-2" class="pilcrow">¶</a></p>
 <p id="section-8.2-3">Although placing internal domains inside a child domain is unnecessary to prevent leakage,
         such placement reduces the frequency of changes to the Verification Record, this document
         recommends the internal domains be kept in a child zone of the local domain hints
         advertised by the network. For example, if the PvD "dnsZones" entry is
-        “internal.example.com” and the network-provided DNS resolver is “ns1.internal.example.com”,
+        "internal.example.com" and the network-provided DNS resolver is "ns1.internal.example.com",
         the network operator can structure the internal domain names as
         "private1.internal.example.com", "private2.internal.example.com",
         etc. The network-designated resolver will be used to resolve the subdomains of
-        the local domain hint “*.internal.example.com”.<a href="#section-8.2-3" class="pilcrow">¶</a></p>
+        the local domain hint "*.internal.example.com".<a href="#section-8.2-3" class="pilcrow">¶</a></p>
 </section>
 </section>
 <div id="vpn">
@@ -1973,7 +1989,7 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
         the client to wait for its current lease to complete and request a new one, enabling the lease
         renewal to be driven by the DHCP server.<a href="#section-10-3.1" class="pilcrow">¶</a>
 </li>
-        <li id="section-10-3.2">The sequence number in the RA (Router Advertisement) PvD (Prefix Delegation) option
+        <li id="section-10-3.2">The sequence number in the RA PvD option
         will be incremented, requiring clients to fetch PvD additional information from the HTTPS
         server due to the updated sequence number in the new RA (<span>[<a href="#RFC8801" class="cite xref">RFC8801</a>], <a href="https://rfc-editor.org/rfc/rfc8801#section-4.1" class="relref">Section 4.1</a></span>).<a href="#section-10-3.2" class="pilcrow">¶</a>
 </li>
@@ -2027,7 +2043,7 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
 <a href="#section-12.2" class="section-number selfRef">12.2. </a><a href="#name-provisioning-domains-split-" class="section-name selfRef">Provisioning Domains Split DNS Additional Information</a>
         </h3>
 <p id="section-12.2-1">IANA is requested to add the following entry to the "Additional
-        Information PvD Keys" registry on the "Provisioning Domains (PvDs)" page:<a href="#section-12.2-1" class="pilcrow">¶</a></p>
+        Information PvD Keys" registry under the "Provisioning Domains (PvDs)" registry group:<a href="#section-12.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-12.2-2.1">JSON key: "splitDnsClaims"<a href="#section-12.2-2.1" class="pilcrow">¶</a>
 </li>
@@ -2055,7 +2071,7 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
         <h3 id="name-new-pvd-split-dns-claims-re">
 <a href="#section-12.3" class="section-number selfRef">12.3. </a><a href="#name-new-pvd-split-dns-claims-re" class="section-name selfRef">New PvD Split DNS Claims Registry</a>
         </h3>
-<p id="section-12.3-1">IANA is requested to create a new registry "PvD Split DNS Claims Registry",
+<p id="section-12.3-1">IANA is requested to create a new registry "PvD Split DNS Claims" Registry,
         within the "Provisioning Domains (PvDs)" registry page.  This new registry
         reserves JSON keys for use in sub-dictionaries under the splitDnsClaims JSON key.
         The initial contents of this registry are given in <a href="#splitclaims" class="auto internal xref">Section 5.2.2</a>.<a href="#section-12.3-1" class="pilcrow">¶</a></p>
@@ -2064,14 +2080,31 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
 <p id="section-12.3-3">New assignments in the "PvD Split DNS Claims Registry" registry will be
         administered by IANA through Expert Review <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>. Experts are
         requested to ensure that defined keys do not overlap in names or semantics.<a href="#section-12.3-3" class="pilcrow">¶</a></p>
+<section id="section-12.3.1">
+          <h4 id="name-guidelines-for-the-designat">
+<a href="#section-12.3.1" class="section-number selfRef">12.3.1. </a><a href="#name-guidelines-for-the-designat" class="section-name selfRef">Guidelines for the Designated Experts</a>
+          </h4>
+<p id="section-12.3.1-1">It is suggested that multiple designated experts be appointed for
+          registry change requests.<a href="#section-12.3.1-1" class="pilcrow">¶</a></p>
+<p id="section-12.3.1-2">Criteria that should be applied by the designated experts include
+          determining whether the proposed registration duplicates existing
+          entries and whether the registration description is clear and fits
+          the purpose of this registry.<a href="#section-12.3.1-2" class="pilcrow">¶</a></p>
+<p id="section-12.3.1-3">Registration requests are evaluated within a three-week review period
+          on the advice of one or more designated experts. Within the review
+          period, the designated experts will either approve or deny the
+          registration request, communicating this decision to IANA. Denials
+          should include an explanation and, if applicable, suggestions as to
+          how to make the request successful.<a href="#section-12.3.1-3" class="pilcrow">¶</a></p>
+</section>
 </section>
 <section id="section-12.4">
         <h3 id="name-dns-underscore-name">
 <a href="#section-12.4" class="section-number selfRef">12.4. </a><a href="#name-dns-underscore-name" class="section-name selfRef">DNS Underscore Name</a>
         </h3>
 <p id="section-12.4-1">IANA is requested to add the following entry to the "Underscored and
-        Globally Scoped DNS Node Names" registry on the "Domain Name System (DNS)
-        Parameters" page:<a href="#section-12.4-1" class="pilcrow">¶</a></p>
+        Globally Scoped DNS Node Names" registry under the "Domain Name System (DNS)
+        Parameters" registry group:<a href="#section-12.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-12.4-2.1">RR Type: TXT<a href="#section-12.4-2.1" class="pilcrow">¶</a>
 </li>
@@ -2104,6 +2137,10 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC2131">[RFC2131]</dt>
+        <dd>
+<span class="refAuthor">Droms, R.</span>, <span class="refTitle">"Dynamic Host Configuration Protocol"</span>, <span class="seriesInfo">RFC 2131</span>, <span class="seriesInfo">DOI 10.17487/RFC2131</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2131">https://www.rfc-editor.org/info/rfc2131</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC3118">[RFC3118]</dt>
         <dd>
@@ -2180,6 +2217,10 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
         <dd>
 <span class="refAuthor">Thomson, M.</span> and <span class="refAuthor">J. Winterbottom</span>, <span class="refTitle">"Discovering the Local Location Information Server (LIS)"</span>, <span class="seriesInfo">RFC 5986</span>, <span class="seriesInfo">DOI 10.17487/RFC5986</span>, <time datetime="2010-09" class="refDate">September 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5986">https://www.rfc-editor.org/info/rfc5986</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC6234">[RFC6234]</dt>
+        <dd>
+<span class="refAuthor">Eastlake 3rd, D.</span> and <span class="refAuthor">T. Hansen</span>, <span class="refTitle">"US Secure Hash Algorithms (SHA and SHA-based HMAC and HKDF)"</span>, <span class="seriesInfo">RFC 6234</span>, <span class="seriesInfo">DOI 10.17487/RFC6234</span>, <time datetime="2011-05" class="refDate">May 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6234">https://www.rfc-editor.org/info/rfc6234</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC6731">[RFC6731]</dt>
         <dd>
 <span class="refAuthor">Savolainen, T.</span>, <span class="refAuthor">Kato, J.</span>, and <span class="refAuthor">T. Lemon</span>, <span class="refTitle">"Improved Recursive DNS Server Selection for Multi-Interfaced Nodes"</span>, <span class="seriesInfo">RFC 6731</span>, <span class="seriesInfo">DOI 10.17487/RFC6731</span>, <time datetime="2012-12" class="refDate">December 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6731">https://www.rfc-editor.org/info/rfc6731</a>&gt;</span>. </dd>
@@ -2192,6 +2233,10 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
         <dd>
 <span class="refAuthor">Housley, R.</span>, <span class="refTitle">"Guidelines for Cryptographic Algorithm Agility and Selecting Mandatory-to-Implement Algorithms"</span>, <span class="seriesInfo">BCP 201</span>, <span class="seriesInfo">RFC 7696</span>, <span class="seriesInfo">DOI 10.17487/RFC7696</span>, <time datetime="2015-11" class="refDate">November 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7696">https://www.rfc-editor.org/info/rfc7696</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC7858">[RFC7858]</dt>
+        <dd>
+<span class="refAuthor">Hu, Z.</span>, <span class="refAuthor">Zhu, L.</span>, <span class="refAuthor">Heidemann, J.</span>, <span class="refAuthor">Mankin, A.</span>, <span class="refAuthor">Wessels, D.</span>, and <span class="refAuthor">P. Hoffman</span>, <span class="refTitle">"Specification for DNS over Transport Layer Security (TLS)"</span>, <span class="seriesInfo">RFC 7858</span>, <span class="seriesInfo">DOI 10.17487/RFC7858</span>, <time datetime="2016-05" class="refDate">May 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7858">https://www.rfc-editor.org/info/rfc7858</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC8106">[RFC8106]</dt>
         <dd>
 <span class="refAuthor">Jeong, J.</span>, <span class="refAuthor">Park, S.</span>, <span class="refAuthor">Beloeil, L.</span>, and <span class="refAuthor">S. Madanapalli</span>, <span class="refTitle">"IPv6 Router Advertisement Options for DNS Configuration"</span>, <span class="seriesInfo">RFC 8106</span>, <span class="seriesInfo">DOI 10.17487/RFC8106</span>, <time datetime="2017-03" class="refDate">March 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8106">https://www.rfc-editor.org/info/rfc8106</a>&gt;</span>. </dd>
@@ -2199,6 +2244,10 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
 <dt id="RFC8310">[RFC8310]</dt>
         <dd>
 <span class="refAuthor">Dickinson, S.</span>, <span class="refAuthor">Gillmor, D.</span>, and <span class="refAuthor">T. Reddy</span>, <span class="refTitle">"Usage Profiles for DNS over TLS and DNS over DTLS"</span>, <span class="seriesInfo">RFC 8310</span>, <span class="seriesInfo">DOI 10.17487/RFC8310</span>, <time datetime="2018-03" class="refDate">March 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8310">https://www.rfc-editor.org/info/rfc8310</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8484">[RFC8484]</dt>
+        <dd>
+<span class="refAuthor">Hoffman, P.</span> and <span class="refAuthor">P. McManus</span>, <span class="refTitle">"DNS Queries over HTTPS (DoH)"</span>, <span class="seriesInfo">RFC 8484</span>, <span class="seriesInfo">DOI 10.17487/RFC8484</span>, <time datetime="2018-10" class="refDate">October 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8484">https://www.rfc-editor.org/info/rfc8484</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8598">[RFC8598]</dt>
         <dd>
@@ -2211,6 +2260,14 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
 <dt id="RFC8806">[RFC8806]</dt>
         <dd>
 <span class="refAuthor">Kumari, W.</span> and <span class="refAuthor">P. Hoffman</span>, <span class="refTitle">"Running a Root Server Local to a Resolver"</span>, <span class="seriesInfo">RFC 8806</span>, <span class="seriesInfo">DOI 10.17487/RFC8806</span>, <time datetime="2020-06" class="refDate">June 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8806">https://www.rfc-editor.org/info/rfc8806</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9250">[RFC9250]</dt>
+        <dd>
+<span class="refAuthor">Huitema, C.</span>, <span class="refAuthor">Dickinson, S.</span>, and <span class="refAuthor">A. Mankin</span>, <span class="refTitle">"DNS over Dedicated QUIC Connections"</span>, <span class="seriesInfo">RFC 9250</span>, <span class="seriesInfo">DOI 10.17487/RFC9250</span>, <time datetime="2022-05" class="refDate">May 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc9250">https://www.rfc-editor.org/info/rfc9250</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9364">[RFC9364]</dt>
+        <dd>
+<span class="refAuthor">Hoffman, P.</span>, <span class="refTitle">"DNS Security Extensions (DNSSEC)"</span>, <span class="seriesInfo">BCP 237</span>, <span class="seriesInfo">RFC 9364</span>, <span class="seriesInfo">DOI 10.17487/RFC9364</span>, <time datetime="2023-02" class="refDate">February 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc9364">https://www.rfc-editor.org/info/rfc9364</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9462">[RFC9462]</dt>
         <dd>
