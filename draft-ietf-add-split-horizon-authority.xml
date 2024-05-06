@@ -679,7 +679,7 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
         "private1.internal.example.com", "private2.internal.example.com",
         etc. The network-designated resolver will be used to resolve the subdomains of
         the local domain hint "*.internal.example.com".</t>
-    </section>    
+    </section>
     <section anchor="vpn">
       <name>Validation with IKEv2</name>
       <t>When the VPN tunnel is IPsec, the encrypted DNS resolver hosted by
@@ -807,7 +807,7 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
       Bob Halley for the intdir review.</t>
 
       <t>Thanks to Mohamed Boucadair for the Shepherd review.</t>
-      
+
     </section>
   </middle>
   <!--  *****BACK MATTER ***** -->
