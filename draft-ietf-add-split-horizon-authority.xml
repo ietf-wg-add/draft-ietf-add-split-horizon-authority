@@ -74,7 +74,7 @@
     <abstract>
       <t>When split-horizon DNS is deployed by a network, certain domain names can
       be resolved authoritatively by a network-provided DNS resolver. DNS clients
-      that are not configured to use this resolver by default can still use it for
+      that are not configured to use this resolver by default can use it for
       these specific domains only. This specification defines a mechanism for domain owners
       to inform DNS clients about local resolvers that are authorized to answer
       authoritatively for certain subdomains.</t>
@@ -695,7 +695,8 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
       <name>Authorization Claim Update</name>
       <t>A verification record is only valid until it expires. Expiry occurs when the Time To Live (TTL)
       or DNSSEC signature validity period ends. Shortly before verification record expiry, clients MUST
-      fetch the verification records again and repeat the verification procedure.</t>
+      fetch the verification records again and repeat the verification procedure. This ensures the
+      availability of updated and valid verification records.</t>
       <t>A new verification record must be added to the RRset before the corresponding Authorization
       Claim is updated.  After the claim is updated, the following procedures can be used:</t>
       <ol>
