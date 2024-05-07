@@ -5,12 +5,12 @@
 ADD                                                             T. Reddy
 Internet-Draft                                                     Nokia
 Intended status: Standards Track                                 D. Wing
-Expires: 7 November 2024                                          Citrix
+Expires: 8 November 2024                                          Citrix
                                                                 K. Smith
                                                                 Vodafone
                                                              B. Schwartz
                                                                     Meta
-                                                              6 May 2024
+                                                              7 May 2024
 
 
 Establishing Local DNS Authority in Validated Split-Horizon Environments
@@ -21,7 +21,7 @@ Abstract
    When split-horizon DNS is deployed by a network, certain domain names
    can be resolved authoritatively by a network-provided DNS resolver.
    DNS clients that are not configured to use this resolver by default
-   can still use it for these specific domains only.  This specification
+   can use it for these specific domains only.  This specification
    defines a mechanism for domain owners to inform DNS clients about
    local resolvers that are authorized to answer authoritatively for
    certain subdomains.
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 November 2024.
+   This Internet-Draft will expire on 8 November 2024.
 
 Copyright Notice
 
@@ -743,6 +743,8 @@ Table of Contents
    when the Time To Live (TTL) or DNSSEC signature validity period ends.
    Shortly before verification record expiry, clients MUST fetch the
    verification records again and repeat the verification procedure.
+   This ensures the availability of updated and valid verification
+   records.
 
    A new verification record must be added to the RRset before the
    corresponding Authorization Claim is updated.  After the claim is

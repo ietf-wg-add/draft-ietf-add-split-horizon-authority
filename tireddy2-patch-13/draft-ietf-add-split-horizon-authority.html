@@ -12,7 +12,7 @@
 <meta content="
        When split-horizon DNS is deployed by a network, certain domain names can
       be resolved authoritatively by a network-provided DNS resolver. DNS clients
-      that are not configured to use this resolver by default can still use it for
+      that are not configured to use this resolver by default can use it for
       these specific domains only. This specification defines a mechanism for domain owners
       to inform DNS clients about local resolvers that are authorized to answer
       authoritatively for certain subdomains. 
@@ -1036,7 +1036,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Reddy, et al.</td>
-<td class="center">Expires 7 November 2024</td>
+<td class="center">Expires 8 November 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1049,12 +1049,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-add-split-horizon-authority-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-05-06" class="published">6 May 2024</time>
+<time datetime="2024-05-07" class="published">7 May 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-11-07">7 November 2024</time></dd>
+<dd class="expires"><time datetime="2024-11-08">8 November 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1081,7 +1081,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
 <p id="section-abstract-1">When split-horizon DNS is deployed by a network, certain domain names can
       be resolved authoritatively by a network-provided DNS resolver. DNS clients
-      that are not configured to use this resolver by default can still use it for
+      that are not configured to use this resolver by default can use it for
       these specific domains only. This specification defines a mechanism for domain owners
       to inform DNS clients about local resolvers that are authorized to answer
       authoritatively for certain subdomains.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
@@ -1116,7 +1116,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 7 November 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 8 November 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1988,7 +1988,8 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
       </h2>
 <p id="section-11-1">A verification record is only valid until it expires. Expiry occurs when the Time To Live (TTL)
       or DNSSEC signature validity period ends. Shortly before verification record expiry, clients MUST
-      fetch the verification records again and repeat the verification procedure.<a href="#section-11-1" class="pilcrow">¶</a></p>
+      fetch the verification records again and repeat the verification procedure. This ensures the
+      availability of updated and valid verification records.<a href="#section-11-1" class="pilcrow">¶</a></p>
 <p id="section-11-2">A new verification record must be added to the RRset before the corresponding Authorization
       Claim is updated.  After the claim is updated, the following procedures can be used:<a href="#section-11-2" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-11-3">
