@@ -318,25 +318,40 @@
           <t>When using <xref target="RFC8801">Provisioning Domains</xref>, the
           Authorization Claims are represented by the PvD Additional
           Information key "splitDnsClaims", whose value is a
-          JSON Array.  Each entry in the array <bcp14>MUST</bcp14> be a JSON object
+          JSON Array.</t>
+          <t>Each entry in the array <bcp14>MUST</bcp14> be a JSON object
           with the following structure:</t>
-          <ul>
-            <li>"resolver": The ADN as a dot-separated name.</li>
-            <li>"parent": The parent zone name as a dot-separated name.</li>
-            <li>"subdomains": An array containing the claimed subdomains, as
-                dot-separated names with the parent suffix already removed, in
-                canonical order. To claim the entire parent zone, the claimed subdomain
-                will be represented as an asterisk symbol "*".</li>
-            <li>"algorithm": The hash algorithm is represented by its "Mnemonic"
-                string from the ZONEMD Hash Algorithms registry (<relref target="RFC8976"
-                section="5.2" displayFormat="comma"/>).</li>
-            <li>"salt": The salt, encoded in base64url.</li>
-          </ul>
 
-        <t>Future specifications aiming to define new keys will need to add them to the
-        IANA registry defined in <xref target="IANA"/>. DNS client implementations
-        will ignore any keys they don't recognize but may also report about
-        unknown keys.</t>
+        <figure anchor="fig-split-claims">
+          <name>Split DNS Claims</name>
+          <artwork><![CDATA[
+   +------------+------------------------------------------------+-----------+------------------+
+   | JSON key   | Description                                    | Type      | Example          |     
+   +------------+------------------------------------------------+-----------+------------------+
+   | resolver   | The ADN as a dot-separated name                | String    |"dns.example.net" |     
+   |            |                                                |           |                  |
+   | parent     | The parent zone name as a dot-separated name.  | String    |"example.com"     |    
+   |            |                                                |           |                  |     
+   | subdomains | An array containing the claimed subdomains,    | Array of  |["sub"]           |     
+   |            | as dot-separated names with the parent suffix  | strings   |                  |     
+   |            | already removed, in canonical order.  To claim |           |                  |
+   |            | the entire parent zone, the claimed subdomain  |           |                  |
+   |            | will be represented as an asterisk symbol "*". |           |                  |
+   |            |                                                |           |                  |
+   | algorithm  | The hash algorithm is represented by its       | String    |"SHA384"          |     
+   |            | "Mnemonic" string from the ZONEMD Hash         |           |                  |     
+   |            | Algorithms registry (<relref target="RFC8976"  |           |                  |
+   |            | section="5.2" displayFormat="comma"/>)         |           |                  |    
+   |            |                                                |           |                  |
+   | "salt":    | The salt, encoded in base64url.                | String    |"abc...123"       |  
+   |            |                                                |           |                  |
+   +------------+----------------------------------------------------+-------+-===--------------+
+]]></artwork>
+        </figure>
+   <t>Future specifications aiming to define new keys will need to add them to the
+      IANA registry defined in <xref target="IANA"/>. DNS client implementations
+      will ignore any keys they don't recognize but may also report about
+      unknown keys.</t>
         </section>
       </section>
     </section>
@@ -762,7 +777,7 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
         <t>IANA is requested to create a new registry "PvD Split DNS Claims" Registry,
         within the "Provisioning Domains (PvDs)" registry page.  This new registry
         reserves JSON keys for use in sub-dictionaries under the splitDnsClaims JSON key.
-        The initial contents of this registry are given in <xref target="splitclaims"/>.</t>
+        The initial contents of this registry are discussed in <xref target="splitclaims"/>.</t>
         <t>The keys defined in this document are mandatory. Any new assignments of keys will be considered
         as optional for the purpose of the mechanism described in this document.</t>
         <t>New assignments in the "PvD Split DNS Claims Registry" registry will be
