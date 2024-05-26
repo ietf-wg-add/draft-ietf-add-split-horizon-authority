@@ -762,7 +762,29 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
         <t>IANA is requested to create a new registry "PvD Split DNS Claims" Registry,
         within the "Provisioning Domains (PvDs)" registry page.  This new registry
         reserves JSON keys for use in sub-dictionaries under the splitDnsClaims JSON key.
-        The initial contents of this registry are given in <xref target="splitclaims"/>.</t>
+        The initial contents of this registry, as discussed in <xref target="splitclaims"/>,
+        are listed below and will be added to the IANA registry:</t>
+        <figure anchor="fig-split-claims">
+          <name>Split DNS Claims</name>
+          <artwork><![CDATA[
++------------+-----------------------+---------+-----------------+-----------+
+| JSON key   | Description           | Type    | Example         | Reference |
++------------+-----------------------+---------+-----------------+-----------+
+| resolver   | The Authentication    | String  |"dns.example.net"| [RFCXXXX] |
+|            | Domain Name           |         |                 |           |
+|            |                       |         |                 |           |
+| parent     | The parent zone name  | String  | "example.com"   | [RFCXXXX] |
+|            |                       |         |                 |           |
+| subdomains | An array containing   | Array of| ["sub"]         |           |
+|            | the claimed subdomains| Strings |                 | [RFCXXXX] |
+|            |                       |         |                 |           |
+| algorithm  | The hash algorithm    | String  | "SHA384"        | [RFCXXXX] |
+|            |                       |         |                 |           |
+| salt       | The salt              | String  | "abc...123"     | [RFCXXXX] |
+|            |                       |         |                 |           |
++------------+-----------------------+---------+-----------------+-----------+
+]]></artwork>
+        </figure>
         <t>The keys defined in this document are mandatory. Any new assignments of keys will be considered
         as optional for the purpose of the mechanism described in this document.</t>
         <t>New assignments in the "PvD Split DNS Claims Registry" registry will be
@@ -804,8 +826,8 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
       <t>Thanks to Mohamed Boucadair, Jim Reid, Tommy Pauly, Paul Vixie, Michael Richardson,
       Bernie Volz, Éric Vyncke and Vinny Parla for the discussion and comments.</t>
 
-      <t>Thanks to Tianran Zhou for the opsdir review, Watson Ladd for the secdir review and
-      Bob Halley for the intdir review.</t>
+      <t>Thanks to Tianran Zhou for the opsdir review, Anthony Somerset for the dnsdir review,
+      Watson Ladd for the secdir review and Bob Halley for the intdir review.</t>
 
       <t>Thanks to Mohamed Boucadair for the Shepherd review.</t>
 
