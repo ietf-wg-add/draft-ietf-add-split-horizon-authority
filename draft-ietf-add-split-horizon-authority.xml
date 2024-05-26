@@ -74,8 +74,8 @@
     <abstract>
       <t>When split-horizon DNS is deployed by a network, certain domain names can
       be resolved authoritatively by a network-provided DNS resolver. DNS clients
-      that are not configured to use this resolver can still use it, but only to resolve
-      these specific domains. This specification defines a mechanism for domain owners
+      that are not configured to use this resolver by default can use it for
+      these specific domains only. This specification defines a mechanism for domain owners
       to inform DNS clients about local resolvers that are authorized to answer
       authoritatively for certain subdomains.</t>
     </abstract>
@@ -107,7 +107,7 @@
       target="RFC6762">mDNS</xref>, and <xref target="RFC7686">NXDOMAIN
       synthesis for .onion</xref>.</t>
       <t>Networks usually offers clients a DNS resolver using means such as
-      (e.g. DHCP OFFER, IPv6 Router Advertisement). Although this server is
+      (e.g., DHCP OFFER, IPv6 Router Advertisement). Although this server is
       formally specified as a recursive resolver (e.g., <relref section="5.1"
       target="RFC8106"/>), some networks provide a hybrid resolver
       instead. If this resolver acts as an authoritative server for some names
@@ -135,7 +135,7 @@
       determine whether this special treatment is authorized by the domain
       owner. Instead, these specifications require clients to make their own
       determinations about whether to trust and rely on these hints.</t>
-      <t>This specification describes a mechanism between domain names, networks,
+      <t>This document describes a mechanism between domain names, networks,
       and clients that allows the network to establish its authority over a
       domain to a client (<xref target="establishing"/>). Clients can
       use this protocol to confirm that a local domain hint was authorized by
@@ -162,6 +162,8 @@
       target="RFC7858"/>, HTTPS (DoH) <xref
       target="RFC8484"/>, QUIC (DoQ) <xref
       target="RFC9250"/>).</dd>
+        <dt>Encrypted DNS resolver</dt><dd>Refers to a DNS resolver
+        that supports any encrypted DNS scheme.</dd>
           <dt>Split-Horizon DNS</dt><dd>The DNS service provided by a resolver
           that also acts as an authoritative server for some names, providing
           resolution results that are meaningfully different from those in the
@@ -216,9 +218,10 @@
       <name>Establishing Local DNS Authority</name>
       <t>To establish its authority over some DNS zone, a
       participating network <bcp14>MUST</bcp14> offer one or more
-      encrypted resolvers via DNR <xref target="RFC9463"/>,
-      DDR <xref target="RFC9462"/>, or an equivalent mechanism
-      (see <xref target="vpn"/>).</t>
+      encrypted resolvers via DHCP and Router Advertisement Options for the
+      Discovery of Network-designated Resolvers (DNR) <xref target="RFC9463"/>,
+      Discovery of Designated Resolvers (DDR) <xref target="RFC9462"/>, or an
+      equivalent mechanism (see <xref target="vpn"/>).</t>
       <t>To establish local authority, the network MUST convey one or more
       "Authorization Claims" to the client.  An "Authorization Claim" is an
       abstract structure comprising:</t>
@@ -241,7 +244,7 @@
       present a validatable certificate containing a subjectAltName that
       matches the Authorization Claim using the validation techniques for
       matching as described in <xref target="RFC9525"/>.</t>
-      <t>To establish its authority, the network MUST provide each Authorization
+      <t>To establish its authority, the network provides each Authorization
       Claim to the parent zone operator.  If the contents are approved, the
       parent zone operator computes a "Verification Token" according to the
       following procedure:</t>
@@ -249,10 +252,10 @@
         <li>Convert all subdomains into canonical form and sort them in canonical
             order (<relref section="6" target="RFC4034"/>).</li>
         <li>Replace the suffix corresponding to the parent zone with a zero
-            byte.</li>
+            octet.</li>
         <li>Let $X be the concatenation of the resulting pseudo-FQDNs.</li>
         <li>Let len($SALT) be the number of octets of salt, as a single octet.</li>
-        <li>Let $TOKEN = hash(len($SALT) || $SALT || $X). Where "||" denotes concatenation.</li>
+        <li>Let $TOKEN = hash(len($SALT) || $SALT || $X). Where "||" denotes concatenation and hash is the ZONEMD Hash Algorithm.</li>
       </ol>
       <t>The zone operator then publishes a "Verification Record" with the
       following structure, following advices such as in Sections 5.1 and 5.2 of
@@ -261,7 +264,7 @@
         <li>Type = TXT.</li>
         <li>Owner Name = Concatenation of the ADN, "_splitdns-challenge", and
             the parent zone name.</li>
-        <li>Contents = "token=base64url($TOKEN)" (without padding)</li>
+        <li>Contents = "key/value" pairs, e.g., "token=base64url($TOKEN)" (without padding)</li>
       </ul>
       <t>By publishing this record, the parent zone authorizes the local
       encrypted resolver to serve these subdomains authoritatively.</t>
@@ -274,7 +277,7 @@
           <li>Subdomains = "payroll.parent.example",
               "secret.project.parent.example"</li>
           <li>Hash Algorithm = SHA-384 <xref target="RFC6234"/></li>
-          <li>Salt = "example salt bytes (should be random)"</li>
+          <li>Salt = "example salt octets (should be random)"</li>
         </ul>
         <t>To approve this claim, the zone operator would publish the following record:</t>
         <t>NOTE: '\' line wrapping per <xref target="RFC8792"/></t>
@@ -300,7 +303,7 @@
             mechanism described in <relref section="8" target="RFC3396"/> MUST be used if the
             authentication option exceeds the maximum DHCPv4 option size of 255 octets. The Algorithm field
             provides the ZONEMD Hash Algorithm, represented by its registered Value.
-            The Replay Detection Method (RDM) value <bcp14>MUST</bcp14> be 0x00. The Authentication Information
+            The Replay Detection Method value <bcp14>MUST</bcp14> be 0x00. The Authentication Information
             <bcp14>MUST</bcp14> contain the following information, concatenated:</t>
           <ol>
             <li>The ADN in canonical form.</li>
@@ -655,8 +658,9 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
           </figure>
         </section>
       </section>
-      <section>
-        <name>Internal-only Subdomains</name>
+    </section>
+    <section anchor="operatonal">
+      <name>Operational Efficiency in Split-Horizon Deployments</name>
         <t>In many split-horizon deployments, all non-public domain names are
         placed in a separate child zone (e.g., <tt>internal.example.com</tt>).
         In this configuration, the message flow is similar to <xref
@@ -675,7 +679,6 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
         "private1.internal.example.com", "private2.internal.example.com",
         etc. The network-designated resolver will be used to resolve the subdomains of
         the local domain hint "*.internal.example.com".</t>
-      </section>
     </section>
     <section anchor="vpn">
       <name>Validation with IKEv2</name>
@@ -691,8 +694,9 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
     <section anchor="aclaim">
       <name>Authorization Claim Update</name>
       <t>A verification record is only valid until it expires. Expiry occurs when the Time To Live (TTL)
-      or DNSSEC signature validity period ends. When the verification record expires, clients MUST
-      fetch the verification records again and repeat the verification procedure.</t>
+      or DNSSEC signature validity period ends. Shortly before verification record expiry, clients MUST
+      fetch the verification records again and repeat the verification procedure. This ensures the
+      availability of updated and valid verification records.</t>
       <t>A new verification record must be added to the RRset before the corresponding Authorization
       Claim is updated.  After the claim is updated, the following procedures can be used:</t>
       <ol>
@@ -731,7 +735,7 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
         Authentication Option Name Spaces" page:</t>
         <ul>
           <li>Value: $TBD1</li>
-          <li>Description: Split DNS</li>
+          <li>Description: Split-horizon DNS</li>
           <li>Reference: (This Document)</li>
         </ul>
       </section>
@@ -798,10 +802,13 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
     <section>
       <name>Acknowledgements</name>
       <t>Thanks to Mohamed Boucadair, Jim Reid, Tommy Pauly, Paul Vixie, Michael Richardson,
-      Bernie Volz and Vinny Parla for the discussion and comments.</t>
+      Bernie Volz, Éric Vyncke and Vinny Parla for the discussion and comments.</t>
 
       <t>Thanks to Tianran Zhou for the opsdir review, Watson Ladd for the secdir review and
       Bob Halley for the intdir review.</t>
+
+      <t>Thanks to Mohamed Boucadair for the Shepherd review.</t>
+
     </section>
   </middle>
   <!--  *****BACK MATTER ***** -->
@@ -817,7 +824,6 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4034.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8174.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8801.xml"/>
-        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6762.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6698.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4035.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8976.xml"/>
@@ -846,6 +852,7 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9250.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9364.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6234.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6762.xml"/>
 	<xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8792.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9463.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9464.xml"/>
