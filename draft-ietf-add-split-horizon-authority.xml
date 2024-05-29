@@ -780,7 +780,7 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
 |            |                       |         |                 |           |
 | algorithm  | The hash algorithm    | String  | "SHA384"        | [RFCXXXX] |
 |            |                       |         |                 |           |
-| salt       | The salt              | String  | "abc...123"     | [RFCXXXX] |
+| salt       | The salt (base64url)  | String  | "abc...123"     | [RFCXXXX] |
 |            |                       |         |                 |           |
 +------------+-----------------------+---------+-----------------+-----------+
 ]]></artwork>
