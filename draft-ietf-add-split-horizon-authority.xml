@@ -725,6 +725,9 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
       (see <xref target="RFC7696"/>) is achieved by providing implementations with
       flexibility to choose hashing algorithms from the ZONEMD Schemes registry
       (<relref target="RFC8976" section="5.2" displayFormat="comma"/>).</t>
+      <t>The entropy of salt depends on a high-quality pseudo-random number generator.
+      For further discussion on random number generation, see <xref target="RFC4086"/>.
+      The salt MUST be regenerated whenever the authorization claim is updated.</t>
     </section>
     <section anchor="IANA">
       <name>IANA Considerations</name>
@@ -854,6 +857,7 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6761.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8126.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9525.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4086.xml"/>
       </references>
       <references>
         <name>Informative References</name>
