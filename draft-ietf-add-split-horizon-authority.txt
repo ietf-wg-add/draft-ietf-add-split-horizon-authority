@@ -243,11 +243,11 @@ Table of Contents
 
 5.  Establishing Local DNS Authority
 
-   A participating network MUST offer one or more encrypted resolvers
-   via DHCP and Router Advertisement Options for the Discovery of
-   Network-designated Resolvers (DNR) [RFC9463], Discovery of Designated
-   Resolvers (DDR) [RFC9462], or an equivalent mechanism (see
-   Section 10).
+   To establish its authority over some DNS zone, a participating
+   network MUST offer one or more encrypted resolvers via DHCP and
+   Router Advertisement Options for the Discovery of Network-designated
+   Resolvers (DNR) [RFC9463], Discovery of Designated Resolvers (DDR)
+   [RFC9462], or an equivalent mechanism (see Section 10).
 
    To establish local authority, the network MUST convey one or more
    "Authorization Claims" to the client.  An "Authorization Claim" is an
@@ -276,9 +276,10 @@ Table of Contents
    subjectAltName that matches the Authorization Claim using the
    validation techniques for matching as described in [RFC9525].
 
-   The network then provides each Authorization Claim to the parent zone
-   operator.  If the contents are approved, the parent zone operator
-   computes a "Verification Token" according to the following procedure:
+   To establish its authority, the network provides each Authorization
+   Claim to the parent zone operator.  If the contents are approved, the
+   parent zone operator computes a "Verification Token" according to the
+   following procedure:
 
    1.  Convert all subdomains into canonical form and sort them in
        canonical order (Section 6 of [RFC4034]).
@@ -666,8 +667,8 @@ Table of Contents
       the expected token.  The client then performs full DNSSEC
       validation locally.
 
-      *Step 3*: If the DNSSEC validation is successful and the token
-      matches, then this Authorization Claim is validated.  Once the
+      *Step 3*: The DNSSEC validation is successful and the token
+      matches, so this Authorization Claim is validated.  When the
       client connects using an encrypted transport as indicated in DNR
       [RFC9463], it will authenticate the server to its name using TLS
       ([RFC8310], Section 8), and send queries to resolve any names that
@@ -768,11 +769,11 @@ Table of Contents
    The Authentication Domain Names of authorized local encrypted
    resolvers are revealed in the Owner Names of Verification Records.
    This makes it easier for domain owners to understand which resolvers
-   they are currently authorizing to implement Split DNS.  However, this
-   could create a confidentiality issue if the local encrypted
-   resolver's name contains sensitive information or is part of a secret
-   subdomain.  To mitigate the impact of such leakage, local resolvers
-   should be given names that do not reveal any sensitive information.
+   they are currently authorizing to implement Split DNS, but it could
+   create a confidentiality problem if the local encrypted resolver's
+   name is inside a secret subdomain.  To avoid leakage, local resolvers
+   should be given a name that does not reveal any sensitive information
+   (perhaps in addition to the more sensitive name).
 
    The security properties of hashing algorithms are not fixed.
    Algorithm Agility (see [RFC7696]) is achieved by providing
@@ -895,8 +896,8 @@ Table of Contents
    discussion and comments.
 
    Thanks to Tianran Zhou for the opsdir review, Anthony Somerset for
-   the dnsdir review, Watson Ladd for the secdir review, Bob Halley for
-   the intdir review and Mallory Knodel for the genart review.
+   the dnsdir review, Watson Ladd for the secdir review and Bob Halley
+   for the intdir review.
 
    Thanks to Mohamed Boucadair for the Shepherd review.
 

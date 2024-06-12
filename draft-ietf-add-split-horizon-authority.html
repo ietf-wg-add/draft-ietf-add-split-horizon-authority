@@ -1410,7 +1410,8 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="name-establishing-local-dns-auth">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-establishing-local-dns-auth" class="section-name selfRef">Establishing Local DNS Authority</a>
       </h2>
-<p id="section-5-1">A participating network <span class="bcp14">MUST</span> offer one or more
+<p id="section-5-1">To establish its authority over some DNS zone, a
+      participating network <span class="bcp14">MUST</span> offer one or more
       encrypted resolvers via DHCP and Router Advertisement Options for the
       Discovery of Network-designated Resolvers (DNR) <span>[<a href="#RFC9463" class="cite xref">RFC9463</a>]</span>,
       Discovery of Designated Resolvers (DDR) <span>[<a href="#RFC9462" class="cite xref">RFC9462</a>]</span>, or an
@@ -1442,9 +1443,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
       present a validatable certificate containing a subjectAltName that
       matches the Authorization Claim using the validation techniques for
       matching as described in <span>[<a href="#RFC9525" class="cite xref">RFC9525</a>]</span>.<a href="#section-5-4" class="pilcrow">¶</a></p>
-<p id="section-5-5">The network then provides each Authorization Claim to the parent zone operator.
-      If the contents are approved, the parent zone operator computes a "Verification Token"
-      according to the following procedure:<a href="#section-5-5" class="pilcrow">¶</a></p>
+<p id="section-5-5">To establish its authority, the network provides each Authorization
+      Claim to the parent zone operator.  If the contents are approved, the
+      parent zone operator computes a "Verification Token" according to the
+      following procedure:<a href="#section-5-5" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-5-6">
         <li id="section-5-6.1">Convert all subdomains into canonical form and sort them in canonical
             order (<span><a href="https://rfc-editor.org/rfc/rfc4034#section-6" class="relref">Section 6</a> of [<a href="#RFC4034" class="cite xref">RFC4034</a>]</span>).<a href="#section-5-6.1" class="pilcrow">¶</a>
@@ -1893,9 +1895,9 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
               performs full DNSSEC validation locally.<a href="#section-8.1.2-2.1" class="pilcrow">¶</a>
 </li>
             <li class="normal ulEmpty" id="section-8.1.2-2.2">
-              <strong>Step 3</strong>: If the DNSSEC validation is successful and
-              the token matches, then this Authorization Claim is validated.
-              Once the client connects using an encrypted transport as indicated
+              <strong>Step 3</strong>: The DNSSEC validation is successful and
+              the token matches, so this Authorization Claim is validated.
+              When the client connects using an encrypted transport as indicated
               in <span><a href="#RFC9463" class="internal xref">DNR</a> [<a href="#RFC9463" class="cite xref">RFC9463</a>]</span>, it will authenticate
               the server to its name using TLS (<span>[<a href="#RFC8310" class="cite xref">RFC8310</a>], <a href="https://rfc-editor.org/rfc/rfc8310#section-8" class="relref">Section 8</a></span>), and send queries to resolve
               any names that fall within the claimed zones.<a href="#section-8.1.2-2.2" class="pilcrow">¶</a>
@@ -2014,10 +2016,10 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
 <p id="section-12-1">The Authentication Domain Names of authorized local encrypted resolvers are
       revealed in the Owner Names of Verification Records.  This makes it easier for
       domain owners to understand which resolvers they are currently authorizing to
-      implement Split DNS. However, this could create a confidentiality issue if the
-      local encrypted resolver's name contains sensitive information or is part of a
-      secret subdomain. To mitigate the impact of such leakage, local resolvers should
-      be given names that do not reveal any sensitive information.<a href="#section-12-1" class="pilcrow">¶</a></p>
+      implement Split DNS, but it could create a confidentiality problem if the
+      local encrypted resolver's name is inside a secret subdomain. To avoid leakage,
+      local resolvers should be given a name that does not reveal any sensitive
+      information (perhaps in addition to the more sensitive name).<a href="#section-12-1" class="pilcrow">¶</a></p>
 <p id="section-12-2"> The security properties of hashing algorithms are not fixed. Algorithm Agility
       (see <span>[<a href="#RFC7696" class="cite xref">RFC7696</a>]</span>) is achieved by providing implementations with
       flexibility to choose hashing algorithms from the ZONEMD Schemes registry
@@ -2160,8 +2162,7 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
 <p id="section-14-1">Thanks to Mohamed Boucadair, Jim Reid, Tommy Pauly, Paul Vixie, Michael Richardson,
       Bernie Volz, Éric Vyncke and Vinny Parla for the discussion and comments.<a href="#section-14-1" class="pilcrow">¶</a></p>
 <p id="section-14-2">Thanks to Tianran Zhou for the opsdir review, Anthony Somerset for the dnsdir review,
-      Watson Ladd for the secdir review, Bob Halley for the intdir review and Mallory Knodel
-      for the genart review.<a href="#section-14-2" class="pilcrow">¶</a></p>
+      Watson Ladd for the secdir review and Bob Halley for the intdir review.<a href="#section-14-2" class="pilcrow">¶</a></p>
 <p id="section-14-3">Thanks to Mohamed Boucadair for the Shepherd review.<a href="#section-14-3" class="pilcrow">¶</a></p>
 </section>
 <section id="section-15">
