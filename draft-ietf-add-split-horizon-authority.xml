@@ -216,8 +216,7 @@
     </section>
     <section anchor="establishing">
       <name>Establishing Local DNS Authority</name>
-      <t>To establish its authority over some DNS zone, a
-      participating network <bcp14>MUST</bcp14> offer one or more
+      <t>A participating network <bcp14>MUST</bcp14> offer one or more
       encrypted resolvers via DHCP and Router Advertisement Options for the
       Discovery of Network-designated Resolvers (DNR) <xref target="RFC9463"/>,
       Discovery of Designated Resolvers (DDR) <xref target="RFC9462"/>, or an
@@ -244,10 +243,9 @@
       present a validatable certificate containing a subjectAltName that
       matches the Authorization Claim using the validation techniques for
       matching as described in <xref target="RFC9525"/>.</t>
-      <t>To establish its authority, the network provides each Authorization
-      Claim to the parent zone operator.  If the contents are approved, the
-      parent zone operator computes a "Verification Token" according to the
-      following procedure:</t>
+      <t>The network then provides each Authorization Claim to the parent zone operator.
+      If the contents are approved, the parent zone operator computes a "Verification Token"
+      according to the following procedure:</t>
       <ol>
         <li>Convert all subdomains into canonical form and sort them in canonical
             order (<relref section="6" target="RFC4034"/>).</li>
@@ -619,9 +617,9 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
               Verification Records. The TXT lookup will return
               a signed response containing the expected token. The client then
               performs full DNSSEC validation locally.</li>
-            <li><strong>Step 3</strong>: The DNSSEC validation is successful and
-              the token matches, so this Authorization Claim is validated.
-              When the client connects using an encrypted transport as indicated
+            <li><strong>Step 3</strong>: If the DNSSEC validation is successful and
+              the token matches, then this Authorization Claim is validated.
+              Once the client connects using an encrypted transport as indicated
               in <xref target="RFC9463">DNR</xref>, it will authenticate
               the server to its name using TLS (<relref target="RFC8310"
               section="8" displayFormat="comma"/>), and send queries to resolve
@@ -717,10 +715,10 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
       <t>The Authentication Domain Names of authorized local encrypted resolvers are
       revealed in the Owner Names of Verification Records.  This makes it easier for
       domain owners to understand which resolvers they are currently authorizing to
-      implement Split DNS, but it could create a confidentiality problem if the
-      local encrypted resolver's name is inside a secret subdomain. To avoid leakage,
-      local resolvers should be given a name that does not reveal any sensitive
-      information (perhaps in addition to the more sensitive name).</t>
+      implement Split DNS. However, this could create a confidentiality issue if the
+      local encrypted resolver's name contains sensitive information or is part of a
+      secret subdomain. To mitigate the impact of such leakage, local resolvers should
+      be given names that do not reveal any sensitive information.</t>
       <t> The security properties of hashing algorithms are not fixed. Algorithm Agility
       (see <xref target="RFC7696"/>) is achieved by providing implementations with
       flexibility to choose hashing algorithms from the ZONEMD Schemes registry
@@ -830,7 +828,8 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
       Bernie Volz, Éric Vyncke and Vinny Parla for the discussion and comments.</t>
 
       <t>Thanks to Tianran Zhou for the opsdir review, Anthony Somerset for the dnsdir review,
-      Watson Ladd for the secdir review and Bob Halley for the intdir review.</t>
+      Watson Ladd for the secdir review, Bob Halley for the intdir review and Mallory Knodel
+      for the genart review.</t>
 
       <t>Thanks to Mohamed Boucadair for the Shepherd review.</t>
 
