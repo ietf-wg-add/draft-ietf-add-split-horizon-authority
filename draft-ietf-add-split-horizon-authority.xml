@@ -106,8 +106,8 @@
       behaviors include <xref target="RFC8806">Local Root</xref>, <xref
       target="RFC6762">mDNS</xref>, and <xref target="RFC7686">NXDOMAIN
       synthesis for .onion</xref>.</t>
-      <t>Networks usually offers clients a DNS resolver using means such as
-      (e.g., DHCP OFFER, IPv6 Router Advertisement). Although this server is
+      <t>Networks usually offer clients a DNS resolver using means such as
+      (e.g., DHCP OFFER, IPv6 Router Advertisement). Although this resolver is
       formally specified as a recursive resolver (e.g., <relref section="5.1"
       target="RFC8106"/>), some networks provide a hybrid resolver
       instead. If this resolver acts as an authoritative server for some names
@@ -131,7 +131,7 @@
       target="RFC4702"/><xref target="RFC4704"/> in DHCP, "dnsZones" in
       Provisioning Domains <xref target="RFC8801"/>, and <xref
       target="RFC8598">INTERNAL_DNS_DOMAIN</xref> in IKEv2).
-      However, none of the local domain hint mechanisms enable clients to
+      However, none of the local domain hint mechanisms enables clients to
       determine whether this special treatment is authorized by the domain
       owner. Instead, these specifications require clients to make their own
       determinations about whether to trust and rely on these hints.</t>
