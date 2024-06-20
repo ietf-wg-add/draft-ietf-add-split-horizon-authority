@@ -1632,7 +1632,8 @@ svg :is([fill="white"], [fill^="#fff"]) {
           <li class="normal ulEmpty" id="section-6.2-2.3">
             <strong>Insecure</strong>: The client <span class="bcp14">SHOULD</span> retry the validation
             process using a different method, such as the one in <a href="#validating-external" class="auto internal xref">Section 6.1</a>, to ensure compatibility with
-            unsigned names. If the client chooses not to retry, it MUST consider
+            unsigned names. If the client chooses not to retry (e.g., no configured policy to validate
+            the authorization claim using an external resolver), it MUST consider
             validation to have failed.<a href="#section-6.2-2.3" class="pilcrow">¶</a>
 </li>
         </ul>

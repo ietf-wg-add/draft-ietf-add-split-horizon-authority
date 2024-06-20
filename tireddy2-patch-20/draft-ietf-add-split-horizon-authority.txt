@@ -446,7 +446,9 @@ Table of Contents
       *Insecure*: The client SHOULD retry the validation process using a
       different method, such as the one in Section 6.1, to ensure
       compatibility with unsigned names.  If the client chooses not to
-      retry, it MUST consider validation to have failed.
+      retry (e.g., no configured policy to validate the authorization
+      claim using an external resolver), it MUST consider validation to
+      have failed.
 
 7.  Delegating DNSSEC across Split DNS Boundaries
 
