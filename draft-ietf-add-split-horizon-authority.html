@@ -1460,7 +1460,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </li>
       </ol>
 <p id="section-5-7">The zone operator then publishes a "Verification Record" with the
-      following structure, following advices such as in Sections 5.1 and 5.2 of
+      following structure, following the best practices outlined in Sections 5.1 and 5.2 of
       <span>[<a href="#I-D.ietf-dnsop-domain-verification-techniques" class="cite xref">I-D.ietf-dnsop-domain-verification-techniques</a>]</span>:<a href="#section-5-7" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5-8.1">Type = TXT.<a href="#section-5-8.1" class="pilcrow">¶</a>
@@ -1558,7 +1558,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <li class="normal" id="section-5.2.2-2.4">"algorithm": The hash algorithm is represented by its "Mnemonic"
                 string from the ZONEMD Hash Algorithms registry (<span>[<a href="#RFC8976" class="cite xref">RFC8976</a>], <a href="https://rfc-editor.org/rfc/rfc8976#section-5.2" class="relref">Section 5.2</a></span>).<a href="#section-5.2.2-2.4" class="pilcrow">¶</a>
 </li>
-            <li class="normal" id="section-5.2.2-2.5">"salt": The salt, encoded in base64url.<a href="#section-5.2.2-2.5" class="pilcrow">¶</a>
+            <li class="normal" id="section-5.2.2-2.5">"salt": The salt, encoded in base64url <span>[<a href="#RFC4648" class="cite xref">RFC4648</a>]</span>.<a href="#section-5.2.2-2.5" class="pilcrow">¶</a>
 </li>
           </ul>
 <p id="section-5.2.2-3">Future specifications aiming to define new keys will need to add them to the
@@ -1598,7 +1598,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
         a default resolution strategy that sends queries to a resolver outside
         of the network over a encrypted transport.  That resolution strategy is
         considered "tamperproof" because any actor who could modify the
-        response could already modify all of the user's other DNS responses.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+        response could already modify all of the user's other DNS responses.
+        If the client cannot obtain a response from the external resolver within a
+        reasonable timeout period, it MUST consider the verification process
+        to have failed.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
 <p id="section-6.1-2">To ensure that this assumption holds, clients <span class="bcp14">MUST NOT</span>
         relax the acceptance rules they would otherwise apply when using this
         resolver. For example, if the client would check the Authenticated Data (AD)
@@ -1629,7 +1632,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
           <li class="normal ulEmpty" id="section-6.2-2.3">
             <strong>Insecure</strong>: The client <span class="bcp14">SHOULD</span> retry the validation
             process using a different method, such as the one in <a href="#validating-external" class="auto internal xref">Section 6.1</a>, to ensure compatibility with
-            unsigned names.<a href="#section-6.2-2.3" class="pilcrow">¶</a>
+            unsigned names. If the client chooses not to retry (e.g., no configured policy to validate
+            the authorization claim using an external resolver), it MUST consider
+            validation to have failed.<a href="#section-6.2-2.3" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
@@ -1969,7 +1974,7 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
       <h2 id="name-validation-with-ikev2">
 <a href="#section-10" class="section-number selfRef">10. </a><a href="#name-validation-with-ikev2" class="section-name selfRef">Validation with IKEv2</a>
       </h2>
-<p id="section-10-1">When the VPN tunnel is IPsec, the encrypted DNS resolver hosted by
+<p id="section-10-1">When the endpoint is using a VPN tunnel and the tunnel is IPsec, the encrypted DNS resolver hosted by
       the VPN service provider can be securely discovered by the endpoint
       using the ENCDNS_IP*_* IKEv2 Configuration Payload Attribute Types
       defined in <span>[<a href="#RFC9464" class="cite xref">RFC9464</a>]</span>. The VPN client
@@ -2201,6 +2206,10 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
 <dt id="RFC4086">[RFC4086]</dt>
         <dd>
 <span class="refAuthor">Eastlake 3rd, D.</span>, <span class="refAuthor">Schiller, J.</span>, and <span class="refAuthor">S. Crocker</span>, <span class="refTitle">"Randomness Requirements for Security"</span>, <span class="seriesInfo">BCP 106</span>, <span class="seriesInfo">RFC 4086</span>, <span class="seriesInfo">DOI 10.17487/RFC4086</span>, <time datetime="2005-06" class="refDate">June 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4086">https://www.rfc-editor.org/info/rfc4086</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC4648">[RFC4648]</dt>
+        <dd>
+<span class="refAuthor">Josefsson, S.</span>, <span class="refTitle">"The Base16, Base32, and Base64 Data Encodings"</span>, <span class="seriesInfo">RFC 4648</span>, <span class="seriesInfo">DOI 10.17487/RFC4648</span>, <time datetime="2006-10" class="refDate">October 2006</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4648">https://www.rfc-editor.org/info/rfc4648</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC6698">[RFC6698]</dt>
         <dd>

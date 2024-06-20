@@ -296,8 +296,9 @@ Table of Contents
        concatenation and hash is the ZONEMD Hash Algorithm.
 
    The zone operator then publishes a "Verification Record" with the
-   following structure, following advices such as in Sections 5.1 and
-   5.2 of [I-D.ietf-dnsop-domain-verification-techniques]:
+   following structure, following the best practices outlined in
+   Sections 5.1 and 5.2 of
+   [I-D.ietf-dnsop-domain-verification-techniques]:
 
    *  Type = TXT.
 
@@ -383,7 +384,7 @@ Table of Contents
       string from the ZONEMD Hash Algorithms registry ([RFC8976],
       Section 5.2).
 
-   *  "salt": The salt, encoded in base64url.
+   *  "salt": The salt, encoded in base64url [RFC4648].
 
    Future specifications aiming to define new keys will need to add them
    to the IANA registry defined in Section 13.  DNS client
@@ -417,6 +418,9 @@ Table of Contents
    of the network over a encrypted transport.  That resolution strategy
    is considered "tamperproof" because any actor who could modify the
    response could already modify all of the user's other DNS responses.
+   If the client cannot obtain a response from the external resolver
+   within a reasonable timeout period, it MUST consider the verification
+   process to have failed.
 
    To ensure that this assumption holds, clients MUST NOT relax the
    acceptance rules they would otherwise apply when using this resolver.
@@ -441,7 +445,10 @@ Table of Contents
 
       *Insecure*: The client SHOULD retry the validation process using a
       different method, such as the one in Section 6.1, to ensure
-      compatibility with unsigned names.
+      compatibility with unsigned names.  If the client chooses not to
+      retry (e.g., no configured policy to validate the authorization
+      claim using an external resolver), it MUST consider validation to
+      have failed.
 
 7.  Delegating DNSSEC across Split DNS Boundaries
 
@@ -727,12 +734,13 @@ Table of Contents
 
 10.  Validation with IKEv2
 
-   When the VPN tunnel is IPsec, the encrypted DNS resolver hosted by
-   the VPN service provider can be securely discovered by the endpoint
-   using the ENCDNS_IP*_* IKEv2 Configuration Payload Attribute Types
-   defined in [RFC9464].  The VPN client can use the mechanism defined
-   in Section 6 to validate that the discovered encrypted DNS resolver
-   is authorized to answer for the claimed subdomains.
+   When the endpoint is using a VPN tunnel and the tunnel is IPsec, the
+   encrypted DNS resolver hosted by the VPN service provider can be
+   securely discovered by the endpoint using the ENCDNS_IP*_* IKEv2
+   Configuration Payload Attribute Types defined in [RFC9464].  The VPN
+   client can use the mechanism defined in Section 6 to validate that
+   the discovered encrypted DNS resolver is authorized to answer for the
+   claimed subdomains.
 
    Other VPN tunnel types have similar configuration capabilities, not
    detailed here.
@@ -939,6 +947,10 @@ Table of Contents
               "Randomness Requirements for Security", BCP 106, RFC 4086,
               DOI 10.17487/RFC4086, June 2005,
               <https://www.rfc-editor.org/info/rfc4086>.
+
+   [RFC4648]  Josefsson, S., "The Base16, Base32, and Base64 Data
+              Encodings", RFC 4648, DOI 10.17487/RFC4648, October 2006,
+              <https://www.rfc-editor.org/info/rfc4648>.
 
    [RFC6698]  Hoffman, P. and J. Schlyter, "The DNS-Based Authentication
               of Named Entities (DANE) Transport Layer Security (TLS)
