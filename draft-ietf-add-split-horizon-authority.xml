@@ -389,7 +389,8 @@
           <li><strong>Insecure</strong>: The client <bcp14>SHOULD</bcp14> retry the validation
             process using a different method, such as the one in <xref
             target="validating-external"/>, to ensure compatibility with
-            unsigned names. If the client chooses not to retry, it MUST consider
+            unsigned names. If the client chooses not to retry (e.g., no configured policy to validate
+            the authorization claim using an external resolver), it MUST consider
             validation to have failed.</li>
         </ul>
       </section>
