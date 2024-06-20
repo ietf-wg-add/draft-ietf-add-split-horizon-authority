@@ -328,7 +328,7 @@
             <li>"algorithm": The hash algorithm is represented by its "Mnemonic"
                 string from the ZONEMD Hash Algorithms registry (<relref target="RFC8976"
                 section="5.2" displayFormat="comma"/>).</li>
-            <li>"salt": The salt, encoded in base64url.</li>
+            <li>"salt": The salt, encoded in base64url <xref target="RFC4648"/>.</li>
           </ul>
 
         <t>Future specifications aiming to define new keys will need to add them to the
