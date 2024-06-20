@@ -384,7 +384,7 @@ Table of Contents
       string from the ZONEMD Hash Algorithms registry ([RFC8976],
       Section 5.2).
 
-   *  "salt": The salt, encoded in base64url.
+   *  "salt": The salt, encoded in base64url [RFC4648].
 
    Future specifications aiming to define new keys will need to add them
    to the IANA registry defined in Section 13.  DNS client
@@ -945,6 +945,10 @@ Table of Contents
               "Randomness Requirements for Security", BCP 106, RFC 4086,
               DOI 10.17487/RFC4086, June 2005,
               <https://www.rfc-editor.org/info/rfc4086>.
+
+   [RFC4648]  Josefsson, S., "The Base16, Base32, and Base64 Data
+              Encodings", RFC 4648, DOI 10.17487/RFC4648, October 2006,
+              <https://www.rfc-editor.org/info/rfc4648>.
 
    [RFC6698]  Hoffman, P. and J. Schlyter, "The DNS-Based Authentication
               of Named Entities (DANE) Transport Layer Security (TLS)
