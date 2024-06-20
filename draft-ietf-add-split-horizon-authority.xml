@@ -256,7 +256,7 @@
         <li>Let $TOKEN = hash(len($SALT) || $SALT || $X). Where "||" denotes concatenation and hash is the ZONEMD Hash Algorithm.</li>
       </ol>
       <t>The zone operator then publishes a "Verification Record" with the
-      following structure, following advices such as in Sections 5.1 and 5.2 of
+      following structure, following the best practices outlined in Sections 5.1 and 5.2 of
       <xref target="I-D.ietf-dnsop-domain-verification-techniques"/>:</t>
       <ul>
         <li>Type = TXT.</li>
@@ -360,7 +360,10 @@
         a default resolution strategy that sends queries to a resolver outside
         of the network over a encrypted transport.  That resolution strategy is
         considered "tamperproof" because any actor who could modify the
-        response could already modify all of the user's other DNS responses.</t>
+        response could already modify all of the user's other DNS responses.
+        If the client cannot obtain a response from the external resolver within a
+        reasonable timeout period, it MUST consider the verification process
+        to have failed.</t>
         <t>To ensure that this assumption holds, clients <bcp14>MUST NOT</bcp14>
         relax the acceptance rules they would otherwise apply when using this
         resolver. For example, if the client would check the Authenticated Data (AD)
@@ -386,7 +389,8 @@
           <li><strong>Insecure</strong>: The client <bcp14>SHOULD</bcp14> retry the validation
             process using a different method, such as the one in <xref
             target="validating-external"/>, to ensure compatibility with
-            unsigned names.</li>
+            unsigned names. If the client chooses not to retry, it MUST consider
+            validation to have failed.</li>
         </ul>
       </section>
       <!-- validating-DNSSEC -->
@@ -680,7 +684,7 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
     </section>
     <section anchor="vpn">
       <name>Validation with IKEv2</name>
-      <t>When the VPN tunnel is IPsec, the encrypted DNS resolver hosted by
+      <t>When the endpoint is using a VPN tunnel and the tunnel is IPsec, the encrypted DNS resolver hosted by
       the VPN service provider can be securely discovered by the endpoint
       using the ENCDNS_IP*_* IKEv2 Configuration Payload Attribute Types
       defined in <xref target="RFC9464"/>. The VPN client
