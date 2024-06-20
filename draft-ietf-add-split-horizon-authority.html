@@ -1281,8 +1281,8 @@ svg :is([fill="white"], [fill^="#fff"]) {
       responses from a local zone file. Other standardized hybrid resolution
       behaviors include <span><a href="#RFC8806" class="internal xref">Local Root</a> [<a href="#RFC8806" class="cite xref">RFC8806</a>]</span>, <span><a href="#RFC6762" class="internal xref">mDNS</a> [<a href="#RFC6762" class="cite xref">RFC6762</a>]</span>, and <span><a href="#RFC7686" class="internal xref">NXDOMAIN
       synthesis for .onion</a> [<a href="#RFC7686" class="cite xref">RFC7686</a>]</span>.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">Networks usually offers clients a DNS resolver using means such as
-      (e.g., DHCP OFFER, IPv6 Router Advertisement). Although this server is
+<p id="section-1-3">Networks usually offer clients a DNS resolver using means such as
+      (e.g., DHCP OFFER, IPv6 Router Advertisement). Although this resolver is
       formally specified as a recursive resolver (e.g., <span><a href="https://rfc-editor.org/rfc/rfc8106#section-5.1" class="relref">Section 5.1</a> of [<a href="#RFC8106" class="cite xref">RFC8106</a>]</span>), some networks provide a hybrid resolver
       instead. If this resolver acts as an authoritative server for some names
       and provides different answers for those domains depending on the source
@@ -1301,7 +1301,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
       clients with "local domain hints", listing domain names that have
       special treatment in this network (e.g., <span><a href="#RFC6731" class="internal xref">RDNSS Selection</a> [<a href="#RFC6731" class="cite xref">RFC6731</a>]</span>, <span><a href="#RFC5986" class="internal xref">"Access Network Domain Name"</a> [<a href="#RFC5986" class="cite xref">RFC5986</a>]</span>, and "Client FQDN" <span>[<a href="#RFC4702" class="cite xref">RFC4702</a>]</span><span>[<a href="#RFC4704" class="cite xref">RFC4704</a>]</span> in DHCP, "dnsZones" in
       Provisioning Domains <span>[<a href="#RFC8801" class="cite xref">RFC8801</a>]</span>, and <span><a href="#RFC8598" class="internal xref">INTERNAL_DNS_DOMAIN</a> [<a href="#RFC8598" class="cite xref">RFC8598</a>]</span> in IKEv2).
-      However, none of the local domain hint mechanisms enable clients to
+      However, none of the local domain hint mechanisms enables clients to
       determine whether this special treatment is authorized by the domain
       owner. Instead, these specifications require clients to make their own
       determinations about whether to trust and rely on these hints.<a href="#section-1-5" class="pilcrow">¶</a></p>

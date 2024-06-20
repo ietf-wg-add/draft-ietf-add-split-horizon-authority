@@ -123,14 +123,15 @@ Table of Contents
    resolution behaviors include Local Root [RFC8806], mDNS [RFC6762],
    and NXDOMAIN synthesis for .onion [RFC7686].
 
-   Networks usually offers clients a DNS resolver using means such as
-   (e.g., DHCP OFFER, IPv6 Router Advertisement).  Although this server
-   is formally specified as a recursive resolver (e.g., Section 5.1 of
-   [RFC8106]), some networks provide a hybrid resolver instead.  If this
-   resolver acts as an authoritative server for some names and provides
-   different answers for those domains depending on the source of the
-   query, it is described as the network having "split-horizon DNS",
-   because those names resolve in this way only from inside the network.
+   Networks usually offer clients a DNS resolver using means such as
+   (e.g., DHCP OFFER, IPv6 Router Advertisement).  Although this
+   resolver is formally specified as a recursive resolver (e.g.,
+   Section 5.1 of [RFC8106]), some networks provide a hybrid resolver
+   instead.  If this resolver acts as an authoritative server for some
+   names and provides different answers for those domains depending on
+   the source of the query, it is described as the network having
+   "split-horizon DNS", because those names resolve in this way only
+   from inside the network.
 
    DNS clients that use pure stub resolution, sending all queries to the
    network-provided resolver, will always receive the split-horizon
@@ -148,7 +149,7 @@ Table of Contents
    "Access Network Domain Name" [RFC5986], and "Client FQDN"
    [RFC4702][RFC4704] in DHCP, "dnsZones" in Provisioning Domains
    [RFC8801], and INTERNAL_DNS_DOMAIN [RFC8598] in IKEv2).  However,
-   none of the local domain hint mechanisms enable clients to determine
+   none of the local domain hint mechanisms enables clients to determine
    whether this special treatment is authorized by the domain owner.
    Instead, these specifications require clients to make their own
    determinations about whether to trust and rely on these hints.
