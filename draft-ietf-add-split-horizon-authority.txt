@@ -5,12 +5,12 @@
 ADD                                                             T. Reddy
 Internet-Draft                                                     Nokia
 Intended status: Standards Track                                 D. Wing
-Expires: 15 December 2024                                         Citrix
+Expires: 22 December 2024                                         Citrix
                                                                 K. Smith
                                                                 Vodafone
                                                              B. Schwartz
                                                                     Meta
-                                                            13 June 2024
+                                                            20 June 2024
 
 
 Establishing Local DNS Authority in Validated Split-Horizon Environments
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 15 December 2024.
+   This Internet-Draft will expire on 22 December 2024.
 
 Copyright Notice
 
@@ -749,11 +749,13 @@ Table of Contents
    corresponding Authorization Claim is updated.  After the claim is
    updated, the following procedures can be used:
 
-   1.  DHCP reconfiguration can be initiated by the DHCP server to
-       prompt DHCP clients for dynamically requesting the updated
-       Authorization Claim.  This process avoids the need for the client
-       to wait for its current lease to complete and request a new one,
-       enabling the lease renewal to be driven by the DHCP server.
+   1.  DHCP reconfiguration can be initiated by a DHCP server that has
+       previously communicated with a DHCP client and negotiated for the
+       DHCP client to listen for Reconfigure messages, to prompt the
+       DHCP clients for dynamically requesting the updated Authorization
+       Claim.  This process avoids the need for the client to wait for
+       its current lease to complete and request a new one, enabling the
+       lease renewal to be driven by the DHCP server.
 
    2.  The sequence number in the RA PvD option will be incremented,
        requiring clients to fetch PvD additional information from the

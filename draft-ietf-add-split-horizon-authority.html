@@ -1036,7 +1036,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Reddy, et al.</td>
-<td class="center">Expires 15 December 2024</td>
+<td class="center">Expires 22 December 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1049,12 +1049,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-add-split-horizon-authority-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-06-13" class="published">13 June 2024</time>
+<time datetime="2024-06-20" class="published">20 June 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-12-15">15 December 2024</time></dd>
+<dd class="expires"><time datetime="2024-12-22">22 December 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1116,7 +1116,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 15 December 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 22 December 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1991,7 +1991,8 @@ deeper.subdomain.parent.example  IN RRSIG AAAA 5 3 ...    \
 <p id="section-11-2">A new verification record must be added to the RRset before the corresponding Authorization
       Claim is updated.  After the claim is updated, the following procedures can be used:<a href="#section-11-2" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-11-3">
-        <li id="section-11-3.1">DHCP reconfiguration can be initiated by the DHCP server to prompt DHCP clients for
+        <li id="section-11-3.1">DHCP reconfiguration can be initiated by a DHCP server that has previously communicated with a DHCP client and
+   negotiated for the DHCP client to listen for Reconfigure messages, to prompt the DHCP clients for
         dynamically requesting the updated Authorization Claim. This process avoids the need for
         the client to wait for its current lease to complete and request a new one, enabling the lease
         renewal to be driven by the DHCP server.<a href="#section-11-3.1" class="pilcrow">¶</a>
